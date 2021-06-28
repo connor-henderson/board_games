@@ -1,0 +1,9 @@
+Users can signup or login and are then redirected to the homepage.
+
+At the homepage, users can view their account, view leaderboards, or select from a variety of games.
+
+If users view their account, they can see their account information.
+
+If users click to view leaderboards, they can toggle between viewing the summary leaderboard or individual game leaderboards.
+
+If users click on a game, they are directed to a playable game that displays how many points will be awarded upon successful completion of the game.
