@@ -1,0 +1,57 @@
+nav {
+  position: "fixed";
+  left: 0px;
+  top: 0px;
+  right: 0px;
+}
+
+a,
+p,
+h1 {
+  text-decoration: none;
+}
+
+.navbar {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  min-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.navbar-top {
+  justify-content: space-between;
+}
+
+.navbar-bottom {
+  background-color: rgb(199, 165, 72);
+}
+
+.navbar-bottom > * {
+  margin-left: 1em;
+  color: black;
+}
+
+.navbar-top__buttons {
+  display: flex;
+  flex-direction: row;
+}
+
+.navbar-top__buttons > * {
+  margin-right: 1em;
+  font-weight: bold;
+}
+
+.navbar-top__auth-login {
+  color: rgb(172, 143, 64);
+  font-size: 14px;
+}
+
+.navbar-top__auth-sign-up {
+  border: 1px solid rgb(172, 143, 64);
+  padding: 3px 5px;
+  border-radius: 12px;
+  color: rgb(172, 143, 64);
+  font-size: 12px;
+}
