@@ -46,7 +46,7 @@ const NavBar = ({ loaded }) => {
             <img
               src={logo}
               alt="logo containing go, chess, and sudoku pieces"
-              style={{ height: "90px", width: "90px" }}
+              style={{ height: "100px", width: "100px" }}
             />
           </NavLink>
         </div>
