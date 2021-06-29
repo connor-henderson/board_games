@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify
 from flask_login import login_required
-from app.models import User
+from app.models import User, db
 
 user_routes = Blueprint('users', __name__)
 
@@ -16,4 +16,15 @@ def users():
 @login_required
 def user(id):
     user = User.query.get(id)
+    return user.to_dict()
+
+
+@user_routes.route('<int:user_id>/games/<game_name>', methods=['PATCH'])
+def game_score(user_id, game_name):
+    user = User.query.get(user_id)
+
+    if game_name == "sudoku":
+        user.sudoku_score = user.sudoku_score + 50
+        db.session.commit()
+
     return user.to_dict()
