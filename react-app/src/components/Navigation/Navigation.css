@@ -20,16 +20,17 @@ li {
   flex-direction: row;
   align-items: center;
   min-width: 500px;
-  margin-left: auto;
-  margin-right: auto;
 }
 
 .navbar-top {
   justify-content: space-between;
+  margin: 0px 7em;
 }
 
 .navbar-bottom {
   background-color: rgb(199, 165, 72);
+  justify-content: flex-start;
+  padding-left: 5em;
 }
 
 .navbar-bottom > * {
@@ -69,6 +70,20 @@ li {
   right: 33px;
   border-radius: 12px;
   outline: none;
+  width: fit-content;
+}
+
+.profile-button:hover {
+  text-decoration: none;
+  background-image: none;
+}
+
+.profile-button:active {
+  box-shadow: none;
+}
+
+button.logout:active {
+  box-shadow: none;
 }
 
 .profile-dropdown {
