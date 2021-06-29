@@ -1,0 +1,17 @@
+.navbar-top__auth-login {
+  color: rgb(172, 143, 64);
+  font-size: 14px;
+  cursor: pointer;
+}
+
+button.logout {
+    background-color: white;
+    border: none;
+    color: rgb(172, 143, 64);
+    text-align: center;
+}
+
+button.logout:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
