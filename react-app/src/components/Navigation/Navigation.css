@@ -37,6 +37,7 @@ li {
   flex-direction: row;
   position: relative;
   right: 12%;
+  align-items: center;
 
 }
 

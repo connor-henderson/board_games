@@ -1,7 +1,7 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import ProfileButton from "./ProfileButton";
-import logo from "../../assets/images/logo.png";
+import logo from "../../images/logo.png";
 import "./Navigation.css";
 import { useSelector } from "react-redux";
 
@@ -59,7 +59,7 @@ const NavBar = ({ loaded }) => {
         <NavLink to="/games" exact={true} activeClassName="active">
           <p className="navbar-bottom__games">GAMES</p>
         </NavLink>
-        <NavLink to="/leaderboard" exact={true} activeClassName="active">
+        <NavLink to="/leaderboards" exact={true} activeClassName="active">
           <p className="navbar-bottom__leaderboard">LEADERBOARDS</p>
         </NavLink>
       </div>
