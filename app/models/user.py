@@ -11,6 +11,9 @@ class User(db.Model, UserMixin):
   email = db.Column(db.String(255), nullable = False, unique = True)
   hashed_password = db.Column(db.String(255), nullable = False)
   sudoku_score = db.Column(db.Integer, nullable = False, default = 0)
+  chess_score = db.Column(db.Integer, nullable = False, default = 0)
+  game_of_life_score = db.Column(db.Integer, nullable = False, default = 0)
+  go_score = db.Column(db.Integer, nullable = False, default = 0)
 
 
   @property

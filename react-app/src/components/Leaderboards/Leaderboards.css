@@ -12,6 +12,10 @@ div.leaderboards-toggle > * {
     padding: 4px 4px;
 }
 
+div.--active {
+    background-image: linear-gradient(to bottom right, rgb(199, 165, 72), #eee);
+}
+
 div.leaderboards-toggle > *:hover {
     cursor: pointer;
     background-image: linear-gradient(to bottom right, rgb(199, 165, 72), #eee);

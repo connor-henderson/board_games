@@ -1,22 +1,23 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { gamesInfo } from "../assets/GamesInfo";
+import gamesInfo from "../assets/gamesInfo";
 
 export default function UserScores() {
   const user = useSelector((state) => state.session.user);
 
   //   Move scores stored in Redux into mappable gamesInfo
   gamesInfo.map((game) => {
-    if (game.name === "Sudoku") {
-      game[score] = user.sudoku_score;
-    } else if (game.name === "Chess") {
-      game[score] = user.chess_score;
-    } else if (game.name === "Game Of Life") {
-      game[score] = user.game_of_life_score;
-    } else if (game.name === "Go") {
-      game[score] = user.go_score;
-    } else return "Game not found";
-
+    // if (game.name === "Sudoku") {
+    //   game[score] = user.sudoku_score;
+    // } else if (game.name === "Chess") {
+    //   game[score] = user.chess_score;
+    // } else if (game.name === "Game Of Life") {
+    //   game[score] = user.game_of_life_score;
+    // } else if (game.name === "Go") {
+    //   game[score] = user.go_score;
+    // } else return "Game not found";
+    const redux_score_key = `${game.name.toLowerCase()}_score`
+    game["score"] = user[redux_score_key];
     return game;
   });
 

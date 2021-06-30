@@ -1,5 +1,5 @@
 import sudokuIcon from "../images/icons/sudoku.png";
-import chessIcon from "../images/icons/chess.png";
+import chessIcon from "../images/icons/knight.png";
 import gameOfLifeIcon from "../images/icons/gameOfLife.png";
 import goIcon from "../images/icons/go.png";
 
