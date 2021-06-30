@@ -1,0 +1,44 @@
+div.leaderboards-toggle {
+    display: flex;
+    flex-direction: row;
+    margin-top: 1.5em;
+    margin-left: 6em;
+    border: 1px solid black;
+    border-radius: 5px;
+    width: fit-content;
+}
+
+div.leaderboards-toggle > * {
+    padding: 4px 4px;
+}
+
+div.leaderboards-toggle > *:hover {
+    cursor: pointer;
+    background-image: linear-gradient(to bottom right, rgb(199, 165, 72), #eee);
+}
+
+div.leaderboards-toggle > *:active {
+    box-shadow: inset 2px 2px 1px black,
+              inset 2px 3px 5px rgba(0,0,0,0.3),
+              inset -2px -3px 5px rgba(255,255,255,0.5);
+}
+
+div.leaderboards-all {
+    border-right: 1px solid black;
+}
+
+div.leaderboard {
+    width: 40%
+}
+
+ul {
+    padding: 3px 3px;
+}
+
+ul.even-rank {
+    background-color: white;
+}
+
+ul.odd-rank {
+    background-color: grey;
+}
