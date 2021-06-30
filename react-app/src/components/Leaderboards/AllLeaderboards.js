@@ -20,8 +20,6 @@ export default function AllLeaderboards() {
     return null;
   }
 
-
-
   return (
       <>
       {leaderboards.map((leaderboard, i) => (
