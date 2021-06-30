@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import ProfileButton from "./ProfileButton";
 import logo from "../../images/logo.png";
@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 
 const NavBar = ({ loaded }) => {
   const user = useSelector((state) => state.session.user);
+  const [hoverTitle, setHoverTitle] = useState(false);
 
   let sessionLinks;
   if (user) {
@@ -54,7 +55,13 @@ const NavBar = ({ loaded }) => {
       </div>
       <div className="navbar navbar-bottom">
         <NavLink to="/" exact={true} activeClassName="active">
-          <h1 className="navbar-bottom__title">BoardGames</h1>
+          <h1
+            className="navbar-bottom__title"
+            onMouseEnter={() => setHoverTitle(true)}
+            onMouseLeave={() => setHoverTitle(false)}
+          >
+            {hoverTitle ? "[[Board, Games]]" : "Board Games"}
+          </h1>
         </NavLink>
         <NavLink to="/games" exact={true} activeClassName="active">
           <p className="navbar-bottom__games">GAMES</p>

@@ -97,7 +97,7 @@ button.logout:active {
 .profile-dropdown {
   position: absolute;
   right: 0px;
-  top: 10px;
+  top: -5px;
   border: 1px solid black;
   padding: 5px 5px;
   background-color: white;
@@ -109,4 +109,20 @@ li.logout {
   justify-content: center;
   padding-top: 3px;
   margin-top: 6px;
+}
+
+li.view-scores {
+  border-top: 1px solid black;
+  margin-top: 6px;
+  padding-top: 3px;
+}
+
+li.view-scores > a {
+  color: black;
+  font-weight: none;
+  font-size: 15px;
+}
+
+li.view-scores > a:hover {
+  text-decoration: underline;
 }

@@ -24,7 +24,16 @@ def game_score(user_id, game_name):
     user = User.query.get(user_id)
 
     if game_name == "sudoku":
-        user.sudoku_score = user.sudoku_score + 50
+        user.sudoku_score = user.sudoku_score + 30
+        db.session.commit()
+    elif game_name == "chess":
+        user.chess_score = user.chess_score + 50
+        db.session.commit()
+    elif game_name == "game_of_life":
+        user.game_of_life_score = user.game_of_life_score + 1
+        db.session.commit()
+    elif game_name == "go":
+        user.go_score = user.go_score + 70
         db.session.commit()
 
     return user.to_dict()

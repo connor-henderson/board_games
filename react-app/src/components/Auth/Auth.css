@@ -90,3 +90,7 @@ div.form-element__email {
   color: black;
   margin-bottom: 100px;
 }
+
+.errors {
+  color: red;
+}

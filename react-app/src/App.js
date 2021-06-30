@@ -6,11 +6,11 @@ import LoginForm from "./components/Auth/LoginForm";
 import SignUpForm from "./components/Auth/SignUpForm";
 import NavBar from "./components/Navigation/";
 import ProtectedRoute from "./components/Auth/ProtectedRoute";
-import UsersList from "./components/UsersList";
-import User from "./components/User";
+import UsersList from "./components/UserPages/UsersList";
+import User from "./components/UserPages/User";
 import Leaderboards from "./components/Leaderboards"
 import { authenticate } from "./store/session";
-import UserScores from "./components/UserScores";
+import UserScores from "./components/UserPages/UserScores";
 
 function App() {
   // const [authenticated, setAuthenticated] = useState(false);
@@ -47,7 +47,7 @@ function App() {
         <ProtectedRoute path="/users/:userId" exact={true}>
           <User />
         </ProtectedRoute>
-        <ProtectedRoute path="/user-scores" exact={true}>
+        <ProtectedRoute path="/view-scores" exact={true}>
           <UserScores />
         </ProtectedRoute>
         <ProtectedRoute path="/leaderboards" exact={true}>

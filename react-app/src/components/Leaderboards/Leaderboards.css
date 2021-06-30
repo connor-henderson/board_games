@@ -27,22 +27,26 @@ div.leaderboards-toggle > *:active {
               inset -2px -3px 5px rgba(255,255,255,0.5);
 }
 
-div.leaderboards-all {
-    border-right: 1px solid black;
+div.leaderboards-container {
+    display: flex;
+    flex-flow: row wrap;
+    margin: 0;
+    padding: 0;
+    justify-content: center;
 }
 
-div.leaderboard {
-    width: 40%
+div.leaderboards-container > *:nth-child(2n) {
+    flex-basis: 50%;
 }
 
-ul {
-    padding: 3px 3px;
+div.one-leaderboard {
+    width: fit-content;
+    min-width: 300px;
+    border: 1px solid black;
+
 }
 
-ul.even-rank {
-    background-color: white;
-}
+td {
+    padding: 0px;
 
-ul.odd-rank {
-    background-color: grey;
 }
