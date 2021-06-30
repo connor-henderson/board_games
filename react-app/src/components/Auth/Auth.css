@@ -9,6 +9,12 @@ div.button-container {
   justify-content: center;
 }
 
+div.navlink-container {
+  display: flex;
+  justify-content: center;
+  height: 20px;
+}
+
 button {
   background-color: rgb(199, 165, 72);
   color: black;
@@ -75,4 +81,12 @@ div.form-element__email {
   top: 50px;
   display: flex;
   justify-content: center;
+}
+
+.sign-up__navlink {
+  text-decoration: underline;
+  font-size: 14px;
+  justify-self: center;
+  color: black;
+  margin-bottom: 100px;
 }

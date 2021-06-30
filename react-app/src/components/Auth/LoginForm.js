@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Redirect } from "react-router-dom";
+import { Redirect, NavLink } from "react-router-dom";
 import { login } from "../../store/session";
 
 const LoginForm = () => {
@@ -24,6 +24,15 @@ const LoginForm = () => {
 
   const updatePassword = (e) => {
     setPassword(e.target.value);
+  };
+
+  const demoLogin = (e) => {
+    e.preventDefault();
+    setEmail("demo@aa.io");
+    setPassword("password");
+
+    const loginButton = document.querySelector(".login-button");
+    setTimeout(() => loginButton.click(), 300);
   };
 
   if (user) {
@@ -58,8 +67,20 @@ const LoginForm = () => {
             onChange={updatePassword}
           />
         </div>
-        <div className="button-container">
-          <button type="submit">Login</button>
+        <div className="login button-container">
+          <button className="login-button" type="submit">
+            Login
+          </button>
+        </div>
+        <div className="demo-login button-container">
+          <button type="submit" onClick={demoLogin}>
+            Demo
+          </button>
+        </div>
+        <div className="navlink-container">
+          <NavLink className="sign-up__navlink" to="sign-up">
+            Don't have an account yet?
+          </NavLink>
         </div>
       </form>
     </div>
