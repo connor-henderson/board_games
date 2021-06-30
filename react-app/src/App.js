@@ -8,6 +8,7 @@ import NavBar from "./components/Navigation/";
 import ProtectedRoute from "./components/Auth/ProtectedRoute";
 import UsersList from "./components/UsersList";
 import User from "./components/User";
+import Leaderboards from "./components/Leaderboards"
 import { authenticate } from "./store/session";
 
 function App() {
@@ -16,7 +17,7 @@ function App() {
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
-    (async() => {
+    (async () => {
       await dispatch(authenticate());
       setLoaded(true);
     })();
@@ -28,8 +29,11 @@ function App() {
 
   return (
     <BrowserRouter>
-      <NavBar loaded={loaded}/>
+      <NavBar loaded={loaded} />
       <Switch>
+        <Route path="/" exact={true}>
+          <SplashPage />
+        </Route>
         <Route path="/login" exact={true}>
           <LoginForm />
         </Route>
@@ -37,14 +41,14 @@ function App() {
           <SignUpForm />
         </Route>
         <ProtectedRoute path="/users" exact={true}>
-          <UsersList/>
+          <UsersList />
         </ProtectedRoute>
         <ProtectedRoute path="/users/:userId" exact={true}>
           <User />
         </ProtectedRoute>
-        <Route path="/" exact={true} >
-          <SplashPage />
-        </Route>
+        <ProtectedRoute path="/leaderboards" exact={true}>
+          <Leaderboards />
+        </ProtectedRoute>
       </Switch>
     </BrowserRouter>
   );
