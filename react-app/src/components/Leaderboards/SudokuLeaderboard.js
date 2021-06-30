@@ -6,7 +6,7 @@ import "./Leaderboards.css";
 export default function SudokuLeaderboard() {
   const [loaded, setLoaded] = useState(false);
   const dispatch = useDispatch();
-  const leaderboard = useSelector(state => state.leaderboards);
+  const leaderboard = useSelector((state) => state.leaderboards);
 
   useEffect(() => {
     dispatch(getOneLeaderboard("sudoku"));
@@ -17,5 +17,5 @@ export default function SudokuLeaderboard() {
     return null;
   }
 
-  return <h1>Sudoku</h1>;
+  return <Rankings key={i} name={leaderboard.name} scores={leaderboard.scores} />;
 }

@@ -10,6 +10,7 @@ import UsersList from "./components/UsersList";
 import User from "./components/User";
 import Leaderboards from "./components/Leaderboards"
 import { authenticate } from "./store/session";
+import UserScores from "./components/UserScores";
 
 function App() {
   // const [authenticated, setAuthenticated] = useState(false);
@@ -45,6 +46,9 @@ function App() {
         </ProtectedRoute>
         <ProtectedRoute path="/users/:userId" exact={true}>
           <User />
+        </ProtectedRoute>
+        <ProtectedRoute path="/user-scores" exact={true}>
+          <UserScores />
         </ProtectedRoute>
         <ProtectedRoute path="/leaderboards" exact={true}>
           <Leaderboards />
