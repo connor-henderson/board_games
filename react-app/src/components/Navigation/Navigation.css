@@ -24,24 +24,21 @@ li {
 
 .navbar-top {
   justify-content: space-between;
-  margin: 0px 7em;
+  position: relative;
 }
 
-.navbar-bottom {
-  background-color: rgb(199, 165, 72);
-  justify-content: flex-start;
-  padding-left: 5em;
-}
-
-.navbar-bottom > * {
-  margin-left: 1em;
-  color: black;
+.navbar-top__logo {
+  position: relative;
+  left: 12%;
 }
 
 .navbar-top__buttons {
   display: flex;
   flex-direction: row;
   position: relative;
+  right: 12%;
+  align-items: center;
+
 }
 
 .navbar-top__buttons > * {
@@ -60,6 +57,17 @@ li {
   border-radius: 12px;
   color: rgb(172, 143, 64);
   font-size: 12px;
+}
+
+.navbar-bottom {
+  background-color: rgb(199, 165, 72);
+  justify-content: flex-start;
+  padding-left: 5em;
+}
+
+.navbar-bottom > * {
+  margin-left: 1em;
+  color: black;
 }
 
 .profile-button {

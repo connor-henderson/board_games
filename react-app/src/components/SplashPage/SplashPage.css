@@ -1,0 +1,48 @@
+div.tagline-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  text-decoration: solid;
+  -webkit-text-stroke: 1px rgb(199, 165, 72);
+  color: white;
+  background-image: url(../../images/backgrounds/chess1.jpeg);
+  height: 500px;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  transition: 1s;
+  animation: animate 30s linear 2s infinite normal none;
+}
+
+div.tagline-container > h2 {
+  margin-top: 10%;
+  margin-bottom: 0;
+  font-size: 25pt;
+}
+div.tagline-container > h4 {
+  margin-bottom: 10%;
+  font-size: 18pt;
+  width: 500px;
+  text-align: center;
+  overflow: wrap;
+}
+
+@keyframes animate {
+    0% {
+        background-image: url(../../images/backgrounds/chess1.jpeg);
+    }20% {
+        background-image: url(../../images/backgrounds/sudoku1.jpg);
+    }40% {
+        background-image: url(../../images/backgrounds/go1.jpg);
+    }60% {
+        background-image: url(../../images/backgrounds/chess2.jpg);
+    }80% {
+        background-image: url(../../images/backgrounds/sudoku2.jpg);
+    }100% {
+        background-image: url(../../images/backgrounds/go2.jpg);
+    }
+}
