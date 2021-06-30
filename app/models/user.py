@@ -35,5 +35,8 @@ class User(db.Model, UserMixin):
       "id": self.id,
       "username": self.username,
       "email": self.email,
-      "sudoku_score": self.sudoku_score
+      "sudoku_score": self.sudoku_score,
+      "chess_score": self.chess_score,
+      "game_of_life_score": self.game_of_life_score,
+      "go_score": self.go_score,
     }

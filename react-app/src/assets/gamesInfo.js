@@ -16,7 +16,7 @@ const chess = {
 }
 
 const gameOfLife = {
-    "name": "John Conway's Game Of Life",
+    "name": "John Conway's Game of Life",
     "description": "Visualize the cellular automaton devised by British mathematician John Horton Conway",
     "icon": gameOfLifeIcon,
 }

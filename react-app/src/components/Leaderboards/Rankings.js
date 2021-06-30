@@ -16,9 +16,11 @@ export default function Rankings({ name, scores }) {
   const icon = matchIcon(name);
 
   return (
-    <div className="leaderboard">
+    <div className="one-leaderboard">
       <span className="leaderboard-header">
-        <h3 className="leaderboard-name">{name}</h3>
+        <h3 className="leaderboard-name">
+          {name === "Game of Life" ? "John Conway's Game of Life" : name}
+        </h3>
         <img
           className="leaderboard-icon"
           src={icon}
@@ -40,7 +42,7 @@ export default function Rankings({ name, scores }) {
             score = score[1];
 
             return (
-              <tr key={i} className={i % 2 === 0 ? "even-rank" : "odd-rank"}>
+              <tr bgcolor={i % 2 === 0 ? "white" : "lightgrey"} key={i}>
                 <td>{i + 1}</td>
                 <td>{username}</td>
                 <td>{score}</td>

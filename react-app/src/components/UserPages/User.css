@@ -1,0 +1,22 @@
+div.user-scores-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+div.user-scores__game {
+    display: flex;
+    flex-direction: row;
+    margin-top: 30px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+div.user-scores__game > * {
+    padding-right: 20px;
+}
+
+p.game-name {
+    font-size: 16px;
+    font-weight: bold;
+}
