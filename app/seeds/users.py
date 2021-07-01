@@ -12,7 +12,7 @@ def seed_users():
                 password='password', sudoku_score=random.randrange(0,600,30),
                 chess_score=random.randrange(0, 500, 50), game_of_life_score=random.randrange(0,100,1),
                 go_score=random.randrange(0,700,70))
-    ex2 = User(username='A. Walker', email='2@aa.io',
+    ex2 = User(username='Alan Walker', email='2@aa.io',
                 password='password', sudoku_score=random.randrange(0,600,30),
                 chess_score=random.randrange(0, 500, 50), game_of_life_score=random.randrange(0,100,1),
                 go_score=random.randrange(0,700,70))
