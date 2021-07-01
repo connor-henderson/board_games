@@ -1,0 +1,4 @@
+div.game-picture > * {
+    position: relative;
+    top: 0;
+}

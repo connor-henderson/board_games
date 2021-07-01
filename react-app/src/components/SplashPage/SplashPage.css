@@ -2,6 +2,7 @@ div.tagline-container {
   position: relative;
   display: flex;
   align-items: center;
+  z-index: 0;
   flex-direction: column;
   text-decoration: solid;
   -webkit-text-stroke: 1px rgb(199, 165, 72);

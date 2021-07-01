@@ -96,8 +96,9 @@ button.logout:active {
 
 .profile-dropdown {
   position: absolute;
-  right: 0px;
-  top: -5px;
+  right: 10px;
+  top: 5px;
+  z-index: 2;
   border: 1px solid black;
   padding: 5px 5px;
   background-color: white;

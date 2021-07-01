@@ -51,7 +51,7 @@ export default function Leaderboard() {
         >
           Game of Life
         </div>
-        <div className={showGo ? "--active" : ""} onClick={changeLeaderboards}>
+        <div className={showGo ? "go --active" : "go"} onClick={changeLeaderboards}>
           Go
         </div>
       </div>
