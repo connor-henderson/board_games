@@ -1,4 +1,3 @@
-// row, column, and box check
 const testBoard = [
   [3, 1, 6, 5, 7, 8, 4, 9, 2],
   [5, 2, 9, 1, 3, 4, 7, 6, 8],
@@ -12,103 +11,233 @@ const testBoard = [
 ];
 const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
+// Tried several original implementations but am currently am using this function
+// inspired by the following paper: https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-s095-programming-for-the-puzzled-january-iap-2018/puzzle-8-you-wont-want-to-play-sudoku-again/MIT6_S095IAP18_Puzzle_8.pdf
+// with a few twists (searches for currently possible nums at each square first instead of naively trying nums)
+export function createSudokuSolution(board = createSudokuBoard()) {
+  const [row, col] = findNextEmptySquare(board);
+  if (row === -1) return board;
+  const possibleNums = findPossibleNums(board, row, col);
+  for (let num of possibleNums) {
+    board[row][col] = num;
+    if (createSudokuSolution(board)) return board;
+    board[row][col] = "";
+  }
+
+  return false;
+}
+
+function findNextEmptySquare(board) {
+  for (let i = 0; i < 9; i++) {
+    for (let j = 0; j < 9; j++) {
+      if (typeof board[i][j] !== "number") {
+        return [i, j];
+      }
+    }
+  }
+
+  return [-1, -1];
+}
+
+function generateRandomNum() {
+    return Math.round(Math.random() * 8) + 1
+}
+
+function generateRandomIdx() {
+    return Math.round(Math.random() * 8)
+}
+
+export function trimSolution(solution, n) {
+    const board = JSON.parse(JSON.stringify(solution));
+
+    for (let i = 0; i < n; i++) {
+        const row = generateRandomIdx();
+        const col = generateRandomIdx();
+        board[row][col] = ""
+    };
+    return board
+}
+
+// __________________ OLD CODE __________________
+
+// row, column, and box check
+
 function createSudokuBoard() {
   let board = new Array(9);
   for (var i = 0; i < 9; i++) {
     board[i] = new Array(9).fill("");
   }
 
-  return board;
-}
-
-export function createSudokuSolution() {
-  let board = createSudokuBoard();
-
-  // diagonals numbering can be randomly generated
   fillDiagonals(board);
-  assignPossibleNums(board);
-
-
-  console.log(board);
   return board;
 }
 
-function fillDiagonals(board) {
-  board.forEach((row, i) => {
-    board[i][i] = Math.ceil(Math.random() * 8) + 1;
-    board[i][8 - i] = Math.ceil(Math.random() * 8) + 1;
+// export function createSudokuSolution() {
+//   let board = createSudokuBoard();
+//   // need recursion so that you can keep track of where you erred
+
+//   fillDiagonals(board);
+//   assignPossibleNums(board);
+
+//   assignExactNum(board);
+// //   while (!boardComplete(board)) {
+// //   }
+
+//   console.log(board);
+//   return board;
+// }
+
+// CHECK IF BOARD COMPLETE
+
+function boardComplete(board) {
+  const allNums = board.every((row, i) => {
+    return row.every((entry) => typeof entry === "number");
   });
 
-//   return board;
+  return allNums;
 }
 
+// INITAL FILL (fill by diagonals or select boxes)
+
+function fillDiagonals(board) {
+  // diagonals numbering can be randomly generated
+  board.forEach((row, i) => {
+    board[i][i] = generateRandomNum();
+    board[i][8 - i] = generateRandomNum();
+  });
+}
+
+// POSSIBLE NUMS
 function assignPossibleNums(board) {
   for (let i = 0; i < 9; i++) {
     for (let j = 0; j < 9; j++) {
       if (typeof board[i][j] !== "number") {
-        let possibleNums = findPossibleNums(board, i, j);
-        board[i][j] = new Set(possibleNums);
+        board[i][j] = findPossibleNums(board, i, j);
       }
     }
   }
-//   return board
+  //   return board
 }
 
 function findPossibleNums(board, row, col) {
-  let possibleNums = new Array(...numbers);
-  possibleNums = filterByRow(board, possibleNums, row);
-  possibleNums = filterByCol(board, possibleNums, col);
-  possibleNums = filterByBox(
-    board,
-    possibleNums,
-    row - (row % 3),
-    col - (col % 3)
-  );
-  if (!possibleNums.length) console.log("end issue", possibleNums);
+  let possibleNums = new Set(numbers);
+  possibleByRow(board, possibleNums, row);
+  possibleByCol(board, possibleNums, col);
+  possibleByBox(board, possibleNums, row - (row % 3), col - (col % 3));
 
   return possibleNums;
 }
 
-// Single Row/Col/Box checks
-
-function filterByRow(board, validNums, row) {
+function possibleByRow(board, nums, row) {
   board[row].forEach((entry) => {
-    if (typeof entry === "number" && validNums.includes(entry)) {
-      validNums.splice(validNums.indexOf(entry), 1);
-      if (!validNums.length) console.log("row issue at entry", entry);
+    if (typeof entry === "number") {
+      nums.delete(entry);
     }
+    if (nums.size === 1) return nums;
   });
-  return validNums;
+  return nums;
 }
 
-function filterByCol(board, validNums, col) {
+function possibleByCol(board, nums, col) {
   for (let i = 0; i < 9; i++) {
     let entry = board[i][col];
-    if (typeof entry === "number" && validNums.includes(entry)) {
-      validNums.splice(validNums.indexOf(entry), 1);
-      if (!validNums.length) console.log("col issue at entry", entry);
+    if (typeof entry === "number") {
+      nums.delete(entry);
     }
+    if (nums.size === 1) return nums;
   }
-  return validNums;
+  return nums;
 }
 
-function filterByBox(board, validNums, boxStartRow, boxStartCol) {
+function possibleByBox(board, nums, boxStartRow, boxStartCol) {
   for (let i = 0; i < 3; i++) {
     for (let j = 0; j < 3; j++) {
       let entry = board[boxStartRow + i][boxStartCol + j];
-      if (typeof entry === "number" && validNums.includes(entry)) {
-        validNums.splice(validNums.indexOf(entry), 1);
+      if (typeof entry === "number") {
+        nums.delete(entry);
+      }
+      if (nums.size === 1) return nums;
+    }
+  }
+  return nums;
+}
+
+// EXACT NUM
+function assignExactNum(board) {
+  for (let i = 0; i < 9; i++) {
+    for (let j = 0; j < 9; j++) {
+      if (typeof board[i][j] !== "number") {
+        let exactNum = findExactNum(board, i, j);
+        if (exactNum) {
+          board[i][j] = exactNum;
+        }
       }
     }
   }
-  return validNums;
 }
 
-// All Rows/Cols/Boxes checks
+function findExactNum(board, row, col) {
+  let exactNums = new Set(numbers);
+
+  exactByRow(board, exactNums, row);
+
+  if (!exactNums.size) {
+    exactByCol(board, (exactNums = new Set(numbers)), col);
+  } else if (!exactNums.size) {
+    exactByBox(
+      board,
+      (exactNums = new Set(numbers)),
+      row - (row % 3),
+      col - (col % 3)
+    );
+  }
+  console.log(exactNums);
+
+  if (exactNums.size === 1) return [...exactNums][0];
+  else return false;
+}
+
+function exactByRow(board, nums, row) {
+  board[row].forEach((entry) => {
+    deleteEntry(nums, entry);
+    if (nums.size === 1) return nums;
+  });
+  return nums;
+}
+
+function exactByCol(board, nums, col) {
+  for (let i = 0; i < 9; i++) {
+    let entry = board[i][col];
+    deleteEntry(nums, entry);
+    if (nums.size === 1) return nums;
+  }
+  return nums;
+}
+
+function exactByBox(board, nums, boxStartRow, boxStartCol) {
+  for (let i = 0; i < 3; i++) {
+    for (let j = 0; j < 3; j++) {
+      let entry = board[boxStartRow + i][boxStartCol + j];
+      deleteEntry(nums, entry);
+      if (nums.size === 1) return nums;
+    }
+  }
+  return nums;
+}
+
+function deleteEntry(nums, entry) {
+  if (typeof entry === "number") {
+    nums.delete(entry);
+  } else if (typeof entry === "object") {
+    [...entry].forEach((num) => nums.delete(num));
+  }
+}
+
+// Checks for finished board
 
 function checkRows(board) {
   board.every((row) => {
-    let check = new Array(...numbers);
+    let check = new Set(numbers);
     row.every((num) => {
       check.splice(check.indexOf(num), 1);
     });
@@ -120,7 +249,7 @@ function checkRows(board) {
 
 function checkCols(board) {
   board.every((row, i) => {
-    let check = new Array(...numbers);
+    let check = new Set(numbers);
     row.every((num, j) => {
       check.splice(check.indexOf(board[j][i]), 1);
     });
@@ -128,27 +257,4 @@ function checkCols(board) {
   });
 
   return true;
-}
-
-function checkBoxes(board) {
-  // determine the "root" of the box and then run the same function every time
-
-  // how to determine the root of the box?
-  //   for (let i = 0; i < 3; i++) {
-  //     // col
-  //     for (let j = 0; j < 3; j++) {
-  //       // row
-  //       let check = new Array(...numbers)
-  //       for (let k = 0; k < 7; k+=3) {
-  //         // boxCol
-  //         // check row
-  //         console.log("row", i + k, "; col", j);
-  //         for (let l = 0; l < 7; l+=3) {
-  //           // check col
-  //           // check.splice(check.indexOf(board[i+k][j+l]), 0);
-  //         }
-  //       }
-  //       // if (check.length) return false;
-  //     }
-  return;
 }

@@ -1,44 +1,64 @@
-import React from "react";
+import React, { useState, useEffet, useEffect } from "react";
 import Square from "./Square";
-import { createSudokuSolution } from "./functions";
+import { createSudokuSolution, trimSolution, boardComplete } from "./functions";
 import "./Sudoku.css";
 
 const Sudoku = () => {
-  // write the game board. innerHTML is fine for keeping track of numbers
-  //   generate solution
-  // save solution
-  // halve solution to fill in initial board
-  // check board
-  //
-  createSudokuSolution();
+  const emptySquares = 1;
 
-  let board = [];
-  for (let i = 0; i < 9; i++) {
-    let newRow = [];
+  const [solution, setSolution] = useState([[]]);
+  const [board, setBoard] = useState(trimSolution([[]]));
 
-    for (let j = 0; j < 9; j++) {
-      if (j % 2 === 0) {
-        newRow.push("");
-      } else {
-        newRow.push(j);
-      }
-    }
+  useEffect(() => {
+    newGame();
+  }, []);
 
-    board.push(newRow);
-  }
+  const newGame = () => {
+    const newSolution = createSudokuSolution();
+    const newBoard = trimSolution(newSolution, emptySquares);
+    setSolution(newSolution);
+    setBoard(newBoard);
+  };
+
+  const reset = () => {
+    const unset = document.querySelectorAll(".unset");
+    unset.forEach((element) => (element.innerHTML = ""));
+    return;
+  };
+
+
 
   return (
-    <table>
-      <tbody>
-        {board.map((row, i) => (
-          <tr key={i} className={i}>
-            {row.map((square, j) => {
-              return <Square key={j} i={i} j={j} num={board[i][j]} />;
-            })}
-          </tr>
-        ))}
-      </tbody>
-    </table>
+    <>
+      <div className="game-nav">
+        <button onClick={newGame} className="new-game">
+          New Game
+        </button>
+        <button onClick={reset} className="reset">
+          Reset
+        </button>
+      </div>
+      <table>
+        <tbody>
+          {board.map((row, i) => (
+            <tr key={i} className={i}>
+              {row.map((square, j) => {
+                return (
+                  <Square
+                    key={j}
+                    i={i}
+                    j={j}
+                    num={board[i][j]}
+                    solution={solution}
+                    board={board}
+                  />
+                );
+              })}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </>
   );
 };
 
