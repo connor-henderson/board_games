@@ -1,23 +1,35 @@
 import React, { useState, useEffet, useEffect } from "react";
 import Square from "./Square";
-import { createSudokuSolution, trimSolution, boardComplete } from "./functions";
+import {
+  fastCreateSudokuSolution,
+  trimSolution,
+  createSudokuBoard,
+} from "./functions";
 import "./Sudoku.css";
 
 const Sudoku = () => {
-  const emptySquares = 1;
+  const cinch = 2;
+  const easy = 30;
+  const medium = 45;
+  const hard = 60;
+  const evil = 65;
 
+  const [difficulty, setDifficulty] = useState(cinch);
   const [solution, setSolution] = useState([[]]);
-  const [board, setBoard] = useState(trimSolution([[]]));
+  const [board, setBoard] = useState([[]]);
+//   const [gameWon, setGameWon] = useState(false);
 
   useEffect(() => {
     newGame();
   }, []);
 
   const newGame = () => {
-    const newSolution = createSudokuSolution();
-    const newBoard = trimSolution(newSolution, emptySquares);
-    setSolution(newSolution);
-    setBoard(newBoard);
+    let solutionBoard = createSudokuBoard();
+    fastCreateSudokuSolution(solutionBoard);
+    setSolution(solutionBoard);
+
+    const gameBoard = trimSolution(solutionBoard, difficulty);
+    setBoard(gameBoard);
   };
 
   const reset = () => {
@@ -26,10 +38,9 @@ const Sudoku = () => {
     return;
   };
 
-
-
   return (
     <>
+      {false && <div className="win-message">You win!</div>}
       <div className="game-nav">
         <button onClick={newGame} className="new-game">
           New Game
