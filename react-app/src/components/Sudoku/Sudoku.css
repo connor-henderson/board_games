@@ -35,6 +35,10 @@ td.row-8 {
     border-bottom: 3px solid black;
 }
 
+td.preset {
+    font-weight: bold;
+}
+
 td#adjacent {
     background-color: rgb(230, 200, 119)
 }
