@@ -1,0 +1,15 @@
+table {
+  width: auto;
+  height: auto;
+  border-collapse: collapse;
+}
+
+td.life {
+  border: 1px solid lightgrey;
+  width: 10px;
+  height: 10px;
+}
+
+td.alive {
+  background-color: black;
+}
