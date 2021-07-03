@@ -29,7 +29,7 @@ export default function Leaderboard() {
 
   return (
     <>
-      <div className="leaderboards-toggle">
+      <div className="leaderboards-toggle toggle">
         <div className={showAll ? "--active" : ""} onClick={changeLeaderboards}>
           All
         </div>

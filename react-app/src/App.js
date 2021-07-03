@@ -16,6 +16,7 @@ import Sudoku from "./components/Sudoku"
 import Chess from "./components/Chess"
 import GameOfLife from "./components/GameOfLife"
 import Go from "./components/Go"
+import About from "./components/About";
 
 function App() {
   // const [authenticated, setAuthenticated] = useState(false);
@@ -39,6 +40,9 @@ function App() {
       <Switch>
         <Route path="/" exact={true}>
           <SplashPage />
+        </Route>
+        <Route path="/about" exact={true}>
+          <About />
         </Route>
         <Route path="/login" exact={true}>
           <LoginForm />
