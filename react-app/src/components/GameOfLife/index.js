@@ -2,12 +2,23 @@ import React, { useState, useEffect } from "react";
 import "./GameOfLife.css";
 
 const GameOfLife = () => {
+  const small = { rows: 15, columns: 30 };
+  const medium = { rows: 30, columns: 60 };
+  const large = { rows: 45, columns: 90 };
+
+  const slow = 1000;
+  const moderate = 200;
+  const fast = 5;
+
   const [universe, setUniverse] = useState([[]]);
   const [life, setLife] = useState(0);
+  const [size, setSize] = useState(large);
+  const [speed, setSpeed] = useState(moderate);
+  const [mouseDown, setMouseDown] = useState(false);
 
   useEffect(() => {
     newGame();
-  }, []);
+  }, [size]);
 
   useEffect(() => {
     if (!life) return;
@@ -15,16 +26,16 @@ const GameOfLife = () => {
     const generation = setTimeout(() => {
       liveLife();
       setLife(life + 1);
-    }, 1000);
+    }, speed);
 
     return () => clearTimeout(generation);
   }, [life]);
 
   function newGame() {
     const newUniverse = [];
-    for (let i = 0; i < 20; i++) {
+    for (let i = 0; i < size.rows; i++) {
       const row = [];
-      for (let j = 0; j < 40; j++) {
+      for (let j = 0; j < size.columns; j++) {
         row.push(false);
       }
       newUniverse.push(row);
@@ -68,7 +79,8 @@ const GameOfLife = () => {
 
         if (i === 1 && j === 1) continue;
         if (currentRow < 0 || currentCol < 0) continue;
-        if (currentRow > 19 || currentCol > 39) continue;
+        if (currentRow > size.rows - 1 || currentCol > size.columns - 1)
+          continue;
 
         neighbors.push(universe[currentRow][currentCol]);
       }
@@ -90,8 +102,9 @@ const GameOfLife = () => {
     return false;
   }
 
-  function handleClick(e) {
+  function handleMouseDown(e) {
     e.preventDefault();
+    setMouseDown(true);
 
     if (!e.target.classList.contains("alive")) {
       e.target.classList.add("alive");
@@ -111,6 +124,48 @@ const GameOfLife = () => {
 
   return (
     <>
+      <div className="game-of-life-toggle">
+        <div className="speed-toggle toggle">
+          <div
+            className={speed === slow ? "--active" : ""}
+            onClick={() => setSpeed(slow)}
+          >
+            Slow
+          </div>
+          <div
+            className={speed === moderate ? "--active" : ""}
+            onClick={() => setSpeed(moderate)}
+          >
+            Moderate
+          </div>
+          <div
+            className={speed === fast ? "--active" : ""}
+            onClick={() => setSpeed(fast)}
+          >
+            Fast
+          </div>
+        </div>
+        <div className="size-toggle toggle">
+          <div
+            className={size.rows === small.rows ? "--active" : ""}
+            onClick={() => setSize(small)}
+          >
+            Small
+          </div>
+          <div
+            className={size.rows === medium.rows ? "--active" : ""}
+            onClick={() => setSize(medium)}
+          >
+            Medium
+          </div>
+          <div
+            className={size.rows === large.rows ? "--active" : ""}
+            onClick={() => setSize(large)}
+          >
+            Large
+          </div>
+        </div>
+      </div>
       <button onClick={newGame} className="reset universe">
         Reset
       </button>
@@ -134,7 +189,9 @@ const GameOfLife = () => {
                     key={j}
                     id="cell"
                     className={`row-${i} col-${j} life`}
-                    onClick={handleClick}
+                    onMouseDown={handleMouseDown}
+                    onMouseUp={() => setMouseDown(false)}
+                    onMouseMove={mouseDown ? handleMouseDown : () => {}}
                   ></td>
                 );
               })}
