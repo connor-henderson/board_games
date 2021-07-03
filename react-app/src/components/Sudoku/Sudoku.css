@@ -46,3 +46,11 @@ td#adjacent {
 td#clicked {
     background-color: rgb(172, 143, 64);
 }
+
+div.evil {
+    border-right: none;
+}
+
+.--hidden {
+    display: none;
+}

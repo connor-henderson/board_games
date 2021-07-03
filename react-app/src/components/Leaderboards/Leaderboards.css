@@ -1,4 +1,4 @@
-div.leaderboards-toggle {
+div.toggle {
     display: flex;
     flex-direction: row;
     margin-top: 1.5em;
@@ -8,7 +8,7 @@ div.leaderboards-toggle {
     width: fit-content;
 }
 
-div.leaderboards-toggle > * {
+div.toggle > * {
     padding: 4px 4px;
     border-right: 1px solid black;
 }
@@ -21,12 +21,12 @@ div.--active {
     background-image: linear-gradient(to bottom right, rgb(199, 165, 72), #eee);
 }
 
-div.leaderboards-toggle > *:hover {
+div.toggle > *:hover {
     cursor: pointer;
     background-image: linear-gradient(to bottom right, rgb(199, 165, 72), #eee);
 }
 
-div.leaderboards-toggle > *:active {
+div.toggle > *:active {
     box-shadow: inset 2px 2px 1px black,
               inset 2px 3px 5px rgba(0,0,0,0.3),
               inset -2px -3px 5px rgba(255,255,255,0.5);

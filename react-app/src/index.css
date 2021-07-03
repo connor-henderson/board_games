@@ -3,3 +3,9 @@
 body {
     margin: 0;
 }
+
+.headshot {
+    height: 300px;
+    width: 200px;
+    /* display: none; */
+}
