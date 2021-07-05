@@ -20,19 +20,29 @@ export const pieceValues = {
 	"queen": 9,
 };
 
-const bishopB = { "name": "bishop", "team": "black", image: bishopBlack };
-const rookB = { "name": "rook", "team": "black", image: rookBlack };
-const knightB = { "name": "knight", "team": "black", image: knightBlack };
-const kingB = { "name": "king", "team": "black", image: kingBlack };
-const queenB = { "name": "queen", "team": "black", image: queenBlack };
-const pawnB = { "name": "pawn", "team": "black", image: pawnBlack };
+const bishopB = { "name": "bishop", "team": "black", "image": bishopBlack };
+const rookB = { "name": "rook", "team": "black", "image": rookBlack };
+const knightB = { "name": "knight", "team": "black", "image": knightBlack };
+const kingB = { "name": "king", "team": "black", "image": kingBlack };
+const queenB = { "name": "queen", "team": "black", "image": queenBlack };
+const pawnB = { "name": "pawn", "team": "black", "image": pawnBlack };
 
-const bishopW = { "name": "bishop", "team": "white", image: bishopWhite };
-const rookW = { "name": "rook", "team": "white", image: rookWhite };
-const knightW = { "name": "knight", "team": "white", image: knightWhite };
-const kingW = { "name": "king", "team": "white", image: kingWhite };
-const queenW = { "name": "queen", "team": "white", image: queenWhite };
-const pawnW = { "name": "pawn", "team": "white", image: pawnWhite };
+const bishopW = { "name": "bishop", "team": "white", "image": bishopWhite };
+const rookW = { "name": "rook", "team": "white", "image": rookWhite };
+const knightW = { "name": "knight", "team": "white", "image": knightWhite };
+const kingW = { "name": "king", "team": "white", "image": kingWhite };
+const queenW = { "name": "queen", "team": "white", "image": queenWhite };
+const pawnW = { "name": "pawn", "team": "white", "image": pawnWhite };
+
+export const blackTeam = [bishopB, rookB, knightB, kingB, queenB, pawnB];
+export const whiteTeam = [bishopW, rookW, knightW, kingW, queenW, pawnW];
+
+bishopW["alt"] = bishopB;
+rookW["alt"] = rookB;
+knightW["alt"] = knightB;
+kingW["alt"] = kingB;
+queenW["alt"] = queenB;
+pawnW["alt"] = pawnB;
 
 const pieces = {
 	bishopB,

@@ -23,25 +23,35 @@ function getPawnMoves(board, piece, row, col, teamOnTop) {
 
 	if (teamOnTop === piece.team) {
 		for (let i = 1; i < 3; i++) {
-			if (board[row + i][col]) break;
+			if (row !== 1 && i > 1) break;
+			if (!board[row + i] || board[row + i][col]) break;
 			validMoves.push(`${row + i} ${col}`);
 		}
-		if (board[row + 1][col + 1]) {
+
+		const diagonalRight = board[row + 1][col + 1];
+		const diagonalLeft = board[row + 1][col - 1];
+
+		if (diagonalRight && diagonalRight.team !== piece.team) {
 			validMoves.push(`${row + 1} ${col + 1}`);
 		}
-		if (board[row + 1][col - 1]) {
+		if (diagonalLeft && diagonalLeft.team !== piece.team) {
 			validMoves.push(`${row + 1} ${col - 1}`);
 		}
 	} else {
 		for (let i = 1; i < 3; i++) {
-			if (board[row - i][col]) break;
+			if (row !== 6 && i > 1) break;
+			if (!board[row - i] || board[row - i][col]) break;
 			validMoves.push(`${row - i} ${col}`);
 		}
-		if (board[row - 1][col - 1]) {
-			validMoves.push(`${row - 1} ${col - 1}`);
+
+		const diagonalRight = board[row - 1][col + 1];
+		const diagonalLeft = board[row - 1][col - 1];
+
+		if (diagonalRight && diagonalRight.team !== piece.team) {
+			validMoves.push(`${row - 1} ${col + 1}`);
 		}
-		if (board[row - 1][col + 1]) {
-			validMoves.push(`${row + 1} ${col + 1}`);
+		if (diagonalLeft && diagonalLeft.team !== piece.team) {
+			validMoves.push(`${row - 1} ${col - 1}`);
 		}
 	}
 
