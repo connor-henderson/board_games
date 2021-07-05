@@ -1,0 +1,32 @@
+tbody.chess {
+	border: 2px solid black;
+	width: fit-content;
+}
+
+td.chess {
+	border: none;
+	margin: 2px;
+}
+
+td.light {
+	background-color: #ffefc1;
+}
+
+td.dark {
+	background-color: #ae4d25;
+}
+
+td.chess > img {
+	max-width: 90%;
+	max-height: 90%;
+	text-align: center;
+	vertical-align: middle;
+}
+
+td.--clicked {
+	background-color: green;
+}
+
+td.valid-move {
+	background-color: blue;
+}
