@@ -82,8 +82,9 @@ const Chess = () => {
 
 	function flipBoard() {
 		setTeamOnTop(teamOnTop === "white" ? "black" : "white");
-		if (clicked) {
-			document.querySelector(".--clicked").classList.remove("--clicked");
+		const clickedSquare = document.querySelector(".--clicked");
+		if (clickedSquare) {
+			clickedSquare.classList.remove("--clicked");
 			setClicked(false);
 		}
 
