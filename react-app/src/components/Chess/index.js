@@ -5,6 +5,8 @@ import pieces, {
 	middleRows,
 	whiteTopRow,
 	whiteBottomRow,
+	whiteTeam,
+	blackTeam,
 } from "../../assets/chess/piecesInfo";
 import { getValidMoves, makeMove } from "../../assets/chess/moveFunctions";
 import "./Chess.css";
@@ -33,7 +35,7 @@ const Chess = () => {
 
 	useEffect(() => {
 		newGame();
-	}, [teamOnTop]);
+	}, []);
 
 	useEffect(() => {
 		if (winner) {
@@ -46,24 +48,47 @@ const Chess = () => {
 		if (clicked) {
 			clicked.classList.remove("--clicked");
 		}
-
 		if (teamOnTop === "black") {
-			setBoard(blackOnTopBoard);
+			var nextBoard = JSON.parse(JSON.stringify(blackOnTopBoard));
 		} else {
-			setBoard(whiteOnTopBoard);
+			var nextBoard = JSON.parse(JSON.stringify(whiteOnTopBoard));
 		}
+		setTurn("white");
+		setBoard(nextBoard);
+		setWinner(false);
 	}
 
 	function makeMove(board, previousPosition, nextPosition) {
 		const [previousRow, previousCol] = previousPosition.split(" ");
+		const previousPiece = board[previousRow][previousCol];
 		const [nextRow, nextCol] = nextPosition.split(" ");
 
 		if (board[nextRow][nextCol].name === "king") {
 			setWinner(turn);
 		}
 
-		board[nextRow][nextCol] = board[previousRow][previousCol];
+		if (previousPiece.name === "pawn" && (nextRow == 0 || nextRow == 7)) {
+			if (previousPiece.team === "black") {
+				board[nextRow][nextCol] = pieces.queenB;
+			} else {
+				board[nextRow][nextCol] = pieces.queenW;
+			}
+		} else {
+			board[nextRow][nextCol] = previousPiece;
+		}
+
 		board[previousRow][previousCol] = "";
+	}
+
+	function flipBoard() {
+		setTeamOnTop(teamOnTop === "white" ? "black" : "white");
+		document.querySelector(".--clicked").classList.remove("--clicked");
+
+		const flippedBoard = JSON.parse(JSON.stringify(board));
+		flippedBoard.reverse();
+		flippedBoard.map((row) => row.reverse());
+
+		setBoard(flippedBoard);
 	}
 
 	function handleClick(e) {
@@ -107,7 +132,6 @@ const Chess = () => {
 			colNum,
 			teamOnTop
 		);
-		console.log(newValidMoves);
 		setValidMoves(newValidMoves);
 	}
 
@@ -141,16 +165,10 @@ const Chess = () => {
 
 	return (
 		<>
+			{winner && `${winner} wins`}
 			<div className="chess-toggle">
-				<button
-					onClick={
-						teamOnTop === "black"
-							? () => setTeamOnTop("white")
-							: () => setTeamOnTop("black")
-					}
-				>
-					Flip
-				</button>
+				<button onClick={newGame}>New Game</button>
+				<button onClick={flipBoard}>Flip</button>
 			</div>
 			<table className="chess">
 				<tbody className="chess">
@@ -162,8 +180,8 @@ const Chess = () => {
 										key={j}
 										className={
 											(i + j) % 2
-												? `row-${i} col-${j} chess light`
-												: `row-${i} col-${j} chess dark`
+												? `row-${i} col-${j} chess dark`
+												: `row-${i} col-${j} chess light`
 										}
 										onClick={handleClick}
 										onMouseEnter={handleMouseEnter}
