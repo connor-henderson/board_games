@@ -1,0 +1,88 @@
+table {
+	margin-bottom: 60px;
+}
+
+tbody.go {
+	background-image: url(../../images/go/go_board.jpg);
+	padding: 10px 10px;
+	width: auto;
+	height: auto;
+}
+
+td.go {
+	border: none;
+	width: 20px;
+	height: 20px;
+}
+
+td.black-hover {
+	background-image: url(../../images/go/black_piece.png);
+	background-size: cover;
+}
+td.white-hover {
+	background-image: url(../../images/go/white_piece.png);
+	background-size: cover;
+}
+
+.line-horizontal {
+	width: 100%;
+	height: 0;
+	border-bottom: 1px solid #111;
+	float: left;
+	margin: 0;
+	position: relative;
+	z-index: 0;
+	bottom: 50%;
+	left: 0;
+}
+
+.line-vertical {
+	width: 0;
+	height: 100%;
+	border-left: 1px solid #111;
+	float: left;
+	margin: 0;
+	position: relative;
+	z-index: 0;
+	top: 0;
+	left: 50%;
+}
+
+td.w {
+	background-image: url(../../images/go/white_piece.png);
+	background-size: cover;
+	z-index: 1;
+}
+
+td.b {
+	background-image: url(../../images/go/black_piece.png);
+	background-size: cover;
+	z-index: 1;
+}
+
+td.w > i,
+td.b > i {
+	border: none;
+}
+
+i#top {
+	top: 50%;
+}
+i#bottom {
+	top: -50%;
+}
+i#left {
+	left: 50%;
+}
+i#right {
+	left: -50%;
+}
+
+img#captured {
+	position: relative;
+	max-width: 50%;
+	max-height: 50%;
+	text-align: center;
+	vertical-align: middle;
+	border: 1px solid black;
+}
