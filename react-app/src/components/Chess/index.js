@@ -82,7 +82,10 @@ const Chess = () => {
 
 	function flipBoard() {
 		setTeamOnTop(teamOnTop === "white" ? "black" : "white");
-		document.querySelector(".--clicked").classList.remove("--clicked");
+		if (clicked) {
+			document.querySelector(".--clicked").classList.remove("--clicked");
+			setClicked(false);
+		}
 
 		const flippedBoard = JSON.parse(JSON.stringify(board));
 		flippedBoard.reverse();
@@ -109,6 +112,7 @@ const Chess = () => {
 		const previouslyClicked = document.querySelector(".--clicked");
 		if (previouslyClicked) {
 			previouslyClicked.classList.remove("--clicked");
+			setClicked(false);
 			setValidMoves([]);
 			const nextSquare = `${rowNum} ${colNum}`;
 			if (validMoves.includes(nextSquare)) {
