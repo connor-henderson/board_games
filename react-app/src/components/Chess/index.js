@@ -68,11 +68,9 @@ const Chess = () => {
 		}
 
 		if (previousPiece.name === "pawn" && (nextRow == 0 || nextRow == 7)) {
-			console.log("in there like swimwear");
 			if (previousPiece.team === "black") {
 				board[nextRow][nextCol] = pieces.queenB;
 			} else {
-				console.log("in white like swimwear");
 				board[nextRow][nextCol] = pieces.queenW;
 			}
 		} else {
@@ -84,7 +82,7 @@ const Chess = () => {
 
 	function flipBoard() {
 		setTeamOnTop(teamOnTop === "white" ? "black" : "white");
-		setTurn(turn === "white" ? "black" : "white");
+		document.querySelector(".--clicked").classList.remove("--clicked");
 
 		const flippedBoard = JSON.parse(JSON.stringify(board));
 		flippedBoard.reverse();
@@ -115,7 +113,6 @@ const Chess = () => {
 			const nextSquare = `${rowNum} ${colNum}`;
 			if (validMoves.includes(nextSquare)) {
 				makeMove(board, clicked, nextSquare);
-				console.log(board);
 				if (turn === "white") return setTurn("black");
 				else if (turn === "black") return setTurn("white");
 			}
