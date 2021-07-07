@@ -1,36 +1,95 @@
 import React, { useEffect, useState } from "react";
-import updateBoard from "../../assets/go/updateBoard";
-import captured from "../../images/go/square_border.png";
+import updateBoard, { updateClickedSquare } from "../../assets/go/updateBoard";
+import {
+	checkEyesBoard,
+	checkEyesBoard2,
+} from "../../assets/go/presetPositions";
 import "./Go.css";
 
 const Go = () => {
-	// In reference to the board: w = white, b = black, c = captured, x = non-playable, "" = playable
-	const [board, setBoard] = useState([[]]);
+	// In reference to the board's values:
+	// w = white, b = black, wc = stone captured by white, bc = stone captured by white, x = non-playable,
+	// "" = playable, "ko turns: #" = ko, "bp"/"wp" = priority, keep on board
 
-	const [blackStones, setBlackStones] = useState(181);
-	const [whiteStones, setWhiteStones] = useState(180);
+	const [board, setBoard] = useState([[]]);
+	const [hideTerritories, setHideTerritories] = useState(true);
+	const [passes, setPasses] = useState(0);
 	const [turn, setTurn] = useState("black");
 	const [winner, setWinner] = useState(false);
+
+	const [blackStones, setBlackStones] = useState(181);
+	const [blackCaptures, setBlackCaptures] = useState(0);
+	const [blackScore, setBlackScore] = useState(0);
+	const [whiteStones, setWhiteStones] = useState(180);
+	const [whiteCaptures, setWhiteCaptures] = useState(0);
+	const [whiteScore, setWhiteScore] = useState(6.5);
+
+	// end game options
 
 	useEffect(() => {
 		newGame();
 	}, []);
 
+	function checkPass() {
+		if (passes + 1 > 1) {
+			setWinner(blackScore > whiteScore ? "Black" : "White");
+		}
+		setTurn(turn === "black" ? "white" : "black");
+		setPasses(passes + 1);
+	}
+
 	function newGame() {
 		const newBoard = new Array(19)
 			.fill([])
 			.map((row) => new Array(19).fill(""));
-		console.log(newBoard);
-
 		setTurn("black");
-		setBoard(newBoard);
+		setBoard(checkEyesBoard2);
 		setWinner(false);
+		setBlackScore(0);
+		setWhiteScore(6.5);
+		setBlackCaptures(0);
+		setWhiteCaptures(0);
+		setBlackStones(181);
+		setWhiteStones(180);
+	}
+
+	function countTerritories(nextBoard) {
+		let blackTerritory = 0;
+		let whiteTerritory = 0;
+
+		nextBoard.forEach((row) => {
+			row.forEach((square) => {
+				if (square === "bx" || square === "bc") blackTerritory += 1;
+				else if (square === "wx" || square === "wc")
+					whiteTerritory += 1;
+			});
+		});
+
+		setBlackScore(blackTerritory - whiteCaptures);
+		setWhiteScore(whiteScore + whiteTerritory - blackCaptures);
+	}
+
+	function countCaptures(nextBoard) {
+		let capturedByBlack = 0;
+		let capturedByWhite = 0;
+
+		nextBoard.forEach((row) => {
+			row.forEach((square) => {
+				if (square === "bc") capturedByBlack += 1;
+				else if (square === "wc") capturedByWhite += 1;
+				else if (square === "ko-b") capturedByBlack += 1;
+				else if (square === "ko-w") capturedByWhite += 1;
+			});
+		});
+
+		setBlackCaptures(blackCaptures + capturedByBlack);
+		setWhiteCaptures(whiteCaptures + capturedByWhite);
 	}
 
 	function handleClick(e) {
 		// always get the parent td element
 		let square = e.target;
-		if (e.target.nodeName === "I") {
+		if (e.target.nodeName !== "TD") {
 			square = e.target.parentNode;
 		}
 
@@ -41,15 +100,12 @@ const Go = () => {
 			parseInt(col.slice(4, 6), 10),
 		];
 
-		// if it is not a playable space, return
-		if (board[rowNum][colNum]) return;
-
-		// add the placed stone and update the board and turns
-		const boardWithClick = JSON.parse(JSON.stringify(board));
-		boardWithClick[rowNum][colNum] = turn === "black" ? "b" : "w";
-		const nextBoard = updateBoard(boardWithClick);
-		// console.log(nextBoard);
+		const nextBoard = updateClickedSquare(board, rowNum, colNum, turn);
+		if (!nextBoard) return;
+		countCaptures(nextBoard);
+		countTerritories(nextBoard);
 		setBoard(nextBoard);
+		setPasses(0);
 		setTurn(turn === "black" ? "white" : "black");
 
 		return;
@@ -60,16 +116,34 @@ const Go = () => {
 			{winner && `${winner} wins`}
 			<div className="go-toggle">
 				<button onClick={newGame}>New Game</button>
+				<button onClick={() => setHideTerritories(!hideTerritories)}>
+					{`${hideTerritories ? "Show" : "Hide"} Territories`}
+				</button>
+				<button onClick={checkPass}>
+					{`${turn === "black" ? "Black" : "White"} Pass`}
+				</button>
+			</div>
+			<div>
+				<div>black score: {blackScore}</div>
+				<div>white score: {whiteScore}</div>
+			</div>
+			<div>
+				<div>black captures: {blackCaptures}</div>
+				<div>white captures: {whiteCaptures}</div>
 			</div>
 			<table className="go">
 				<tbody className="go">
 					{board.map((row, i) => (
 						<tr key={i} className={i}>
 							{row.map((square, j) => {
+								let squareVal = square;
+								if (square.includes("x") && hideTerritories) {
+									squareVal = "";
+								}
 								return (
 									<td
 										key={j}
-										className={`row-${i} col-${j} go ${board[i][j]}`}
+										className={`row-${i} col-${j} go ${squareVal}`}
 										// onMouseEnter={(e) =>
 										// 	e.target.classList.add(
 										// 		`${turn}-hover`
@@ -83,24 +157,13 @@ const Go = () => {
 										onClick={handleClick}
 									>
 										<i
-											id={`${i === 0 ? "top" : ""}${
-												i === 18 ? "bottom" : ""
-											}`}
+											id={`vertical-row-${i}`}
 											className="line-vertical"
 										></i>
 										<i
-											id={`${j === 0 ? "left" : ""}${
-												j === 18 ? "right" : ""
-											}`}
+											id={`horizontal-col-${j}`}
 											className="line-horizontal"
 										></i>
-										{board[i][j] === "c" && (
-											<img
-												id="captured"
-												src={captured}
-												alt={"captured square"}
-											/>
-										)}
 									</td>
 								);
 							})}
