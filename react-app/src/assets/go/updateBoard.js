@@ -5,12 +5,35 @@ export default function updateBoard(board, placedRow, placedColumn) {
 			if (square.includes("p")) return square.replace("p", "");
 			else if (square === "wx" || square === "wc") return "wx";
 			else if (square === "bx" || square === "bc") return "bx";
-			else if (square === "ko") return "";
+			else if (square.includes("ko")) return "";
 			else if (square) {
 				return stoneStatus(board, i, j);
 			} else return "";
 		})
 	);
+}
+
+// return to this if you have time
+function isEnclosed(board, i, j) {
+	const queue = [{ "team": board[i][j], "row": i, "col": j }];
+	const visited = [];
+	let count = 0;
+	let square;
+	let teams = "bw";
+
+	while (teams.length && queue.length < 100) {
+		square = queue.shift();
+
+		if (visited.includes(`${square.row} ${square.col}`)) continue;
+		visited.push(`${square.row} ${square.col}`);
+
+		teams.replace(square.team, "");
+		const neighbors = getNeighbors(board, square.row, square.col);
+		queue.push(...neighbors);
+	}
+
+	if (teams.length) return teams.includes("bx") ? "wx" : "bx";
+	return "";
 }
 
 function checkIfTerritory(board, i, j) {
@@ -32,10 +55,6 @@ function markEmptySquares(board, liberties, currentTeam) {
 export function updateClickedSquare(board, i, j, turn) {
 	// if there is already input at this square, it can't be played
 	if (board[i][j]) return false;
-
-	// we have a problem when we update a clicked square because it updates all squares.
-	// why is this a problem? shouldn't the update function work properly?
-	// we only want to update all squares if checking the stoneStatus of the current square would result in a capture
 
 	// make two copies of the board: one simulate updating the board at this position and one for updating
 	let nextBoard = JSON.parse(JSON.stringify(board));
@@ -60,10 +79,10 @@ export function updateClickedSquare(board, i, j, turn) {
 }
 
 function stoneStatus(board, i, j) {
-	const isKo = checkIfKo(board, i, j);
+	const [isKo, team] = checkIfKo(board, i, j);
 	const neighborIsKo = checkNeighborIsKo(board, i, j);
 
-	if (isKo) return "ko";
+	if (isKo) return `ko-${team}`;
 	else if (neighborIsKo) return board[i][j];
 	else {
 		const stoneHasLiberty = checkStoneLibertyIterative(board, i, j);
@@ -122,10 +141,11 @@ function checkStoneLibertyIterative(board, i, j) {
 function checkIfKo(board, i, j) {
 	const neighbors = getNeighbors(board, i, j);
 	const otherTeam = board[i][j] === "b" ? "w" : "b";
-	return neighbors.every(
+	const isKo = neighbors.every(
 		(square) =>
 			square.team.includes(otherTeam) && !square.team.includes("x")
 	);
+	return [isKo, otherTeam];
 }
 
 function checkNeighborIsKo(board, i, j) {

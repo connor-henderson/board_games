@@ -65,25 +65,37 @@ td.b > i {
 	border: none;
 }
 
-i#top {
-	top: 50%;
-}
-i#bottom {
-	top: -50%;
-}
-i#left {
-	left: 50%;
-}
-i#right {
-	left: -50%;
+td.ko-b,
+td.bc {
+	background-image: url(../../images/go/white_border.png);
+	background-size: contain;
 }
 
-img#captured {
-	position: relative;
-	max-width: 50%;
-	max-height: 50%;
-	text-align: center;
-	vertical-align: middle;
-	border: 1px solid black;
-	z-index: 0;
+td.ko-w,
+td.wc {
+	background-image: url(../../images/go/black_border.png);
+	background-size: contain;
+}
+
+td.wx {
+	background-image: url(../../images/go/white_territory.png);
+	background-size: contain;
+}
+
+td.bx {
+	background-image: url(../../images/go/black_territory.png);
+	background-size: contain;
+}
+
+i#vertical-row-0 {
+	top: 50%;
+}
+i#vertical-row-18 {
+	top: -50%;
+}
+i#horizontal-col-0 {
+	left: 50%;
+}
+i#horizontal-col-18 {
+	left: -50%;
 }
