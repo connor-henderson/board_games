@@ -1,10 +1,17 @@
 import React, { useEffect, useState } from "react";
-import updateBoard from "../../assets/go/updateBoard";
+import updateBoard, { updateClickedSquare } from "../../assets/go/updateBoard";
 import captured from "../../images/go/square_border.png";
+import {
+	checkEyesBoard,
+	checkEyesBoard2,
+} from "../../assets/go/presetPositions";
 import "./Go.css";
 
 const Go = () => {
-	// In reference to the board: w = white, b = black, c = captured, x = non-playable, "" = playable
+	// In reference to the board's values:
+	// w = white, b = black, wc = captured white stone, wb = captured black stone, x = non-playable,
+	// "" = playable, "ko turns: #" = ko, "bp"/"wp" = priority, keep on board
+
 	const [board, setBoard] = useState([[]]);
 
 	const [blackStones, setBlackStones] = useState(181);
@@ -20,10 +27,8 @@ const Go = () => {
 		const newBoard = new Array(19)
 			.fill([])
 			.map((row) => new Array(19).fill(""));
-		console.log(newBoard);
-
 		setTurn("black");
-		setBoard(newBoard);
+		setBoard(checkEyesBoard2);
 		setWinner(false);
 	}
 
@@ -41,14 +46,8 @@ const Go = () => {
 			parseInt(col.slice(4, 6), 10),
 		];
 
-		// if it is not a playable space, return
-		if (board[rowNum][colNum]) return;
-
-		// add the placed stone and update the board and turns
-		const boardWithClick = JSON.parse(JSON.stringify(board));
-		boardWithClick[rowNum][colNum] = turn === "black" ? "b" : "w";
-		const nextBoard = updateBoard(boardWithClick);
-		// console.log(nextBoard);
+		const nextBoard = updateClickedSquare(board, rowNum, colNum, turn);
+		if (!nextBoard) return;
 		setBoard(nextBoard);
 		setTurn(turn === "black" ? "white" : "black");
 
