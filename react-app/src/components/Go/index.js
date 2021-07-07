@@ -48,7 +48,7 @@ const Go = () => {
 		const boardWithClick = JSON.parse(JSON.stringify(board));
 		boardWithClick[rowNum][colNum] = turn === "black" ? "b" : "w";
 		const nextBoard = updateBoard(boardWithClick);
-		console.log(nextBoard);
+		// console.log(nextBoard);
 		setBoard(nextBoard);
 		setTurn(turn === "black" ? "white" : "black");
 
@@ -70,16 +70,16 @@ const Go = () => {
 									<td
 										key={j}
 										className={`row-${i} col-${j} go ${board[i][j]}`}
-										onMouseEnter={(e) =>
-											e.target.classList.add(
-												`${turn}-hover`
-											)
-										}
-										onMouseLeave={(e) =>
-											e.target.classList.remove(
-												`${turn}-hover`
-											)
-										}
+										// onMouseEnter={(e) =>
+										// 	e.target.classList.add(
+										// 		`${turn}-hover`
+										// 	)
+										// }
+										// onMouseLeave={(e) =>
+										// 	e.target.classList.remove(
+										// 		`${turn}-hover`
+										// 	)
+										// }
 										onClick={handleClick}
 									>
 										<i
