@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { updateUserScore } from "../../store/session";
 import updateBoard, { updateClickedSquare } from "../../assets/go/updateBoard";
 import {
 	checkEyesBoard,
@@ -16,6 +18,11 @@ const Go = () => {
 	const [passes, setPasses] = useState(0);
 	const [turn, setTurn] = useState("black");
 	const [winner, setWinner] = useState(false);
+	const [CPU, setCPU] = useState(false);
+	const [points, setPoints] = useState(0);
+	const user = useSelector((state) => state.session.user);
+	const score = useSelector((state) => state.session.user.go_score);
+	const dispatch = useDispatch();
 
 	const [blackStones, setBlackStones] = useState(181);
 	const [blackCaptures, setBlackCaptures] = useState(0);
@@ -30,9 +37,19 @@ const Go = () => {
 		newGame();
 	}, []);
 
+	useEffect(() => {
+		if (!winner || !CPU || winner === CPU) return;
+
+		dispatch(updateUserScore(user.id, "go", points));
+	}, [winner]);
+
+	useEffect(() => {
+		setPoints(CPU ? 100 : 0);
+	}, [CPU]);
+
 	function checkPass() {
 		if (passes + 1 > 1) {
-			setWinner(blackScore > whiteScore ? "Black" : "White");
+			setWinner(blackScore > whiteScore ? "black" : "white");
 		}
 		setTurn(turn === "black" ? "white" : "black");
 		setPasses(passes + 1);
@@ -51,6 +68,7 @@ const Go = () => {
 		setWhiteCaptures(0);
 		setBlackStones(181);
 		setWhiteStones(180);
+		setPasses(0);
 	}
 
 	function countTerritories(nextBoard) {
@@ -124,6 +142,16 @@ const Go = () => {
 				<button onClick={checkPass}>
 					{`${turn === "black" ? "Black" : "White"} Pass`}
 				</button>
+				<div>
+					<div className="go-score">Your score: {score}</div>
+					<div
+						className="cpu-option"
+						onClick={() => setCPU(CPU ? false : turn)}
+					>
+						{CPU ? "CPU on" : "CPU off"}
+					</div>
+					<div className="go-points">Points to win: {points}</div>
+				</div>
 			</div>
 			<div>
 				<div>black score: {blackScore}</div>

@@ -1,4 +1,5 @@
-import React, { useState, useEffet, useEffect } from "react";
+import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import Square from "./Square";
 import {
 	fastCreateSudokuSolution,
@@ -20,6 +21,8 @@ const Sudoku = () => {
 	const [solution, setSolution] = useState([[]]);
 	const [board, setBoard] = useState([[]]);
 	const [clicked, setClicked] = useState(false);
+	const [gameWon, setGameWon] = useState(false);
+	const score = useSelector((state) => state.session.user.sudoku_score);
 
 	useEffect(() => {
 		newGame();
@@ -59,7 +62,6 @@ const Sudoku = () => {
 
 	function handleClick(e) {
 		e.stopPropagation();
-		console.log(e.target.classList.contains("square"));
 		if (!e.target.classList.contains("square")) {
 			setClicked(false);
 		}
@@ -67,20 +69,10 @@ const Sudoku = () => {
 
 	useEffect(() => {
 		if (clicked) return;
-
-		// document is not ready yet, JS is loading first
-
 		document.addEventListener("DOMContentLoaded", () => {
 			const squares = document.querySelectorAll("td");
 			squares.forEach((square) => (square.id = ""));
-			console.log(squares);
 		});
-		// let squares = document.getElementsByTagName("td");
-		// console.log(squares)
-		// for (let i=0; i < squares.length; i++) {
-		//     console.log(squares[i])
-		//     squares[i].id = "";
-		// }
 
 		setClicked(false);
 
@@ -134,7 +126,8 @@ const Sudoku = () => {
 				<button onClick={reset} className="reset">
 					Reset
 				</button>
-				<div onClick={getHint}>Points to win: {points}</div>
+				<div className="sudoku-score">Your score: {score}</div>
+				<div className="sudoku-points">Points to win: {points}</div>
 				<div onClick={getHint}>Hint</div>
 			</div>
 			<table>
@@ -152,6 +145,7 @@ const Sudoku = () => {
 										board={board}
 										clicked={clicked}
 										setClicked={setClicked}
+										points={points}
 									/>
 								);
 							})}
