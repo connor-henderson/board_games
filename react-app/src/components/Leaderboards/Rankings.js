@@ -5,14 +5,16 @@ import sudokuIcon from "../../images/icons/sudoku.png";
 import chessIcon from "../../images/icons/knight.png";
 import gameOfLifeIcon from "../../images/icons/gameOfLife.png";
 import goIcon from "../../images/icons/go.png";
+import overallIcon from "../../images/logos/logo.png";
 
 export default function Rankings({ name, scores }) {
 	const user = useSelector((state) => state.session.user);
-	function matchIcon(gameName) {
-		if (gameName === "Sudoku") return sudokuIcon;
-		else if (gameName === "Chess") return chessIcon;
-		else if (gameName === "Game of Life") return gameOfLifeIcon;
-		else if (gameName === "Go") return goIcon;
+	function matchIcon(name) {
+		if (name === "Sudoku") return sudokuIcon;
+		else if (name === "Chess") return chessIcon;
+		else if (name === "Game of Life") return gameOfLifeIcon;
+		else if (name === "Go") return goIcon;
+		else if (name === "Overall") return overallIcon;
 		else return "Icon not found";
 	}
 	const icon = matchIcon(name);
