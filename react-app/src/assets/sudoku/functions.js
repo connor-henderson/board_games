@@ -10,7 +10,7 @@ const testBoard = [
 	[7, 4, 5, 2, 8, 6, 3, 1, 9],
 ];
 
-let testBoard1 = [
+const testBoard2 = [
 	["", 1, "", 5, 7, "", 4, 9, ""],
 	[5, "", 9, 1, "", 4, 7, "", ""],
 	[4, "", 7, "", "", 9, 5, "", 1],
@@ -33,7 +33,6 @@ function slowCreateSudokuSolution(board, i = 0, j = 0) {
 	for (let num = 1; num < 10; num++) {
 		if (isValid(board, i, j, num)) {
 			board[i][j] = num;
-			console.log(board);
 			if (slowCreateSudokuSolution(board, i, j)) return true;
 			board[i][j] = "";
 		}
@@ -377,8 +376,6 @@ function deleteEntry(nums, entry) {
 		[...entry].forEach((num) => nums.delete(num));
 	}
 }
-
-// Checks for finished board
 
 function checkRows(board) {
 	board.every((row) => {

@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { updateUserScore } from "../../store/session";
 import { glider } from "../../assets/gameOfLife/presetPositions";
 import "./GameOfLife.css";
 
@@ -17,12 +19,19 @@ const GameOfLife = () => {
 	const [speed, setSpeed] = useState(200);
 	const [mouseDown, setMouseDown] = useState(false);
 
+	const user = useSelector((state) => state.session.user);
+	const score = useSelector((state) => state.session.user.game_of_life_score);
+	const dispatch = useDispatch();
+
 	useEffect(() => {
 		newGame();
 	}, [size]);
 
 	useEffect(() => {
 		if (!life) return;
+		if (life === 1) {
+			dispatch(updateUserScore(user.id, "game_of_life", 1));
+		}
 
 		const generation = setTimeout(() => {
 			liveLife();
@@ -92,13 +101,7 @@ const GameOfLife = () => {
 			}
 		}
 
-		// Any live cell with fewer than two live neighbours dies, as if by underpopulation.
-		// Any live cell with two or three live neighbours lives on to the next generation.
-		// Any live cell with more than three live neighbours dies, as if by overpopulation.
-		// Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.
-
 		const numberOfNeighbours = neighbors.filter((cell) => cell).length;
-
 		if (alive) {
 			if (numberOfNeighbours > 1 && numberOfNeighbours < 4) return true;
 		} else {
@@ -185,6 +188,9 @@ const GameOfLife = () => {
 					>
 						Large
 					</div>
+				</div>
+				<div>
+					<div className="game-of-life-score"># Plays: {score}</div>
 				</div>
 			</div>
 			<button onClick={newGame} className="reset universe">

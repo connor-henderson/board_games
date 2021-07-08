@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { updateUserScore } from "../../store/session";
 import pieces, {
 	blackTopRow,
 	blackBottomRow,
@@ -12,6 +14,11 @@ import { getValidMoves, makeMove } from "../../assets/chess/moveFunctions";
 import "./Chess.css";
 
 const Chess = () => {
+	const [CPU, setCPU] = useState(false);
+	const [points, setPoints] = useState(0);
+	const user = useSelector((state) => state.session.user);
+	const score = useSelector((state) => state.session.user.chess_score);
+	const dispatch = useDispatch();
 	const [clicked, setClicked] = useState(false);
 	const [validMoves, setValidMoves] = useState(["0 0"]);
 	const [turn, setTurn] = useState("white");
@@ -40,10 +47,14 @@ const Chess = () => {
 	}, []);
 
 	useEffect(() => {
-		if (winner) {
-			console.log(winner, "wins!");
-		}
+		if (!winner || !CPU || winner === CPU) return;
+
+		dispatch(updateUserScore(user.id, "chess", points));
 	}, [winner]);
+
+	useEffect(() => {
+		setPoints(CPU ? 70 : 0);
+	}, [CPU]);
 
 	function newGame() {
 		const clicked = document.querySelector(".--clicked");
@@ -181,6 +192,16 @@ const Chess = () => {
 			<div className="chess-toggle">
 				<button onClick={newGame}>New Game</button>
 				<button onClick={flipBoard}>Flip</button>
+			</div>
+			<div>
+				<div className="chess-score">Your score: {score}</div>
+				<div
+					className="cpu-option"
+					onClick={() => setCPU(CPU ? false : turn)}
+				>
+					{CPU ? "CPU on" : "CPU off"}
+				</div>
+				<div className="chess-points">Points to win: {points}</div>
 			</div>
 			<div className="chess-pieces">
 				<div className="white lost-pieces">
