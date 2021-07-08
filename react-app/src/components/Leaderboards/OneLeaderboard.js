@@ -5,21 +5,22 @@ import Rankings from "./Rankings";
 import "./Leaderboards.css";
 
 export default function OneLeaderboard({ name }) {
-  const [loaded, setLoaded] = useState(false);
-  const dispatch = useDispatch();
-  const scores = useSelector((state) => state.leaderboards[name]);
+	const [loaded, setLoaded] = useState(false);
+	const dispatch = useDispatch();
+	const scores = useSelector((state) => state.leaderboards[name]);
 
-  useEffect(() => {
-    (async function () {
-      let api_game_name = name.toLowerCase().replace(/ /g, "_")
-      await dispatch(getOneLeaderboard(api_game_name));
-      setLoaded(true);
-    })();
-  }, []);
+	useEffect(() => {
+		(async function () {
+			let api_game_name = name.toLowerCase().replace(/ /g, "_");
+			await dispatch(getOneLeaderboard(api_game_name));
+			console.log(name, "worked");
+			setLoaded(true);
+		})();
+	}, []);
 
-  if (!loaded) {
-    return null;
-  }
+	if (!loaded) {
+		return null;
+	}
 
-  return <Rankings name={name} scores={scores} />;
+	return <Rankings name={name} scores={scores} />;
 }

@@ -193,20 +193,15 @@ const GameOfLife = () => {
 					<div className="game-of-life-score"># Plays: {score}</div>
 				</div>
 			</div>
-			<button onClick={newGame} className="reset universe">
-				Reset
+			<button
+				onClick={() => setLife(life ? 0 : life + 1)}
+				className="start-stop universe"
+			>
+				{!life ? "Start" : "Stop"}
 			</button>
 			{!life && (
-				<button
-					onClick={() => setLife(life + 1)}
-					className="start universe"
-				>
-					Start
-				</button>
-			)}
-			{life > 0 && (
-				<button onClick={() => setLife(0)} className="stop universe">
-					Stop
+				<button onClick={newGame} className="reset universe">
+					Reset
 				</button>
 			)}
 			<table>
