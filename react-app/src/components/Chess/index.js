@@ -16,6 +16,8 @@ const Chess = () => {
 	const [validMoves, setValidMoves] = useState(["0 0"]);
 	const [turn, setTurn] = useState("white");
 	const [board, setBoard] = useState([[]]);
+	const [whiteLostPieces, setWhiteLostPieces] = useState([]);
+	const [blackLostPieces, setBlackLostPieces] = useState([]);
 	const [teamOnTop, setTeamOnTop] = useState("black");
 	const [winner, setWinner] = useState(false);
 	const blackOnTopBoard = [
@@ -56,6 +58,8 @@ const Chess = () => {
 		setTurn("white");
 		setBoard(nextBoard);
 		setWinner(false);
+		setBlackLostPieces([]);
+		setWhiteLostPieces([]);
 	}
 
 	function makeMove(board, previousPosition, nextPosition) {
@@ -63,10 +67,13 @@ const Chess = () => {
 		const previousPiece = board[previousRow][previousCol];
 		const [nextRow, nextCol] = nextPosition.split(" ");
 
-		if (board[nextRow][nextCol].name === "king") {
-			setWinner(turn);
-		}
+		const pieceTaken = board[nextRow][nextCol];
 
+		if (pieceTaken.team === "white")
+			setWhiteLostPieces(whiteLostPieces.concat(pieceTaken));
+		if (pieceTaken.team === "black")
+			setBlackLostPieces(blackLostPieces.concat(pieceTaken));
+		if (pieceTaken.name === "king") setWinner(turn);
 		if (previousPiece.name === "pawn" && (nextRow == 0 || nextRow == 7)) {
 			if (previousPiece.team === "black") {
 				board[nextRow][nextCol] = pieces.queenB;
@@ -175,6 +182,28 @@ const Chess = () => {
 				<button onClick={newGame}>New Game</button>
 				<button onClick={flipBoard}>Flip</button>
 			</div>
+			<div className="chess-pieces">
+				<div className="white lost-pieces">
+					{whiteLostPieces.map((piece, j) => (
+						<img
+							className="lost-piece"
+							key={j}
+							src={piece.image}
+							alt={piece.name}
+						/>
+					))}
+				</div>
+				<div className="black lost-pieces">
+					{blackLostPieces.map((piece, i) => (
+						<img
+							className="lost-piece"
+							key={i}
+							src={piece.image}
+							alt={piece.name}
+						/>
+					))}
+				</div>
+			</div>
 			<table className="chess">
 				<tbody className="chess">
 					{board.map((row, i) => (
@@ -192,7 +221,7 @@ const Chess = () => {
 										onMouseEnter={handleMouseEnter}
 										onMouseLeave={handleMouseLeave}
 									>
-										{board[i][j].image !== undefined && (
+										{board[i][j].image && (
 											<img
 												className="piece-image"
 												src={board[i][j].image}

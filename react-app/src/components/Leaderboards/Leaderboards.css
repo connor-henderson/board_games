@@ -1,57 +1,58 @@
 div.toggle {
-    display: flex;
-    flex-direction: row;
-    margin-top: 1.5em;
-    margin-left: 6em;
-    border: 1px solid black;
-    border-radius: 5px;
-    width: fit-content;
+	display: flex;
+	flex-direction: row;
+	margin-top: 1.5em;
+	margin-left: 6em;
+	border: 1px solid black;
+	border-radius: 5px;
+	width: fit-content;
 }
 
 div.toggle > * {
-    padding: 4px 4px;
-    border-right: 1px solid black;
+	padding: 4px 4px;
+	border-right: 1px solid black;
 }
 
 div.go {
-    border: none;
+	border: none;
 }
 
 div.--active {
-    background-image: linear-gradient(to bottom right, rgb(199, 165, 72), #eee);
+	background-image: linear-gradient(to bottom right, rgb(199, 165, 72), #eee);
 }
 
 div.toggle > *:hover {
-    cursor: pointer;
-    background-image: linear-gradient(to bottom right, rgb(199, 165, 72), #eee);
+	cursor: pointer;
+	background-image: linear-gradient(to bottom right, rgb(199, 165, 72), #eee);
 }
 
 div.toggle > *:active {
-    box-shadow: inset 2px 2px 1px black,
-              inset 2px 3px 5px rgba(0,0,0,0.3),
-              inset -2px -3px 5px rgba(255,255,255,0.5);
+	box-shadow: inset 2px 2px 1px black, inset 2px 3px 5px rgba(0, 0, 0, 0.3),
+		inset -2px -3px 5px rgba(255, 255, 255, 0.5);
 }
 
 div.leaderboards-container {
-    display: flex;
-    flex-flow: row wrap;
-    margin: 0;
-    padding: 0;
-    justify-content: center;
+	display: flex;
+	flex-flow: row wrap;
+	margin: 0;
+	padding: 0;
+	justify-content: center;
 }
 
 div.leaderboards-container > *:nth-child(2n) {
-    flex-basis: 50%;
+	flex-basis: 50%;
 }
 
 div.one-leaderboard {
-    width: fit-content;
-    min-width: 300px;
-    border: 1px solid black;
-
+	width: fit-content;
+	min-width: 300px;
+	border: 1px solid black;
 }
 
 td {
-    padding: 0px;
+	padding: 0px;
+}
 
+tr.user {
+	background-color: rgb(255, 214, 101);
 }
