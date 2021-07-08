@@ -103,6 +103,8 @@ const Go = () => {
 		const nextBoard = updateClickedSquare(board, rowNum, colNum, turn);
 		if (!nextBoard) return;
 		countCaptures(nextBoard);
+		// need to account for kou territories at the end of the game
+		// need to account for borders
 		countTerritories(nextBoard);
 		setBoard(nextBoard);
 		setPasses(0);
