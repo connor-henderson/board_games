@@ -92,6 +92,7 @@ export default function Square({
 					? `row-${i} col-${j} preset square`
 					: `row-${i} col-${j} unset square`
 			}
+			suppressContentEditableWarning={true}
 			contentEditable={!gameWon && !num}
 		>
 			{guess}

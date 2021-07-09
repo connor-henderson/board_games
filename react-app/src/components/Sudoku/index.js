@@ -7,6 +7,7 @@ import {
 	createSudokuBoard,
 	generateRandomIdx,
 } from "../../assets/sudoku/functions";
+import lightBulb from "../../images/sudoku/lightBulb.png";
 import "./Sudoku.css";
 
 const Sudoku = () => {
@@ -20,6 +21,7 @@ const Sudoku = () => {
 	const [points, setPoints] = useState(difficulty);
 	const [solution, setSolution] = useState([[]]);
 	const [board, setBoard] = useState([[]]);
+	const [hintMessage, setHintMessage] = useState(false);
 	const [clicked, setClicked] = useState(false);
 	const [gameWon, setGameWon] = useState(false);
 	const score = useSelector((state) => state.session.user.sudoku_score);
@@ -60,6 +62,18 @@ const Sudoku = () => {
 		setPoints((points) => points - 1);
 	};
 
+	const showHintDesc = (e) => {
+		const hintEle = document.querySelector(".hint");
+		hintEle.classList.remove("--hidden");
+		hintEle.style.left = e.clientX + "px";
+		hintEle.style.top = e.clientY + "px";
+	};
+
+	const hideHintDesc = (e) => {
+		const hintEle = document.querySelector(".hint");
+		hintEle.classList.add("--hidden");
+	};
+
 	function handleClick(e) {
 		e.stopPropagation();
 		if (!e.target.classList.contains("square")) {
@@ -83,52 +97,66 @@ const Sudoku = () => {
 	}, [clicked]);
 
 	return (
-		<div onClick={handleClick}>
+		<div className="game sudoku" onClick={handleClick}>
 			<div className="win-message --hidden">You win!</div>
 			<div className="game-nav">
-				<div className="difficulty-toggle toggle">
-					<div
-						className={difficulty === cinch ? "--active" : ""}
-						onClick={() => setDifficulty(cinch)}
-					>
-						Cinch
-					</div>
-					<div
-						className={difficulty === easy ? "--active" : ""}
-						onClick={() => setDifficulty(easy)}
-					>
-						Easy
-					</div>
-					<div
-						className={difficulty === medium ? "--active" : ""}
-						onClick={() => setDifficulty(medium)}
-					>
-						Medium
-					</div>
-					<div
-						className={difficulty === hard ? "--active" : ""}
-						onClick={() => setDifficulty(hard)}
-					>
-						Hard
-					</div>
-					<div
-						className={
-							difficulty === evil ? "evil --active" : "evil"
-						}
-						onClick={() => setDifficulty(evil)}
-					>
-						Evil
+				<div className="sudoku-info">
+					<div className="difficulty-toggle toggle">
+						<div
+							className={difficulty === cinch ? "--active" : ""}
+							onClick={() => setDifficulty(cinch)}
+						>
+							Cinch
+						</div>
+						<div
+							className={difficulty === easy ? "--active" : ""}
+							onClick={() => setDifficulty(easy)}
+						>
+							Easy
+						</div>
+						<div
+							className={difficulty === medium ? "--active" : ""}
+							onClick={() => setDifficulty(medium)}
+						>
+							Medium
+						</div>
+						<div
+							className={difficulty === hard ? "--active" : ""}
+							onClick={() => setDifficulty(hard)}
+						>
+							Hard
+						</div>
+						<div
+							className={
+								difficulty === evil ? "evil --active" : "evil"
+							}
+							onClick={() => setDifficulty(evil)}
+						>
+							Evil
+						</div>
 					</div>
 				</div>
-				<button onClick={newGame} className="new-game">
-					New Game
-				</button>
-				<button onClick={reset} className="reset">
-					Reset
-				</button>
-				<div className="sudoku-score">Your score: {score}</div>
-				<div className="sudoku-points">Points to win: {points}</div>
-				<div onClick={getHint}>Hint</div>
+				<div className="scores">
+					<div className="sudoku-points">Points to win: {points}</div>
+					<div className="sudoku-score">Your score: {score}</div>
+				</div>
+				<div className="sudoku-buttons">
+					<button onClick={newGame} className="new-game">
+						New Game
+					</button>
+					<button onClick={reset} className="reset">
+						Reset
+					</button>
+					<p className="hint --hidden">Hint</p>
+					<img
+						className="hint"
+						onMouseEnter={showHintDesc}
+						onMouseLeave={hideHintDesc}
+						onClick={getHint}
+						src={lightBulb}
+						alt="hint"
+					/>
+				</div>
 			</div>
 			<table>
 				<tbody>

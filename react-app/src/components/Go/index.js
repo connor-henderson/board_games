@@ -11,7 +11,7 @@ import "./Go.css";
 const Go = () => {
 	// In reference to the board's values:
 	// w = white, b = black, wc = stone captured by white, bc = stone captured by white, x = non-playable,
-	// "" = playable, "ko turns: #" = ko, "bp"/"wp" = priority, keep on board
+	// "" = playable, "ko-" = ko, "bp"/"wp" = priority, keep on board
 
 	const [board, setBoard] = useState([[]]);
 	const [hideTerritories, setHideTerritories] = useState(true);
