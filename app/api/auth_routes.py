@@ -28,7 +28,7 @@ def authenticate():
     return {'errors': ['Unauthorized']}
 
 
-@auth_routes.route('/login', methods=['POST'])
+@auth_routes.route('/login/', methods=['POST'])
 def login():
     """
     Logs a user in
@@ -46,7 +46,7 @@ def login():
     return {'errors': validation_errors_to_error_messages(form.errors)}, 401
 
 
-@auth_routes.route('/logout')
+@auth_routes.route('/logout/')
 def logout():
     """
     Logs a user out
@@ -75,7 +75,7 @@ def sign_up():
     return {'errors': validation_errors_to_error_messages(form.errors)}, 401
 
 
-@auth_routes.route('/unauthorized')
+@auth_routes.route('/unauthorized/')
 def unauthorized():
     """
     Returns unauthorized JSON when flask-login authentication fails

@@ -38,7 +38,7 @@ export const authenticate = () => async (dispatch) => {
 };
 
 export const login = (email, password) => async (dispatch) => {
-	const response = await fetch("/api/auth/login", {
+	const response = await fetch("/api/auth/login/", {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",
@@ -57,7 +57,7 @@ export const login = (email, password) => async (dispatch) => {
 };
 
 export const logout = () => async (dispatch) => {
-	await fetch("/api/auth/logout", {
+	await fetch("/api/auth/logout/", {
 		headers: {
 			"Content-Type": "application/json",
 		},
@@ -66,7 +66,7 @@ export const logout = () => async (dispatch) => {
 };
 
 export const signUp = (username, email, password) => async (dispatch) => {
-	const response = await fetch("/api/auth/signup", {
+	const response = await fetch("/api/auth/signup/", {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",
@@ -86,7 +86,7 @@ export const signUp = (username, email, password) => async (dispatch) => {
 };
 
 export const updateUserScore = (userId, game, points) => async (dispatch) => {
-	const response = await fetch(`/api/users/${userId}/games/${game}`, {
+	const response = await fetch(`/api/users/${userId}/games/${game}/`, {
 		method: "PATCH",
 		headers: {
 			"Content-Type": "application/json",

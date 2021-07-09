@@ -1,5 +1,6 @@
 table {
 	margin-top: 3px;
+	border-spacing: 0px;
 }
 
 tbody.chess {
@@ -10,6 +11,7 @@ tbody.chess {
 	width: fit-content;
 	margin: 0;
 	margin-bottom: 30px;
+	border-style: outset;
 }
 
 td.chess {
@@ -89,4 +91,9 @@ div.chess-toggle {
 	margin-top: 10px;
 	justify-content: space-between;
 	align-items: flex-end;
+}
+
+div.win-message.chess {
+	top: 200px;
+	font-size: 20px;
 }

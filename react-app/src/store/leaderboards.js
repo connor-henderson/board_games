@@ -9,7 +9,7 @@ const addLeaderboards = (type, payload) => ({
 });
 
 export const getAllLeaderboards = () => async (dispatch) => {
-	const response = await fetch("/api/leaderboards", {
+	const response = await fetch("/api/leaderboards/", {
 		headers: {
 			"Content-Type": "application/json",
 		},

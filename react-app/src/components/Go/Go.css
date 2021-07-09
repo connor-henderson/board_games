@@ -113,3 +113,85 @@ i#horizontal-col-18 {
 	position: relative;
 	left: -50%;
 }
+
+div.game-nav.go {
+	width: 500px;
+	margin-top: 30px;
+	display: flex;
+	position: relative;
+	left: 27%;
+	text-align: center;
+}
+
+div.white-black-score {
+	display: flex;
+	justify-content: space-between;
+}
+
+div.white-scores {
+	text-align: right;
+}
+
+div.black-scores {
+	text-align: left;
+}
+
+div#wscore {
+	font-weight: bold;
+	border: 1px solid black;
+	border-radius: 5%;
+	padding: 1px 2px;
+}
+
+div#bscore {
+	font-weight: bold;
+	border: 1px solid black;
+	border-radius: 5%;
+	padding: 1px 2px;
+	color: white;
+	background-color: black;
+}
+
+div#go {
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+	position: relative;
+}
+
+div.go-score {
+	display: flex;
+	margin: 10px 0;
+	align-items: center;
+	justify-content: space-between;
+	font-weight: bold;
+	position: relative;
+}
+
+div.game-buttons {
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-end;
+	margin: 6px 0;
+}
+
+div.main-buttons {
+	display: flex;
+	align-items: flex-end;
+}
+
+div.pass {
+	display: flex;
+	margin-right: 118px;
+	justify-self: flex-start;
+}
+
+button#hideTerritory {
+	position: absolute;
+	left: 45%;
+	top: 45%;
+}
+
+div.win-message.go {
+	font-size: 20px;
+}

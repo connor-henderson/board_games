@@ -10,20 +10,14 @@ export default function OneGame({ game }) {
 		<div
 			onClick={() => history.push(`/games/${game.url}`)}
 			className="one-game-container"
+			onMouseEnter={() => setHoverImage(true)}
+			onMouseLeave={() => setHoverImage(false)}
 		>
 			<div className="game-picture">
-				<img
-					src={game.icon}
-					alt={`${game.name} icon`}
-					style={{ height: "80px", width: "80px" }}
-					onMouseEnter={() => setHoverImage(true)}
-					onMouseLeave={() => setHoverImage(false)}
-				/>
-				{hoverImage && (
-					<div className="hover-text">{game.description}</div>
-				)}
+				{hoverImage && game.description}
+				<img src={game.board} alt={`${game.name} icon`} />
 			</div>
-			<h3>{game.name}</h3>
+			<h3 className="game-name">{game.name}</h3>
 		</div>
 	);
 }

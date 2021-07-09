@@ -75,13 +75,14 @@ div.game-of-life.presets {
 	width: 250px;
 }
 
-div.preset {
+div.presets.score {
 	display: flex;
-	flex-direction: column;
 	justify-content: space-between;
-	align-items: space-between;
-	justify-content: center;
-	cursor: pointer;
+	width: 500px;
+}
+
+div.pre {
+	margin-right: 20px;
 }
 
 label.speed {

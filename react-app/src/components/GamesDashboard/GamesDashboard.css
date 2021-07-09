@@ -4,29 +4,55 @@ div.game-picture > * {
 }
 
 div.all-games-container {
-	margin: 0;
 	padding: 0;
-	display: grid;
+	display: flex;
+	flex-flow: row wrap;
+	justify-content: center;
+	margin: 30px 0;
 }
 
 div.one-game-container {
 	display: flex;
 	flex-direction: column;
 	justify-content: space-around;
-	margin: 20px 20px;
+	margin: 0px 50px;
+	margin-top: 30px;
 	align-items: center;
 	border: 1px solid black;
 	border-radius: 5%;
-	width: 250px;
-	height: 250px;
+	width: 270px;
+	height: 270px;
 	cursor: pointer;
 }
 
-div.game-picture {
-	border: 1px solid black;
-	border-radius: 5%;
+div.one-game-container:hover > img {
+	opacity: 50%;
 }
 
-div.game-picture:hover {
-	opacity: 50%;
+div.game-picture {
+	margin-top: 20px;
+	height: 200px;
+	width: 200px;
+	position: relative;
+	font-size: 14px;
+	text-decoration: double;
+	-webkit-text-stroke: 1px rgb(107, 81, 9);
+	opacity: 100%;
+	text-align: center;
+	vertical-align: middle;
+	display: flex;
+	align-items: center;
+	margin: 10px 10px;
+}
+
+div.game-picture > img:hover {
+	opacity: 20%;
+}
+
+div.game-picture > img {
+	top: 0;
+	left: 0;
+	position: absolute;
+	height: 105%;
+	width: 100%;
 }

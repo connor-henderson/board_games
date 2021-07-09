@@ -24,8 +24,10 @@ const Go = () => {
 	const dispatch = useDispatch();
 
 	const [blackCaptures, setBlackCaptures] = useState(0);
+	const [blackTerritory, setBlackTerritory] = useState(0);
 	const [blackScore, setBlackScore] = useState(0);
 	const [whiteCaptures, setWhiteCaptures] = useState(0);
+	const [whiteTerritory, setWhiteTerritory] = useState(0);
 	const [whiteScore, setWhiteScore] = useState(6.5);
 
 	// end game options
@@ -67,17 +69,19 @@ const Go = () => {
 	}
 
 	function countTerritories(nextBoard) {
-		let blackTerritory = 0;
-		let whiteTerritory = 0;
+		let newBlackTerritory = 0;
+		let newWhiteTerritory = 0;
 
 		nextBoard.forEach((row) => {
 			row.forEach((square) => {
-				if (square === "bx" || square === "bc") blackTerritory += 1;
+				if (square === "bx" || square === "bc") newBlackTerritory += 1;
 				else if (square === "wx" || square === "wc")
-					whiteTerritory += 1;
+					newWhiteTerritory += 1;
 			});
 		});
 
+		setBlackTerritory(blackTerritory + newBlackTerritory);
+		setWhiteTerritory(whiteTerritory + newWhiteTerritory);
 		setBlackScore(blackTerritory - whiteCaptures);
 		setWhiteScore(whiteScore + whiteTerritory - blackCaptures);
 	}
@@ -127,37 +131,50 @@ const Go = () => {
 	}
 
 	return (
-		<>
-			{winner && `${winner} wins`}
-			<div className="go-toggle">
-				<button onClick={newGame}>New Game</button>
-				<button onClick={() => setBoard(fillRandomBoard())}>
-					Fill random board
-				</button>
-				<button onClick={() => setHideTerritories(!hideTerritories)}>
-					{`${hideTerritories ? "Show" : "Hide"} Territories`}
-				</button>
-				<button onClick={checkPass}>
-					{`${turn === "black" ? "Black" : "White"} Pass`}
-				</button>
-				<div>
+		<div id="go">
+			<div className="win-message go">{winner && `${winner} wins!`}</div>
+			<div className="game-nav go">
+				<div className="white-black-score">
+					<div className="black-scores">
+						<div id="bscore">Black score {blackScore}</div>
+						<div>Territories: {blackTerritory}</div>
+						<div>Captures: {blackCaptures}</div>
+					</div>
+					<div className="white-scores">
+						<div id="wscore">White score {whiteScore}</div>
+						<div>Territories: {whiteTerritory}</div>
+						<div>Captures: {whiteCaptures}</div>
+					</div>
+				</div>
+				<div className="go-score">
 					<div className="go-score">Your score: {score}</div>
+					<button
+						id="hideTerritory"
+						onClick={() => setHideTerritories(!hideTerritories)}
+					>
+						{`${hideTerritories ? "Show" : "Hide"} Territories`}
+					</button>
+					<div className="go-points">Points to win: {points}</div>
+				</div>
+				<div className="game-buttons">
+					<div className="main-buttons">
+						<button onClick={newGame}>New Game</button>
+						<button onClick={() => setBoard(fillRandomBoard())}>
+							Fill board
+						</button>
+					</div>
+					<div className="pass">
+						<button onClick={checkPass}>
+							{`${turn === "black" ? "Black" : "White"} Pass`}
+						</button>
+					</div>
 					<div
 						className="cpu-option"
 						onClick={() => setCPU(CPU ? false : turn)}
 					>
 						{CPU ? "CPU on" : "CPU off"}
 					</div>
-					<div className="go-points">Points to win: {points}</div>
 				</div>
-			</div>
-			<div>
-				<div>black score: {blackScore}</div>
-				<div>white score: {whiteScore}</div>
-			</div>
-			<div>
-				<div>black captures: {blackCaptures}</div>
-				<div>white captures: {whiteCaptures}</div>
 			</div>
 			<table className="go">
 				<tbody className="go">
@@ -199,7 +216,7 @@ const Go = () => {
 					))}
 				</tbody>
 			</table>
-		</>
+		</div>
 	);
 };
 
