@@ -3,10 +3,12 @@ table {
 }
 
 tbody.go {
-	background-image: url(../../images/go/go_board.jpg);
+	background-image: url(../../images/go/go_board_2.jpg);
+	background-size: cover;
 	padding: 10px 10px;
 	width: auto;
 	height: auto;
+	z-index: -2;
 }
 
 td.go {
@@ -31,7 +33,7 @@ td.white-hover {
 	float: left;
 	margin: 0;
 	position: relative;
-	z-index: 0;
+	z-index: -1;
 	bottom: 50%;
 	left: 0;
 }
@@ -43,7 +45,7 @@ td.white-hover {
 	float: left;
 	margin: 0;
 	position: relative;
-	z-index: 0;
+	z-index: -1;
 	top: 0;
 	left: 50%;
 }
@@ -67,14 +69,18 @@ td.b > i {
 
 td.ko-b,
 td.bc {
+	position: relative;
 	background-image: url(../../images/go/white_border.png);
 	background-size: contain;
+	z-index: 2;
 }
 
 td.ko-w,
 td.wc {
+	position: relative;
 	background-image: url(../../images/go/black_border.png);
 	background-size: contain;
+	z-index: 2;
 }
 
 td.wx {
@@ -87,15 +93,23 @@ td.bx {
 	background-size: contain;
 }
 
+i {
+	z-index: 1;
+}
+
 i#vertical-row-0 {
-	top: 50%;
+	position: relative;
+	top: 52%;
 }
 i#vertical-row-18 {
-	top: -50%;
+	position: relative;
+	top: -45%;
 }
 i#horizontal-col-0 {
+	position: relative;
 	left: 50%;
 }
 i#horizontal-col-18 {
+	position: relative;
 	left: -50%;
 }

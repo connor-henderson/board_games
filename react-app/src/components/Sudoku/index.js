@@ -21,14 +21,8 @@ const Sudoku = () => {
 	const [points, setPoints] = useState(difficulty);
 	const [solution, setSolution] = useState([[]]);
 	const [board, setBoard] = useState([[]]);
-	const [hintMessage, setHintMessage] = useState(false);
 	const [clicked, setClicked] = useState(false);
-	const [gameWon, setGameWon] = useState(false);
 	const score = useSelector((state) => state.session.user.sudoku_score);
-
-	useEffect(() => {
-		newGame();
-	}, [difficulty]);
 
 	const newGame = () => {
 		let solutionBoard = createSudokuBoard();
@@ -95,6 +89,10 @@ const Sudoku = () => {
 			squares.forEach((square) => (square.id = ""));
 		});
 	}, [clicked]);
+
+	useEffect(() => {
+		newGame();
+	}, [difficulty]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	return (
 		<div className="game sudoku" onClick={handleClick}>

@@ -7,10 +7,8 @@ import pieces, {
 	middleRows,
 	whiteTopRow,
 	whiteBottomRow,
-	whiteTeam,
-	blackTeam,
 } from "../../assets/chess/piecesInfo";
-import { getValidMoves, makeMove } from "../../assets/chess/moveFunctions";
+import { getValidMoves } from "../../assets/chess/moveFunctions";
 import "./Chess.css";
 
 const Chess = () => {
@@ -44,13 +42,13 @@ const Chess = () => {
 
 	useEffect(() => {
 		newGame();
-	}, []);
+	}, []); // eslint-disable-line react-hooks/exhaustive-deps
 
 	useEffect(() => {
 		if (!winner || !CPU || winner === CPU) return;
 
 		dispatch(updateUserScore(user.id, "chess", points));
-	}, [winner]);
+	}, [winner, CPU, dispatch, user.id, points]);
 
 	useEffect(() => {
 		setPoints(CPU ? 70 : 0);
@@ -61,10 +59,11 @@ const Chess = () => {
 		if (clicked) {
 			clicked.classList.remove("--clicked");
 		}
+		let nextBoard;
 		if (teamOnTop === "black") {
-			var nextBoard = JSON.parse(JSON.stringify(blackOnTopBoard));
+			nextBoard = JSON.parse(JSON.stringify(blackOnTopBoard));
 		} else {
-			var nextBoard = JSON.parse(JSON.stringify(whiteOnTopBoard));
+			nextBoard = JSON.parse(JSON.stringify(whiteOnTopBoard));
 		}
 		setTurn("white");
 		setBoard(nextBoard);
@@ -85,7 +84,10 @@ const Chess = () => {
 		if (pieceTaken.team === "black")
 			setBlackLostPieces(blackLostPieces.concat(pieceTaken));
 		if (pieceTaken.name === "king") setWinner(turn);
-		if (previousPiece.name === "pawn" && (nextRow == 0 || nextRow == 7)) {
+		if (
+			previousPiece.name === "pawn" &&
+			(+nextRow === 0 || +nextRow === 7)
+		) {
 			if (previousPiece.team === "black") {
 				board[nextRow][nextCol] = pieces.queenB;
 			} else {

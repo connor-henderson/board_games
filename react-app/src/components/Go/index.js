@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { updateUserScore } from "../../store/session";
-import updateBoard, { updateClickedSquare } from "../../assets/go/updateBoard";
 import {
-	checkEyesBoard,
-	checkEyesBoard2,
-} from "../../assets/go/presetPositions";
+	updateClickedSquare,
+	fillRandomBoard,
+} from "../../assets/go/updateBoard";
 import "./Go.css";
 
 const Go = () => {
@@ -24,10 +23,8 @@ const Go = () => {
 	const score = useSelector((state) => state.session.user.go_score);
 	const dispatch = useDispatch();
 
-	const [blackStones, setBlackStones] = useState(181);
 	const [blackCaptures, setBlackCaptures] = useState(0);
 	const [blackScore, setBlackScore] = useState(0);
-	const [whiteStones, setWhiteStones] = useState(180);
 	const [whiteCaptures, setWhiteCaptures] = useState(0);
 	const [whiteScore, setWhiteScore] = useState(6.5);
 
@@ -41,7 +38,7 @@ const Go = () => {
 		if (!winner || !CPU || winner === CPU) return;
 
 		dispatch(updateUserScore(user.id, "go", points));
-	}, [winner]);
+	}, [winner, CPU, user.id, points, dispatch]);
 
 	useEffect(() => {
 		setPoints(CPU ? 100 : 0);
@@ -60,14 +57,12 @@ const Go = () => {
 			.fill([])
 			.map((row) => new Array(19).fill(""));
 		setTurn("black");
-		setBoard(checkEyesBoard2);
+		setBoard(newBoard);
 		setWinner(false);
 		setBlackScore(0);
 		setWhiteScore(6.5);
 		setBlackCaptures(0);
 		setWhiteCaptures(0);
-		setBlackStones(181);
-		setWhiteStones(180);
 		setPasses(0);
 	}
 
@@ -136,6 +131,9 @@ const Go = () => {
 			{winner && `${winner} wins`}
 			<div className="go-toggle">
 				<button onClick={newGame}>New Game</button>
+				<button onClick={() => setBoard(fillRandomBoard())}>
+					Fill random board
+				</button>
 				<button onClick={() => setHideTerritories(!hideTerritories)}>
 					{`${hideTerritories ? "Show" : "Hide"} Territories`}
 				</button>

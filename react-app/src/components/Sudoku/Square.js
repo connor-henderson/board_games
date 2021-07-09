@@ -26,7 +26,7 @@ export default function Square({
 		board[i][j] = guess;
 		if (JSON.stringify(board) === JSON.stringify(solution))
 			setGameWon(true);
-	}, [guess]);
+	}, [guess, board, i, j, solution]);
 
 	useEffect(() => {
 		const winMessage = document.querySelector(".win-message");
@@ -36,7 +36,7 @@ export default function Square({
 		} else {
 			winMessage.classList.add("--hidden");
 		}
-	}, [gameWon]);
+	}, [gameWon, dispatch, points, user.id]);
 
 	const getBoxSquares = (rowStart, colStart) => {
 		let boxSquares = [];

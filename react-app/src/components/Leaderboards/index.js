@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import AllLeaderboards from "./AllLeaderboards";
 import OneLeaderboard from "./OneLeaderboard";
 import "./Leaderboards.css";
 
 export default function Leaderboard() {
-	const [loaded, setLoaded] = useState(false);
 	const [showTop10s, setShowTop10s] = useState(true);
 	const [showSudoku, setShowSudoku] = useState(false);
 	const [showChess, setShowChess] = useState(false);

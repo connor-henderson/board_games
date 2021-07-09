@@ -13,10 +13,9 @@ export default function OneLeaderboard({ name }) {
 		(async function () {
 			let api_game_name = name.toLowerCase().replace(/ /g, "_");
 			await dispatch(getOneLeaderboard(api_game_name));
-			console.log(name, "worked");
 			setLoaded(true);
 		})();
-	}, []);
+	}, [dispatch, name]);
 
 	if (!loaded) {
 		return null;

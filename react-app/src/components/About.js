@@ -7,7 +7,7 @@ export default function About() {
 	return (
 		<>
 			<div className="about-container">
-				<img src={headshot} className="headshot"></img>
+				<img src={headshot} alt="headshot" className="headshot"></img>
 				<p>
 					This website is for enjoying the logic of computers, board
 					games, and writing board games on computers
@@ -18,12 +18,14 @@ export default function About() {
 					<img
 						style={{ heigth: "30px", width: "30px" }}
 						src={github}
+						alt="Github"
 					/>
 				</a>
 				<a href="https://www.linkedin.com/in/connor-henderson-833504123/">
 					<img
 						style={{ heigth: "30px", width: "30px" }}
 						src={linkedIn}
+						alt="LinkedIn"
 					/>
 				</a>
 			</div>

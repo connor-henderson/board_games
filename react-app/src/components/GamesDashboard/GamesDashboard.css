@@ -1,4 +1,32 @@
 div.game-picture > * {
-    position: relative;
-    top: 0;
+	position: relative;
+	top: 0;
+}
+
+div.all-games-container {
+	margin: 0;
+	padding: 0;
+	display: grid;
+}
+
+div.one-game-container {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+	margin: 20px 20px;
+	align-items: center;
+	border: 1px solid black;
+	border-radius: 5%;
+	width: 250px;
+	height: 250px;
+	cursor: pointer;
+}
+
+div.game-picture {
+	border: 1px solid black;
+	border-radius: 5%;
+}
+
+div.game-picture:hover {
+	opacity: 50%;
 }

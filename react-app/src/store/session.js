@@ -7,11 +7,6 @@ const SET_GAME_OF_LIFE_SCORE = "session/SET_GAME_OF_LIFE_SCORE";
 const SET_CHESS_SCORE = "session/SET_CHESS_SCORE";
 const SET_GO_SCORE = "session/SET_GO_SCORE";
 
-const REMOVE_SUDOKU_SCORE = "session/REMOVE_SUDOKU_SCORE";
-const REMOVE_GAME_OF_LIFE_SCORE = "session/REMOVE_GAME_OF_LIFE_SCORE";
-const REMOVE_CHESS_SCORE = "session/REMOVE_CHESS_SCORE";
-const REMOVE_GO_SCORE = "session/REMOVE_GO_SCORE";
-
 // action creators
 const setUser = (user) => ({
 	type: SET_USER,
@@ -26,11 +21,6 @@ const setGameOfLifeScore = (user) => ({
 });
 const setChessScore = (user) => ({ type: SET_CHESS_SCORE, payload: user });
 const setGoScore = (user) => ({ type: SET_GO_SCORE, payload: user });
-
-const removeSudokuScore = () => ({ type: REMOVE_SUDOKU_SCORE });
-const removeGameOfLifeScore = () => ({ type: REMOVE_GAME_OF_LIFE_SCORE });
-const removeChessScore = () => ({ type: REMOVE_CHESS_SCORE });
-const removeGoScore = () => ({ type: REMOVE_GO_SCORE });
 
 // thunks
 
@@ -67,12 +57,11 @@ export const login = (email, password) => async (dispatch) => {
 };
 
 export const logout = () => async (dispatch) => {
-	const response = await fetch("/api/auth/logout", {
+	await fetch("/api/auth/logout", {
 		headers: {
 			"Content-Type": "application/json",
 		},
 	});
-	const data = await response.json();
 	dispatch(removeUser());
 };
 
