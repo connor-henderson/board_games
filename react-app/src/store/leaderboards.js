@@ -20,7 +20,7 @@ export const getAllLeaderboards = () => async (dispatch) => {
 };
 
 export const getOneLeaderboard = (gameName) => async (dispatch) => {
-	const response = await fetch(`/api/leaderboards/${gameName}`);
+	const response = await fetch(`/api/leaderboards/${gameName}/`);
 	const data = await response.json();
 	if (data.errors) return;
 	dispatch(addLeaderboards(GET_ONE_LEADERBOARD, data));
