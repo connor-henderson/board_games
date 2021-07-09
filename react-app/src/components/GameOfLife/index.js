@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { updateUserScore } from "../../store/session";
-import { glider } from "../../assets/gameOfLife/presetPositions";
+import { glider, oscillator } from "../../assets/gameOfLife/presetPositions";
+import gliderImg from "../../images/gameOfLife/glider.png";
+import oscillatorImg from "../../images/gameOfLife/oscillator2.png";
 import "./GameOfLife.css";
 
 const GameOfLife = () => {
-	const small = { rows: 15, columns: 30 };
-	const medium = { rows: 30, columns: 60 };
-	const large = { rows: 45, columns: 90 };
+	const small = { rows: 20, columns: 30 };
+	const medium = { rows: 33, columns: 50 };
+	const large = { rows: 45, columns: 70 };
 
 	// const slow = 1000;
 	// const moderate = 200;
@@ -42,6 +44,8 @@ const GameOfLife = () => {
 	}, [life]);
 
 	function newGame() {
+		if (life) setLife(!life);
+
 		const newUniverse = [];
 		for (let i = 0; i < size.rows; i++) {
 			const row = [];
@@ -126,49 +130,15 @@ const GameOfLife = () => {
 
 			const editedUniverse = JSON.parse(JSON.stringify(universe));
 			editedUniverse[rowNum][colNum] = true;
+			console.log(editedUniverse);
 
 			setUniverse(editedUniverse);
 		}
 	}
 
 	return (
-		<>
-			<div className="game-of-life-toggle">
-				<label htmlFor="speed">Speed</label>
-				<input
-					type="range"
-					name="speed"
-					max="-5"
-					min="-1000"
-					value={-speed}
-					onChange={(e) => setSpeed(Math.abs(e.target.value))}
-					step="1"
-				></input>
-				{/* <div className="speed-toggle toggle">
-				<div
-						className={speed === slow ? "--active" : ""}
-						onClick={() => setSpeed(slow)}
-					>
-						Slow
-					</div>
-					<div
-						className={speed === moderate ? "--active" : ""}
-						onClick={() => setSpeed(moderate)}
-					>
-						Moderate
-					</div>
-					<div
-						className={speed === fast ? "--active" : ""}
-						onClick={() => setSpeed(fast)}
-					>
-						Fast
-					</div>
-				</div> */}
-				<div className="game-of-life presets">
-					<div onClick={() => setUniverse(glider(universe))}>
-						Glider
-					</div>
-				</div>
+		<div className="game game-of-life">
+			<div className="game-nav">
 				<div className="size-toggle toggle">
 					<div
 						className={size.rows === small.rows ? "--active" : ""}
@@ -189,21 +159,59 @@ const GameOfLife = () => {
 						Large
 					</div>
 				</div>
-				<div>
+				<div className="presets score">
+					<div className="game-of-life presets">
+						<div>Presets: </div>
+						<div onClick={() => setUniverse(glider(universe))}>
+							Glider
+							<img id="pre" src={gliderImg} alt="glider" />
+						</div>
+						<div onClick={() => setUniverse(oscillator(universe))}>
+							Oscillator
+							<img
+								id="pre"
+								src={oscillatorImg}
+								alt="oscillator"
+							/>
+						</div>
+					</div>
 					<div className="game-of-life-score"># Plays: {score}</div>
 				</div>
+				<div className="start-stop speed">
+					<div>
+						<button
+							onClick={() => setLife(life ? 0 : life + 1)}
+							className="start-stop universe"
+						>
+							{!life ? "Start" : "Stop"}
+						</button>
+						<button onClick={newGame} className="reset universe">
+							Reset
+						</button>
+					</div>
+					<div>
+						<label className="speed" htmlFor="speed">
+							Slower
+						</label>
+						<input
+							type="range"
+							className="speed"
+							name="speed"
+							max="-5"
+							min="-1000"
+							value={-speed}
+							onChange={(e) => setSpeed(Math.abs(e.target.value))}
+							step="1"
+						></input>
+						<label className="speed" htmlFor="speed">
+							Faster
+						</label>
+					</div>
+				</div>
 			</div>
-			<button
-				onClick={() => setLife(life ? 0 : life + 1)}
-				className="start-stop universe"
-			>
-				{!life ? "Start" : "Stop"}
-			</button>
-			{!life && (
-				<button onClick={newGame} className="reset universe">
-					Reset
-				</button>
-			)}
+			<div className="game-of-life directions">
+				<i id="directions">Click and drag to create alive cells</i>
+			</div>
 			<table>
 				<tbody>
 					{universe.map((row, i) => (
@@ -230,7 +238,7 @@ const GameOfLife = () => {
 					))}
 				</tbody>
 			</table>
-		</>
+		</div>
 	);
 };
 

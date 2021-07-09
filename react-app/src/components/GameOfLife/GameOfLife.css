@@ -1,15 +1,81 @@
 table {
-  width: auto;
-  height: auto;
-  border-collapse: collapse;
+	width: auto;
+	height: auto;
+	border-collapse: collapse;
 }
 
 td.life {
-  border: 1px solid lightgrey;
-  width: 10px;
-  height: 10px;
+	border: 1px solid lightgrey;
+	width: 10px;
+	height: 10px;
+}
+
+button.reset {
+	margin: 0;
 }
 
 td.alive {
-  background-color: black;
+	background-color: black;
+}
+
+div.game.game-of-life {
+	display: flex;
+	justify-content: center;
+}
+
+i#directions {
+	display: flex;
+	justify-content: center;
+	font-size: 14px;
+}
+
+div.presets.score {
+	font-weight: bold;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	margin-top: 20px;
+}
+
+div.size-toggle {
+	position: relative;
+	display: flex;
+	margin: auto;
+	justify-content: center;
+	text-align: center;
+}
+
+div.game-nav {
+	width: 500px;
+	display: flex;
+	justify-content: center;
+}
+div.start-stop.speed {
+	position: relative;
+	display: flex;
+	align-items: flex-end;
+	margin-bottom: 5px;
+	justify-content: space-between;
+}
+
+div.reset.universe {
+	margin-left: 20px;
+}
+
+label.speed {
+	margin: 0px 8px;
+	vertical-align: bottom;
+}
+
+input.speed {
+	position: relative;
+	bottom: -18px;
+	background-color: aqua;
+	cursor: pointer;
+}
+
+img#pre {
+	height: 40px;
+	width: 40px;
+	border: 1px solid black;
 }

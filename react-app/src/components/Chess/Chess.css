@@ -1,19 +1,29 @@
+table {
+	margin-top: 3px;
+}
+
 tbody.chess {
-	border: 2px solid black;
+	margin-top: 0;
+	border: 14px solid rgb(112, 73, 0);
+	border-radius: 10px;
+	height: fit-content;
 	width: fit-content;
+	margin-bottom: 30px;
 }
 
 td.chess {
 	border: none;
 	margin: 2px;
+	width: 40px;
+	height: 40px;
 }
 
 td.light {
-	background-color: #ffefc1;
+	background-color: rgb(253, 230, 172);
 }
 
 td.dark {
-	background-color: #ae4d25;
+	background-color: rgb(105, 66, 2);
 }
 
 td.chess > img {
@@ -24,30 +34,58 @@ td.chess > img {
 }
 
 td.--clicked {
-	background-color: green;
+	opacity: 0.8;
+	background-color: rgb(26, 185, 26);
 }
 
 td.valid-move {
-	background-color: blue;
+	opacity: 0.8;
+	background-color: rgb(26, 185, 26);
 }
 
 div.chess-pieces {
-	background-color: lightgrey;
 	display: flex;
-	justify-content: center;
-	width: 300px;
-	height: 50px;
+	justify-content: space-between;
+	width: 320px;
+	height: 45px;
 }
 
 div.lost-pieces {
 	position: relative;
-	width: 33%;
+	width: 40%;
+	height: auto;
 	display: flex;
 	flex-direction: row;
 	justify-self: space-between;
+	align-items: bottom;
+	flex-wrap: wrap;
+}
+
+div.game-nav.chess {
+	justify-content: flex-end;
+	padding-bottom: 10px;
 }
 
 img.lost-piece {
 	width: 22px;
 	height: 22px;
+}
+
+div.chess-score {
+	font-weight: bold;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
+
+div.game.chess {
+	margin-top: 60px;
+	min-width: 400px;
+}
+
+div.chess-toggle {
+	display: flex;
+	margin-top: 10px;
+	justify-content: space-between;
+	align-items: flex-end;
 }

@@ -1,56 +1,128 @@
 table {
-    display: flex;
-    justify-content: center;
-    margin-top: 30px;
-    border-collapse: collapse;
+	display: flex;
+	justify-content: center;
+	margin-top: 40px;
+	min-width: 400px;
+	border-collapse: collapse;
 }
 
 tbody {
-    height: auto;
-    width: auto;
+	height: auto;
+	width: auto;
 }
 
 td {
-    margin: 0;
-    padding: 0;
-    text-align: center;
-    height: 30px;
-    width: 30px;
-    border: 1px solid black;
+	margin: 0;
+	padding: 0;
+	text-align: center;
+	height: 30px;
+	width: 30px;
+	border: 1px solid black;
 }
 
-td.row-0, td.row-3, td.row-6 {
-    border-top: 3px solid black;
+td.row-0,
+td.row-3,
+td.row-6 {
+	border-top: 3px solid black;
 }
 
-td.col-0, td.col-3, td.col-6 {
-    border-left: 3px solid black;
+td.col-0,
+td.col-3,
+td.col-6 {
+	border-left: 3px solid black;
 }
 
 td.col-8 {
-    border-right: 3px solid black;
+	border-right: 3px solid black;
 }
 
 td.row-8 {
-    border-bottom: 3px solid black;
+	border-bottom: 3px solid black;
 }
 
 td.preset {
-    font-weight: bold;
+	font-weight: bold;
 }
 
 td#adjacent {
-    background-color: rgb(230, 200, 119)
+	background-color: rgb(230, 200, 119);
 }
 
 td#clicked {
-    background-color: rgb(172, 143, 64);
+	background-color: rgb(172, 143, 64);
 }
 
 div.evil {
-    border-right: none;
+	border-right: none;
 }
 
 .--hidden {
-    display: none;
+	display: none;
+}
+
+p.hint {
+	font-size: 14px;
+	font-weight: bold;
+	position: absolute;
+	background-color: rgb(230, 200, 119);
+	width: fit-content;
+	height: fit-content;
+	padding: 2px;
+}
+
+img.hint {
+	height: 50px;
+	width: 50px;
+}
+
+img.hint:hover {
+	cursor: pointer;
+}
+
+div.game-nav {
+	border-bottom: 2px solid grey;
+	width: 400px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	margin-bottom: 20px;
+}
+
+div.game-info {
+	display: flex;
+	justify-content: space-between;
+	flex-direction: row;
+}
+
+div.sudoku-buttons {
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-end;
+	padding-bottom: 10px;
+}
+
+div.scores {
+	font-weight: bold;
+	display: flex;
+	flex-direction: row;
+	margin-top: 20px;
+	justify-content: space-between;
+	align-items: center;
+}
+
+div.game {
+	display: flex;
+	margin-top: 30px;
+	align-items: center;
+	flex-direction: column;
+}
+
+div.sudoku-info {
+	display: flex;
+	justify-content: flex-start;
+	margin-left: -20px;
+}
+
+button.reset {
+	margin-left: -20px;
 }

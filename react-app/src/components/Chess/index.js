@@ -187,21 +187,23 @@ const Chess = () => {
 	}
 
 	return (
-		<>
+		<div className="chess game">
 			{winner && `${winner} wins`}
-			<div className="chess-toggle">
-				<button onClick={newGame}>New Game</button>
-				<button onClick={flipBoard}>Flip</button>
-			</div>
-			<div>
-				<div className="chess-score">Your score: {score}</div>
-				<div
-					className="cpu-option"
-					onClick={() => setCPU(CPU ? false : turn)}
-				>
-					{CPU ? "CPU on" : "CPU off"}
+			<div className="game-nav chess">
+				<div className="chess-score">
+					<div className="chess-score">Your score: {score}</div>
+					<div className="chess-points">Points to win: {points}</div>
 				</div>
-				<div className="chess-points">Points to win: {points}</div>
+				<div className="chess-toggle">
+					<button onClick={newGame}>New Game</button>
+					<button onClick={flipBoard}>Flip</button>
+					<button
+						className="cpu-option"
+						onClick={() => setCPU(CPU ? false : turn)}
+					>
+						{CPU ? "Turn off CPU" : "Play vs CPU"}
+					</button>
+				</div>
 			</div>
 			<div className="chess-pieces">
 				<div className="white lost-pieces">
@@ -256,7 +258,7 @@ const Chess = () => {
 					))}
 				</tbody>
 			</table>
-		</>
+		</div>
 	);
 };
 
