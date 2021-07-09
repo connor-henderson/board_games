@@ -8,6 +8,7 @@ tbody.chess {
 	border-radius: 10px;
 	height: fit-content;
 	width: fit-content;
+	margin: 0;
 	margin-bottom: 30px;
 }
 

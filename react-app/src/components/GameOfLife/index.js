@@ -25,24 +25,6 @@ const GameOfLife = () => {
 	const score = useSelector((state) => state.session.user.game_of_life_score);
 	const dispatch = useDispatch();
 
-	useEffect(() => {
-		newGame();
-	}, [size]);
-
-	useEffect(() => {
-		if (!life) return;
-		if (life === 1) {
-			dispatch(updateUserScore(user.id, "game_of_life", 1));
-		}
-
-		const generation = setTimeout(() => {
-			liveLife();
-			setLife(life + 1);
-		}, speed);
-
-		return () => clearTimeout(generation);
-	}, [life]);
-
 	function newGame() {
 		if (life) setLife(!life);
 
@@ -130,11 +112,28 @@ const GameOfLife = () => {
 
 			const editedUniverse = JSON.parse(JSON.stringify(universe));
 			editedUniverse[rowNum][colNum] = true;
-			console.log(editedUniverse);
 
 			setUniverse(editedUniverse);
 		}
 	}
+
+	useEffect(() => {
+		newGame();
+	}, [size]); // eslint-disable-line react-hooks/exhaustive-deps
+
+	useEffect(() => {
+		if (!life) return;
+		if (life === 1) {
+			dispatch(updateUserScore(user.id, "game_of_life", 1));
+		}
+
+		const generation = setTimeout(() => {
+			liveLife();
+			setLife(life + 1);
+		}, speed);
+
+		return () => clearTimeout(generation);
+	}, [dispatch, life, speed, user.id]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	return (
 		<div className="game game-of-life">

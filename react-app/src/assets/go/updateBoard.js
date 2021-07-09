@@ -12,7 +12,7 @@
 // pick an empty square in between them and call an iterative check for opponent stones
 // if you do not find one, return true
 
-export default function updateBoard(board, placedRow, placedColumn) {
+export default function updateBoard(board) {
 	// update all squares except the most recently placed square, unless its a ko
 	const nextBoard = board.map((row, i) =>
 		row.map((square, j) => {
@@ -27,16 +27,6 @@ export default function updateBoard(board, placedRow, placedColumn) {
 	);
 
 	return nextBoard;
-}
-
-function checkForBorder(board, i, j) {
-	if (!i || !j || i === 18 || j === 18) {
-		const copy = JSON.parse(JSON.stringify(board));
-		// const right = copy.forEach((row) => row[18]);
-		// const left = copy.filter((row) => row[0]);
-		const top = copy.shift();
-		const bottom = copy.pop();
-	} else return false;
 }
 
 function markEmptySquares(board, liberties, currentTeam) {
@@ -72,10 +62,9 @@ export function updateClickedSquare(board, i, j, turn) {
 function stoneStatus(board, i, j) {
 	const [isKo, team] = checkIfKo(board, i, j);
 	const neighborIsKo = checkNeighborIsKo(board, i, j);
-	const isBorderStone = checkForBorder(board, i, j);
 
 	if (isKo) return `ko-${team}`;
-	else if (neighborIsKo || isBorderStone) return board[i][j];
+	else if (neighborIsKo) return board[i][j];
 	else {
 		const stoneHasLiberty = checkStoneLibertyIterative(board, i, j);
 		if (stoneHasLiberty) return board[i][j];
@@ -128,7 +117,7 @@ function checkStoneLibertyIterative(board, i, j) {
 			if (square) {
 				const [row, col] = square.split(" ");
 				return !board[row][col];
-			}
+			} else return [];
 		});
 		const currentTeam = board[i][j].replace("p", "");
 		markEmptySquares(board, liberties, currentTeam);
@@ -161,7 +150,7 @@ function checkForEyes(board, i, j, visited) {
 		if (square) {
 			const [row, col] = square.split(" ");
 			return !board[row][col];
-		}
+		} else return [];
 	});
 
 	const [liberty1, liberty2] = [liberties[0], liberties[1]];
@@ -193,40 +182,28 @@ function checkForEyes(board, i, j, visited) {
 	}
 }
 
-// ---------- OLD CODE ----------
+export function fillRandomBoard() {
+	const newBoard = new Array(19)
+		.fill([])
+		.map((row) => new Array(19).fill(""));
 
-// recursive solution for stones
-function checkStoneLibertyRecursive(board, i, j, visited = [], count = 0) {
-	if (visited.includes(`${i} ${j}`)) return;
-	visited.push(`${i} ${j}`);
-
-	if (board[i][j] === "") {
-		count += 1;
+	// fill white stones
+	for (let i = 0; i < 80; i++) {
+		const randomRow = Math.floor(Math.random() * 18);
+		const randomCol = Math.floor(Math.random() * 18);
+		if (newBoard[randomRow][randomCol]) i--;
+		else newBoard[randomRow][randomCol] = "w";
 	}
-	if (count > 2) return true;
 
-	const neighbors = getNeighbors(board, i, j);
-	const validNeighbors = neighbors.filter(
-		(square) => square.team === board[i][j] || square.team === ""
-	);
-
-	const valid = validNeighbors.map((square) =>
-		checkStoneLibertyRecursive(
-			board,
-			square.row,
-			square.col,
-			visited,
-			count
-		)
-	);
-
-	if (count < 2) {
-		visited.forEach((square) => {
-			const [row, col] = [square.split(" ")[0], square.split(" ")[1]];
-		});
+	// fill black stones
+	for (let i = 0; i < 80; i++) {
+		const randomRow = Math.floor(Math.random() * 18);
+		const randomCol = Math.floor(Math.random() * 18);
+		if (newBoard[randomRow][randomCol]) i--;
+		else newBoard[randomRow][randomCol] = "b";
 	}
-	if (count > 2) return true;
 
-	// const hasTwoEyes = checkForEyes(board, i, j, visited);
-	return true;
+	// update the new board
+	const updatedBoard = updateBoard(newBoard);
+	return updatedBoard;
 }
