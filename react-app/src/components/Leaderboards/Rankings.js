@@ -21,48 +21,55 @@ export default function Rankings({ name, scores }) {
 
 	return (
 		<div className="one-leaderboard">
-			<span className="leaderboard-header">
+			<div className="leaderboard-header">
+				<div className="leaderboard-icon-container">
+					<img
+						className="leaderboard-icon"
+						src={icon}
+						alt={`${name} icon`}
+					/>
+				</div>
 				<h3 className="leaderboard-name">
 					{name === "Game of Life"
 						? "John Conway's Game of Life"
 						: name}
 				</h3>
-				<img
-					className="leaderboard-icon"
-					src={icon}
-					alt={`${name} icon`}
-					style={{ height: "80px", width: "80px" }}
-				/>
-			</span>
-			<table>
-				<thead>
-					<tr>
-						<th>Rank</th>
-						<th>Username</th>
-						<th>{name === "Game of Life" ? "# Plays" : "Score"}</th>
-					</tr>
-				</thead>
-				<tbody>
-					{scores.map((score, i) => {
-						let username = score[0];
-						score = score[1];
+			</div>
+			<div className="leaderboard-table">
+				<table className="leaderboard">
+					<thead>
+						<tr>
+							<th className="rank">Rank</th>
+							<th className="username">Username</th>
+							<th className="score">
+								{name === "Game of Life" ? "# Plays" : "Score"}
+							</th>
+						</tr>
+					</thead>
+					<tbody className="leaderboard">
+						{scores.map((score, i) => {
+							let username = score[0];
+							score = score[1];
 
-						return (
-							<tr
-								className={
-									user.username === username ? "user" : ""
-								}
-								bgcolor={i % 2 === 0 ? "white" : "lightgrey"}
-								key={i}
-							>
-								<td>{i + 1}</td>
-								<td>{username}</td>
-								<td>{score}</td>
-							</tr>
-						);
-					})}
-				</tbody>
-			</table>
+							return (
+								<tr
+									className={
+										user.username === username ? "user" : ""
+									}
+									bgcolor={
+										i % 2 === 0 ? "white" : "lightgrey"
+									}
+									key={i}
+								>
+									<td className="rank">{i + 1}</td>
+									<td className="username">{username}</td>
+									<td className="score">{score}</td>
+								</tr>
+							);
+						})}
+					</tbody>
+				</table>
+			</div>
 		</div>
 	);
 }

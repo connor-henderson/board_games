@@ -39,18 +39,82 @@ div.leaderboards-container {
 	justify-content: center;
 }
 
-div.leaderboards-container > *:nth-child(2n) {
-	flex-basis: 50%;
+div.leaderboards-toggle {
+	margin-bottom: 20px;
 }
 
 div.one-leaderboard {
-	width: fit-content;
-	min-width: 300px;
+	width: 380px;
 	border: 1px solid black;
+	border-radius: 5%;
+	margin: 20px 20px;
+}
+
+div.leaderboard-icon-container {
+	height: 90px;
+	width: 90px;
+}
+
+img.leaderboard-icon {
+	position: relative;
+	width: 100%;
+	height: 100%;
+}
+
+div.leaderboard-header {
+	display: flex;
+	justify-content: center;
+	margin-top: 15px;
+	margin-left: 0px;
+	margin-bottom: 20px;
+}
+
+h3.leaderboard-name {
+	align-self: flex-end;
+	margin-left: 10%;
+	width: 180px;
+}
+
+div.leaderboard-table {
+	margin: 0;
+	display: flex;
+	align-items: center;
+}
+
+table.leaderboard {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin-bottom: 20px;
+	margin-left: -5px;
+}
+
+thead {
+	margin-bottom: 5px;
+	width: 300px;
+}
+
+tbody.leaderboard {
+	width: 300px;
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
 }
 
 td {
 	padding: 0px;
+}
+
+.rank {
+	width: 40px;
+}
+
+.username {
+	width: 200px;
+}
+
+.score {
+	width: 60px;
 }
 
 tr.user {
