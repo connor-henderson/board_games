@@ -46,7 +46,7 @@ div.game-picture {
 }
 
 div.game-picture > img:hover {
-	opacity: 20%;
+	opacity: 0.2;
 }
 
 div.game-picture > img {
