@@ -8,5 +8,37 @@ body {
 .headshot {
 	height: 300px;
 	width: 200px;
-	/* display: none; */
+}
+
+div.about-container {
+	display: flex;
+	justify-content: center;
+	margin: 40px 0;
+	align-items: flex-end;
+}
+
+div.picture-container {
+	margin: 20px 20px;
+}
+
+div.about-info {
+	width: 300px;
+	height: 200px;
+	margin-left: 20px;
+	display: flex;
+	justify-content: space-around;
+	flex-direction: column;
+}
+
+div.about-links {
+	display: flex;
+	justify-content: center;
+}
+
+div.win-message {
+	color: rgb(8, 109, 8);
+	font-weight: bold;
+	position: absolute;
+	left: 45%;
+	top: 20px;
 }

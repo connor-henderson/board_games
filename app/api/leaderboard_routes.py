@@ -30,7 +30,7 @@ def all_games():
     return jsonify(all_scores)
 
 
-@leaderboard_routes.route('/<game_name>')
+@leaderboard_routes.route('/<game_name>/')
 def one_game(game_name):
     if game_name == "sudoku":
         scores = User.query.order_by(User.sudoku_score.desc()).with_entities(

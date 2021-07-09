@@ -126,3 +126,8 @@ div.sudoku-info {
 button.reset {
 	margin-left: -20px;
 }
+
+div.win-message.sudoku {
+	top: 190px;
+	font-size: 20px;
+}

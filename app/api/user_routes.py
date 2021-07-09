@@ -13,14 +13,14 @@ def users():
     return {"users": [user.to_dict() for user in users]}
 
 
-@user_routes.route('/<int:id>')
+@user_routes.route('/<int:id>/')
 @login_required
 def user(id):
     user = User.query.get(id)
     return user.to_dict()
 
 
-@user_routes.route('<int:user_id>/games/<game_name>', methods=['PATCH'])
+@user_routes.route('<int:user_id>/games/<game_name>/', methods=['PATCH'])
 def game_score(user_id, game_name):
     user = User.query.get(user_id)
     data = request.get_json()

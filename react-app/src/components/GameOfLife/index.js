@@ -160,7 +160,7 @@ const GameOfLife = () => {
 				</div>
 				<div className="presets score">
 					<div className="game-of-life presets">
-						<div>Presets: </div>
+						<div className="pre">Presets: </div>
 						<div
 							className="preset"
 							onClick={() => setUniverse(glider(universe))}

@@ -31,6 +31,7 @@ export default function Square({
 	useEffect(() => {
 		const winMessage = document.querySelector(".win-message");
 		if (gameWon) {
+			console.log("here");
 			winMessage.classList.remove("--hidden");
 			dispatch(updateUserScore(user.id, "sudoku", points));
 		} else {

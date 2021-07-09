@@ -190,7 +190,9 @@ const Chess = () => {
 
 	return (
 		<div className="chess game">
-			{winner && `${winner} wins`}
+			<div className="win-message chess">
+				{winner && `${winner} wins!`}
+			</div>
 			<div className="game-nav chess">
 				<div className="chess-score">
 					<div className="chess-score">Your score: {score}</div>

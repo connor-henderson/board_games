@@ -47,7 +47,6 @@ const Sudoku = () => {
 		while (!i) {
 			const row = generateRandomIdx();
 			const col = generateRandomIdx();
-
 			i += 1;
 			if (board[row][col]) i--;
 			else boardWithHint[row][col] = solution[row][col];
