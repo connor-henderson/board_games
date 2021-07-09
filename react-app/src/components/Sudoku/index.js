@@ -95,10 +95,10 @@ const Sudoku = () => {
 
 	return (
 		<div className="game sudoku" onClick={handleClick}>
-			<div className="win-message --hidden">You win!</div>
+			<div className="win-message sudoku --hidden">You win!</div>
 			<div className="game-nav">
 				<div className="sudoku-info">
-					<div className="difficulty-toggle toggle">
+					<div className="difficulty-toggle toggle sudoku">
 						<div
 							className={difficulty === cinch ? "--active" : ""}
 							onClick={() => setDifficulty(cinch)}

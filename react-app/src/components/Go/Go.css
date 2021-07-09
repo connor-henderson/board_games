@@ -119,7 +119,6 @@ div.game-nav.go {
 	margin-top: 30px;
 	display: flex;
 	position: relative;
-	left: 27%;
 	text-align: center;
 }
 
@@ -157,6 +156,7 @@ div#go {
 	justify-content: center;
 	flex-direction: column;
 	position: relative;
+	align-items: center;
 }
 
 div.go-score {

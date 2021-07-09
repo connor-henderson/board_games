@@ -119,8 +119,7 @@ div.game {
 
 div.sudoku-info {
 	display: flex;
-	justify-content: flex-start;
-	margin-left: -20px;
+	justify-content: center;
 }
 
 button.reset {
@@ -130,4 +129,11 @@ button.reset {
 div.win-message.sudoku {
 	top: 190px;
 	font-size: 20px;
+}
+
+div.difficulty-toggle.sudoku {
+	margin: 0;
+	margin-top: 30px;
+	display: flex;
+	align-items: center;
 }
