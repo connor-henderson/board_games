@@ -1,4 +1,4 @@
-# Board Games ([[Board, Games]])
+# Board Games [[Board, Games]]
 
 _By Connor Henderson_ [_visit Board Games_](link)
 
