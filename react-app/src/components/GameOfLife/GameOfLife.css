@@ -45,6 +45,11 @@ div.size-toggle {
 	text-align: center;
 }
 
+div.game-of-life-score {
+	display: flex;
+	align-items: center;
+}
+
 div.game-nav {
 	width: 500px;
 	display: flex;
@@ -62,6 +67,23 @@ div.reset.universe {
 	margin-left: 20px;
 }
 
+div.game-of-life.presets {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+	align-items: center;
+	width: 250px;
+}
+
+div.preset {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	align-items: space-between;
+	justify-content: center;
+	cursor: pointer;
+}
+
 label.speed {
 	margin: 0px 8px;
 	vertical-align: bottom;
@@ -70,7 +92,6 @@ label.speed {
 input.speed {
 	position: relative;
 	bottom: -18px;
-	background-color: aqua;
 	cursor: pointer;
 }
 

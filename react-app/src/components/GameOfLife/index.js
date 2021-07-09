@@ -162,17 +162,23 @@ const GameOfLife = () => {
 				<div className="presets score">
 					<div className="game-of-life presets">
 						<div>Presets: </div>
-						<div onClick={() => setUniverse(glider(universe))}>
-							Glider
+						<div
+							className="preset"
+							onClick={() => setUniverse(glider(universe))}
+						>
 							<img id="pre" src={gliderImg} alt="glider" />
+							Glider
 						</div>
-						<div onClick={() => setUniverse(oscillator(universe))}>
-							Oscillator
+						<div
+							className="preset"
+							onClick={() => setUniverse(oscillator(universe))}
+						>
 							<img
 								id="pre"
 								src={oscillatorImg}
 								alt="oscillator"
 							/>
+							Oscillator
 						</div>
 					</div>
 					<div className="game-of-life-score"># Plays: {score}</div>
