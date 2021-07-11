@@ -49,10 +49,10 @@ function App() {
 				<Route path="/sign-up" exact={true}>
 					<SignUpForm />
 				</Route>
-				<ProtectedRoute path="/users/:userId" exact={true}>
+				<ProtectedRoute path="/users/:userId/account" exact={true}>
 					<User />
 				</ProtectedRoute>
-				<ProtectedRoute path="/view-scores" exact={true}>
+				<ProtectedRoute path="/users/:userId/scores" exact={true}>
 					<UserScores />
 				</ProtectedRoute>
 				<ProtectedRoute path="/leaderboards" exact={true}>

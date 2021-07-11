@@ -21,3 +21,32 @@ p.game-name {
 	font-size: 16px;
 	font-weight: bold;
 }
+
+div.account-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	margin-top: 100px;
+}
+
+div.account-info {
+	width: 250px;
+}
+
+ul.account {
+	margin: 0;
+	padding: 0;
+}
+
+li.account {
+	display: flex;
+	justify-content: space-between;
+}
+
+div.account-buttons {
+	margin-top: 20px;
+	display: flex;
+	justify-content: space-around;
+	width: 250px;
+}
