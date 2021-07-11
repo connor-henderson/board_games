@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Redirect, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { signUp } from "../../store/session";
 
 const SignUpForm = () => {
@@ -11,11 +11,12 @@ const SignUpForm = () => {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [repeatPassword, setRepeatPassword] = useState("");
+	const [method, setMethod] = useState("POST");
 
 	const onSignUp = async (e) => {
 		e.preventDefault();
 		if (password === repeatPassword) {
-			await dispatch(signUp(username, email, password));
+			await dispatch(signUp(username, email, password, method));
 		} else {
 			setErrors(["Passwords must match"]);
 		}
@@ -37,9 +38,13 @@ const SignUpForm = () => {
 		setRepeatPassword(e.target.value);
 	};
 
-	if (user) {
-		return <Redirect to="/" />;
-	}
+	useEffect(() => {
+		if (user) {
+			setUsername(user.username);
+			setEmail(user.email);
+			setMethod("PATCH");
+		}
+	}, [user]);
 
 	return (
 		<div className="form-container">
@@ -87,13 +92,17 @@ const SignUpForm = () => {
 					></input>
 				</div>
 				<div className="button-container">
-					<button type="submit">Sign Up</button>
+					<button type="submit">
+						{method === "POST" ? "Sign Up" : "Update Account"}
+					</button>
 				</div>
-				<div className="navlink-container">
-					<NavLink className="sign-up__navlink" to="login">
-						Already have an account?
-					</NavLink>
-				</div>
+				{method === "POST" && (
+					<div className="navlink-container">
+						<NavLink className="sign-up__navlink" to="login">
+							Already have an account?
+						</NavLink>
+					</div>
+				)}
 			</form>
 		</div>
 	);

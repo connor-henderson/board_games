@@ -75,6 +75,21 @@ def sign_up():
     return {'errors': validation_errors_to_error_messages(form.errors)}, 401
 
 
+@auth_routes.route('/signup', methods=['PATCH'])
+def edit_account():
+    form = SignUpForm()
+    form['csrf_token'].data = request.cookies['csrf_token']
+    if form.validate_on_submit():
+        user = User.query.filter(username=form.data['username']).first()
+        user.username = form.data['username']
+        user.email = form.data['email']
+        user.password = form.data['password']
+        db.session.commit()
+        login_user(user)
+        return user.to_dict()
+    return {'errors': validation_errors_to_error_messages(form.errors)}, 401
+
+
 @auth_routes.route('/unauthorized/')
 def unauthorized():
     """

@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import LogoutButton from "../Auth/LogoutButton";
 import "./Navigation.css";
 
 function ProfileButton({ user }) {
 	const [showMenu, setShowMenu] = useState(false);
+	const userId = useSelector((state) => state.session.user.id);
 
 	const openMenu = () => {
 		if (showMenu) return;
@@ -29,10 +31,11 @@ function ProfileButton({ user }) {
 			</button>
 			{showMenu && (
 				<ul className="profile-dropdown">
-					<li className="profile-username">{user.username}</li>
-					<li className="profile-email">{user.email}</li>
+					<li className="account">
+						<a href={`/users/${userId}/account`}>Account</a>
+					</li>
 					<li className="view-scores">
-						<a href="/view-scores">View scores</a>
+						<a href={`/users/${userId}/scores`}>View scores</a>
 					</li>
 					<li className="logout">
 						<LogoutButton />
