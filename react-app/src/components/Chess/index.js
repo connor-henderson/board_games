@@ -8,15 +8,16 @@ import pieces, {
 	whiteTopRow,
 	whiteBottomRow,
 } from "../../assets/chess/piecesInfo";
-import { getValidMoves } from "../../assets/chess/moveFunctions";
+import { getValidMoves, getCPUMove } from "../../assets/chess/moveFunctions";
 import "./Chess.css";
 
 const Chess = () => {
-	const [CPU, setCPU] = useState(false);
+	const [CPU, setCPU] = useState(0);
 	const [points, setPoints] = useState(0);
 	const user = useSelector((state) => state.session.user);
 	const score = useSelector((state) => state.session.user.chess_score);
 	const dispatch = useDispatch();
+	const [CPUColor, setCPUColor] = useState(false);
 	const [clicked, setClicked] = useState(false);
 	const [validMoves, setValidMoves] = useState(["0 0"]);
 	const [turn, setTurn] = useState("white");
@@ -45,14 +46,25 @@ const Chess = () => {
 	}, []); // eslint-disable-line react-hooks/exhaustive-deps
 
 	useEffect(() => {
-		if (!winner || !CPU || winner === CPU) return;
+		if (!winner || !CPU || winner === CPUColor) return;
 
 		dispatch(updateUserScore(user.id, "chess", points));
-	}, [winner, CPU, dispatch, user.id, points]);
+	}, [winner, CPU, CPUColor, dispatch, user.id, points]);
 
 	useEffect(() => {
-		setPoints(CPU ? 70 : 0);
-	}, [CPU]);
+		if (!CPU || CPUColor !== turn) return;
+		const [prevPos, nextPos] = getCPUMove(board, CPUColor, teamOnTop);
+		makeMove(board, prevPos, nextPos);
+		setTurn(turn === "black" ? "white" : "black");
+		// console.log("here");
+		// const CPUMove = setTimeout(() => {
+		// 	console.log("also here");
+		// 	// console.log(prevPos, nextPos);
+		// }, 1500);
+
+		// return clearTimeout(CPUMove);
+		return null;
+	}, [turn, CPUColor, teamOnTop, CPU, board]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	function newGame() {
 		const clicked = document.querySelector(".--clicked");
@@ -113,6 +125,12 @@ const Chess = () => {
 		flippedBoard.map((row) => row.reverse());
 
 		setBoard(flippedBoard);
+	}
+
+	function configureCPU(e) {
+		setCPU(+e.target.value);
+		setPoints(+e.target.value ? 70 : 0);
+		setCPUColor(+e.target.value ? turn : "");
 	}
 
 	function handleClick(e) {
@@ -201,12 +219,21 @@ const Chess = () => {
 				<div className="chess-toggle">
 					<button onClick={newGame}>New Game</button>
 					<button onClick={flipBoard}>Flip</button>
-					<button
-						className="cpu-option"
-						onClick={() => setCPU(CPU ? false : turn)}
-					>
-						{CPU ? "Turn off CPU" : "Play vs CPU"}
-					</button>
+					<div className="cpu">
+						<label className="cpu" htmlFor="cpu">
+							CPU {+CPU ? CPUColor : ""}
+						</label>
+						<input
+							type="range"
+							className="cpu-slider"
+							name="cpu"
+							max="1"
+							min="0"
+							value={CPU}
+							onChange={configureCPU}
+							step="1"
+						></input>
+					</div>
 				</div>
 			</div>
 			<div className="chess-pieces">
