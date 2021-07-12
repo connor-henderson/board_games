@@ -41,8 +41,6 @@ export function updateClickedSquare(board, i, j, turn) {
 	// if there is already input at this square, it can't be played
 	if (board[i][j]) return false;
 
-	// check to the right and left of a square if it is a border cell.
-	// if it is, fill in the empty cells
 	const currentTeam = turn === "black" ? "b" : "w";
 	const opponentTeam = currentTeam === "b" ? "w" : "b";
 	let nextBoard = JSON.parse(JSON.stringify(board));
@@ -111,7 +109,10 @@ function stoneStatus(board, i, j) {
 	}
 }
 
-function getNeighbors(board, i, j) {
+export function getNeighbors(board, i, j) {
+	if (typeof i !== "number") i = +i;
+	if (typeof j !== "number") j = +j;
+
 	const neighbors = [
 		{ "team": board[i][j - 1], "row": i, "col": j - 1 },
 		{ "team": board[i][j + 1], "row": i, "col": j + 1 },

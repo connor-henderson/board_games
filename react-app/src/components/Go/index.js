@@ -5,6 +5,7 @@ import {
 	updateClickedSquare,
 	fillRandomBoard,
 } from "../../assets/go/updateBoard";
+import getCPUMove from "../../assets/go/cpu";
 import "./Go.css";
 
 const Go = () => {
@@ -17,7 +18,9 @@ const Go = () => {
 	const [passes, setPasses] = useState(0);
 	const [turn, setTurn] = useState("black");
 	const [winner, setWinner] = useState(false);
-	const [CPU, setCPU] = useState(false);
+	const [CPU, setCPU] = useState(0);
+	const [CPUColor, setCPUColor] = useState(false);
+	const [CPUThoughts, setCPUThoughts] = useState(false);
 	const [points, setPoints] = useState(0);
 	const user = useSelector((state) => state.session.user);
 	const score = useSelector((state) => state.session.user.go_score);
@@ -43,8 +46,11 @@ const Go = () => {
 	}, [winner, CPU, user.id, points, dispatch]);
 
 	useEffect(() => {
-		setPoints(CPU ? 100 : 0);
-	}, [CPU]);
+		if (!CPU || CPUColor !== turn) return;
+		const [nextBoard, chosenMove, validMoves] = getCPUMove(board, CPUColor);
+		if (CPUThoughts) animateCPUThoughts(nextBoard, chosenMove, validMoves);
+		else animateCPUMove(nextBoard, chosenMove);
+	}, [turn, CPUColor, CPU, board]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	function checkPass() {
 		if (passes + 1 > 1) {
@@ -104,6 +110,39 @@ const Go = () => {
 		setWhiteCaptures(whiteCaptures + capturedByWhite);
 	}
 
+	function configureCPU(e) {
+		console.log(e);
+		setCPU(+e.target.value);
+		setPoints(+e.target.value ? 100 : 0);
+		setCPUColor(+e.target.value ? turn : "");
+	}
+
+	function animateCPUThoughts(nextBoard, chosenMove, validMoves) {
+		// it should always take 3 seconds to animate the CPU Moves
+		const delay = 3000 / validMoves.length;
+		for (let i = 0; i < validMoves.length; i++) {
+			const [row, col] = validMoves[i].split(" ");
+			const ele = document.querySelector(`.row-${row}.col-${col}`);
+			setTimeout(() => {
+				ele.classList.add("--clicked", `${i}`);
+			}, delay * i);
+			setTimeout(() => {
+				ele.classList.remove("--clicked", `${i}`);
+			}, delay * i + 100);
+		}
+		setTimeout(() => animateCPUMove(nextBoard, chosenMove), 3100);
+	}
+
+	function animateCPUMove(nextBoard, chosenMove) {
+		const [row, col] = chosenMove.split(" ");
+		const ele = document.querySelector(`.row-${row}.col-${col}`);
+		ele.classList.add("--clicked");
+		setTimeout(() => {
+			ele.classList.remove("--clicked");
+			turnUpdates(nextBoard);
+		}, 500);
+	}
+
 	function handleClick(e) {
 		// always get the parent td element
 		let square = e.target;
@@ -111,7 +150,6 @@ const Go = () => {
 			square = e.target.parentNode;
 		}
 
-		// retrieve the row, col numbers from the target's class
 		const [row, col] = square.classList;
 		const [rowNum, colNum] = [
 			parseInt(row.slice(4, 6), 10),
@@ -120,15 +158,17 @@ const Go = () => {
 
 		const nextBoard = updateClickedSquare(board, rowNum, colNum, turn);
 		if (!nextBoard) return;
-		countCaptures(nextBoard);
-		// need to account for kou territories at the end of the game
-		// need to account for borders
-		countTerritories(nextBoard);
-		setBoard(nextBoard);
-		setPasses(0);
-		setTurn(turn === "black" ? "white" : "black");
+		turnUpdates(nextBoard);
 
 		return;
+	}
+
+	function turnUpdates(nextBoard) {
+		countCaptures(nextBoard);
+		countTerritories(nextBoard);
+		setTurn(turn === "black" ? "white" : "black");
+		setBoard(nextBoard);
+		setPasses(0);
 	}
 
 	return (
@@ -169,15 +209,35 @@ const Go = () => {
 							{`${turn === "black" ? "Black" : "White"} Pass`}
 						</button>
 					</div>
-					<div
-						className="cpu-option"
-						onClick={() => setCPU(CPU ? false : turn)}
-					>
-						{CPU ? "CPU on" : "CPU off"}
+					<div className="cpu">
+						<label className="cpu" htmlFor="cpu">
+							CPU {+CPU ? CPUColor : ""}
+						</label>
+						<input
+							type="range"
+							className="cpu-slider"
+							name="cpu"
+							max="1"
+							min="0"
+							value={CPU}
+							onChange={configureCPU}
+							step="1"
+						></input>
 					</div>
+					{CPU > 0 && (
+						<>
+							<label htmlFor="show">Show Considered Moves</label>
+							<input
+								type="checkbox"
+								name="show"
+								onChange={() => setCPUThoughts(!CPUThoughts)}
+								value={CPUThoughts}
+							></input>
+						</>
+					)}
 				</div>
 			</div>
-			<table onClick={handleClick} className="go">
+			<table className="go">
 				<tbody className="go">
 					{board.map((row, i) => (
 						<tr key={i} className={i}>
@@ -200,7 +260,7 @@ const Go = () => {
 										// 		`${turn}-hover`
 										// 	)
 										// }
-										onClick={() => console.log("clicked")}
+										onClick={handleClick}
 									>
 										<i
 											id={`vertical-row-${i}`}
