@@ -65,13 +65,14 @@ const Go = () => {
 		setWhiteScore(6.5);
 		setBlackCaptures(0);
 		setWhiteCaptures(0);
+		setBlackTerritory(0);
+		setWhiteTerritory(0);
 		setPasses(0);
 	}
 
 	function countTerritories(nextBoard) {
 		let newBlackTerritory = 0;
 		let newWhiteTerritory = 0;
-
 		nextBoard.forEach((row) => {
 			row.forEach((square) => {
 				if (square === "bx" || square === "bc") newBlackTerritory += 1;
@@ -79,7 +80,7 @@ const Go = () => {
 					newWhiteTerritory += 1;
 			});
 		});
-
+		// edit, state will not update until after function runs
 		setBlackTerritory(blackTerritory + newBlackTerritory);
 		setWhiteTerritory(whiteTerritory + newWhiteTerritory);
 		setBlackScore(blackTerritory - whiteCaptures);
@@ -105,9 +106,8 @@ const Go = () => {
 
 	function handleClick(e) {
 		// always get the parent td element
-		console.log(e);
 		let square = e.target;
-		if (e.target.nodeName !== "TD") {
+		if (e.target.nodeName === "I") {
 			square = e.target.parentNode;
 		}
 
@@ -177,7 +177,7 @@ const Go = () => {
 					</div>
 				</div>
 			</div>
-			<table className="go">
+			<table onClick={handleClick} className="go">
 				<tbody className="go">
 					{board.map((row, i) => (
 						<tr key={i} className={i}>
@@ -200,7 +200,7 @@ const Go = () => {
 										// 		`${turn}-hover`
 										// 	)
 										// }
-										onClick={handleClick}
+										onClick={() => console.log("clicked")}
 									>
 										<i
 											id={`vertical-row-${i}`}

@@ -41,11 +41,18 @@ export function updateClickedSquare(board, i, j, turn) {
 	// if there is already input at this square, it can't be played
 	if (board[i][j]) return false;
 
-	let nextBoard = JSON.parse(JSON.stringify(board));
+	// check to the right and left of a square if it is a border cell.
+	// if it is, fill in the empty cells
 	const currentTeam = turn === "black" ? "b" : "w";
 	const opponentTeam = currentTeam === "b" ? "w" : "b";
+	let nextBoard = JSON.parse(JSON.stringify(board));
 	nextBoard[i][j] = currentTeam + "p";
 	nextBoard = updateBoard(nextBoard, i, j);
+
+	// fill in new territories that did not involve captures
+	if (!i || !j || i === 18 || j === 18) {
+		checkBorder(nextBoard, i, j, currentTeam);
+	}
 
 	const nextNeighbors = getNeighbors(nextBoard, i, j);
 	const liberties = nextNeighbors.filter(
@@ -57,6 +64,37 @@ export function updateClickedSquare(board, i, j, turn) {
 	// if the stone would still not have liberties or captures after being updated with priority, do not allow the move
 	if (!liberties.length) return false;
 	else return nextBoard;
+}
+
+function checkBorder(board, i, j, currentTeam) {
+	const neighbors = getNeighbors(board, i, j);
+	const validNeighbors = neighbors.filter(
+		(neighbor) => !neighbor.team && (!neighbor.row || !neighbor.col)
+	);
+	validNeighbors.forEach((neighbor) =>
+		checkForTerritory(board, neighbor.row, neighbor.col, currentTeam)
+	);
+}
+
+function checkForTerritory(board, i, j, currentTeam) {
+	const queue = [{ "team": board[i][j], "row": i, "col": j }];
+	const visited = [];
+
+	while (queue.length) {
+		const square = queue.shift();
+		if (visited.includes(`${square.row} ${square.col}`)) continue;
+		visited.push(`${square.row} ${square.col}`);
+
+		if (square.team && !square.team.includes(currentTeam)) return;
+
+		const neighbors = getNeighbors(board, square.row, square.col);
+		const validNeighbors = neighbors.filter((square) => !square.team);
+		queue.push(...validNeighbors);
+	}
+	if (visited.length > 100) return;
+	const liberties = getLiberties(board, i, j, visited);
+	markEmptySquares(board, liberties, currentTeam === "b" ? "w" : "b");
+	return;
 }
 
 function stoneStatus(board, i, j) {
@@ -113,12 +151,7 @@ function checkStoneLibertyIterative(board, i, j) {
 	}
 
 	if (count < 2) {
-		const liberties = visited.filter((square) => {
-			if (square) {
-				const [row, col] = square.split(" ");
-				return !board[row][col];
-			} else return [];
-		});
+		const liberties = getLiberties(board, i, j, visited);
 		const currentTeam = board[i][j].replace("p", "");
 		markEmptySquares(board, liberties, currentTeam);
 		return false;
@@ -144,14 +177,18 @@ function checkNeighborIsKo(board, i, j) {
 	return !neighbors.every((square) => !square.team.includes("ko"));
 }
 
-function checkForEyes(board, i, j, visited) {
-	const currentTeam = board[i][j].replace("p", "");
-	const liberties = visited.filter((square) => {
+function getLiberties(board, i, j, visited) {
+	return visited.filter((square) => {
 		if (square) {
 			const [row, col] = square.split(" ");
 			return !board[row][col];
-		} else return [];
+		} else return false;
 	});
+}
+
+function checkForEyes(board, i, j, visited) {
+	const currentTeam = board[i][j].replace("p", "");
+	const liberties = getLiberties(board, i, j, visited);
 
 	const [liberty1, liberty2] = [liberties[0], liberties[1]];
 	const [l1row, l1col] = liberty1.split(" ");
