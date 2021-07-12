@@ -1,23 +1,22 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { updateUserScore } from "../../store/session";
-import { glider, oscillator } from "../../assets/gameOfLife/presetPositions";
+import fillPreset, {
+	gliderArr,
+	oscillatorArr2,
+} from "../../assets/gameOfLife/presetPositions";
 import gliderImg from "../../images/gameOfLife/glider.png";
 import oscillatorImg from "../../images/gameOfLife/oscillator2.png";
 import "./GameOfLife.css";
 
 const GameOfLife = () => {
 	const small = { rows: 20, columns: 30 };
-	const medium = { rows: 33, columns: 50 };
-	const large = { rows: 45, columns: 70 };
-
-	// const slow = 1000;
-	// const moderate = 200;
-	// const fast = 5;
+	const medium = { rows: 30, columns: 40 };
+	const large = { rows: 40, columns: 50 };
 
 	const [universe, setUniverse] = useState([[]]);
 	const [life, setLife] = useState(0);
-	const [size, setSize] = useState(large);
+	const [size, setSize] = useState(medium);
 	const [speed, setSpeed] = useState(200);
 	const [mouseDown, setMouseDown] = useState(false);
 
@@ -98,7 +97,6 @@ const GameOfLife = () => {
 	}
 
 	function handleMouseDown(e) {
-		e.preventDefault();
 		setMouseDown(true);
 
 		if (!e.target.classList.contains("alive")) {
@@ -163,21 +161,27 @@ const GameOfLife = () => {
 						<div className="pre">Presets: </div>
 						<div
 							className="preset"
-							onClick={() => setUniverse(glider(universe))}
+							onClick={() =>
+								setUniverse(fillPreset(universe, gliderArr))
+							}
 						>
 							<img id="pre" src={gliderImg} alt="glider" />
-							Glider
+							Gliders
 						</div>
 						<div
 							className="preset"
-							onClick={() => setUniverse(oscillator(universe))}
+							onClick={() =>
+								setUniverse(
+									fillPreset(universe, oscillatorArr2)
+								)
+							}
 						>
 							<img
 								id="pre"
 								src={oscillatorImg}
 								alt="oscillator"
 							/>
-							Oscillator
+							Oscillators
 						</div>
 					</div>
 					<div className="game-of-life-score"># Plays: {score}</div>

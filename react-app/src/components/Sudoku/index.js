@@ -17,7 +17,7 @@ const Sudoku = () => {
 	const hard = 55;
 	const evil = 60;
 
-	const [difficulty, setDifficulty] = useState(cinch);
+	const [difficulty, setDifficulty] = useState(medium);
 	const [points, setPoints] = useState(difficulty);
 	const [solution, setSolution] = useState([[]]);
 	const [board, setBoard] = useState([[]]);

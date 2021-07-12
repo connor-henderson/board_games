@@ -25,6 +25,7 @@ const Chess = () => {
 	const [whiteLostPieces, setWhiteLostPieces] = useState([]);
 	const [blackLostPieces, setBlackLostPieces] = useState([]);
 	const [teamOnTop, setTeamOnTop] = useState("black");
+	const [CPUThoughts, setCPUThoughts] = useState(false);
 	const [winner, setWinner] = useState(false);
 	const blackOnTopBoard = [
 		blackTopRow,
@@ -47,22 +48,18 @@ const Chess = () => {
 
 	useEffect(() => {
 		if (!winner || !CPU || winner === CPUColor) return;
-
 		dispatch(updateUserScore(user.id, "chess", points));
 	}, [winner, CPU, CPUColor, dispatch, user.id, points]);
 
 	useEffect(() => {
 		if (!CPU || CPUColor !== turn) return;
-		const [prevPos, nextPos] = getCPUMove(board, CPUColor, teamOnTop);
-		makeMove(board, prevPos, nextPos);
-		setTurn(turn === "black" ? "white" : "black");
-		// console.log("here");
-		// const CPUMove = setTimeout(() => {
-		// 	console.log("also here");
-		// 	// console.log(prevPos, nextPos);
-		// }, 1500);
-
-		// return clearTimeout(CPUMove);
+		const [prevPos, nextPos, validMoves] = getCPUMove(
+			board,
+			CPUColor,
+			teamOnTop
+		);
+		if (CPUThoughts) animateCPUThoughts(prevPos, nextPos, validMoves);
+		else animateCPUMove(prevPos, nextPos, validMoves);
 		return null;
 	}, [turn, CPUColor, teamOnTop, CPU, board]); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -84,10 +81,10 @@ const Chess = () => {
 		setWhiteLostPieces([]);
 	}
 
-	function makeMove(board, previousPosition, nextPosition) {
-		const [previousRow, previousCol] = previousPosition.split(" ");
-		const previousPiece = board[previousRow][previousCol];
-		const [nextRow, nextCol] = nextPosition.split(" ");
+	function makeMove(board, prevPos, nextPos) {
+		const [prevRow, prevCol] = prevPos.split(" ");
+		const prevPiece = board[prevRow][prevCol];
+		const [nextRow, nextCol] = nextPos.split(" ");
 
 		const pieceTaken = board[nextRow][nextCol];
 
@@ -96,20 +93,17 @@ const Chess = () => {
 		if (pieceTaken.team === "black")
 			setBlackLostPieces(blackLostPieces.concat(pieceTaken));
 		if (pieceTaken.name === "king") setWinner(turn);
-		if (
-			previousPiece.name === "pawn" &&
-			(+nextRow === 0 || +nextRow === 7)
-		) {
-			if (previousPiece.team === "black") {
+		if (prevPiece.name === "pawn" && (+nextRow === 0 || +nextRow === 7)) {
+			if (prevPiece.team === "black") {
 				board[nextRow][nextCol] = pieces.queenB;
 			} else {
 				board[nextRow][nextCol] = pieces.queenW;
 			}
 		} else {
-			board[nextRow][nextCol] = previousPiece;
+			board[nextRow][nextCol] = prevPiece;
 		}
 
-		board[previousRow][previousCol] = "";
+		board[prevRow][prevCol] = "";
 	}
 
 	function flipBoard() {
@@ -131,6 +125,52 @@ const Chess = () => {
 		setCPU(+e.target.value);
 		setPoints(+e.target.value ? 70 : 0);
 		setCPUColor(+e.target.value ? turn : "");
+	}
+
+	function animateCPUThoughts(prevPos, nextPos, validMoves) {
+		for (let i = 0; i < validMoves.length; i++) {
+			const [prevRow, prevCol] = validMoves[i][0].split(" ");
+			const [nextRow, nextCol] = validMoves[i][1].split(" ");
+			const prevEle = document.querySelector(
+				`.row-${prevRow}.col-${prevCol}`
+			);
+			const nextEle = document.querySelector(
+				`.row-${nextRow}.col-${nextCol}`
+			);
+			setTimeout(() => {
+				prevEle.classList.add("--clicked", `${i}`);
+				nextEle.classList.add("--clicked", `${i}`);
+			}, 100 * i);
+			setTimeout(() => {
+				prevEle.classList.remove("--clicked");
+				nextEle.classList.remove("--clicked");
+			}, 100 * i + 100);
+		}
+		setTimeout(
+			() => animateCPUMove(prevPos, nextPos),
+			validMoves.length * 100 + 100
+		);
+	}
+
+	function animateCPUMove(prevPos, nextPos) {
+		const [prevRow, prevCol] = prevPos.split(" ");
+		const [nextRow, nextCol] = nextPos.split(" ");
+		const prevEle = document.querySelector(
+			`.row-${prevRow}.col-${prevCol}`
+		);
+		const nextEle = document.querySelector(
+			`.row-${nextRow}.col-${nextCol}`
+		);
+		setTimeout(() => prevEle.classList.add("--clicked"), 400);
+		setTimeout(() => {
+			prevEle.classList.remove("--clicked");
+			nextEle.classList.add("--clicked");
+		}, 800);
+		setTimeout(() => {
+			nextEle.classList.remove("--clicked");
+			makeMove(board, prevPos, nextPos);
+			setTurn(turn === "black" ? "white" : "black");
+		}, 1200);
 	}
 
 	function handleClick(e) {
@@ -234,6 +274,17 @@ const Chess = () => {
 							step="1"
 						></input>
 					</div>
+					{CPU > 0 && (
+						<>
+							<label htmlFor="show">Show Considered Moves</label>
+							<input
+								type="checkbox"
+								name="show"
+								onChange={() => setCPUThoughts(!CPUThoughts)}
+								value={CPUThoughts}
+							></input>
+						</>
+					)}
 				</div>
 			</div>
 			<div className="chess-pieces">

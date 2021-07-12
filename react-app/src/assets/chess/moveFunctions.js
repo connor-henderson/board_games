@@ -1,10 +1,4 @@
 export function getCPUMove(board, team, teamOnTop) {
-	// create an array of all of the pieces of the right color
-	// if the piece has valid moves that would hit the opponent, make the move
-	// if not, start over and make the first valid move
-	// const copyBoard = JSON.parse(JSON.stringify(board))
-	// return ` `
-
 	const pieces = [];
 	board.forEach((row, i) =>
 		row.forEach((square, j) => {
@@ -23,19 +17,17 @@ export function getCPUMove(board, team, teamOnTop) {
 			pieces[i][2],
 			teamOnTop
 		);
-		if (moves.length) validMoves.push([pieces[i][3], moves[i]]);
 		for (let j = 0; j < moves.length; j++) {
+			validMoves.push([pieces[i][3], moves[j]]);
 			const [row, col] = moves[j].split(" ");
 			if (board[row][col] && board[row][col].team !== team) {
-				// console.log("moves", moves);
-				// console.log("moves", moves);
-				// console.log("piece", pieces[i]);
-				// console.log("return", [pieces[i][3], moves[j]]);
-				return [pieces[i][3], moves[j]];
+				return [pieces[i][3], moves[j], validMoves];
 			}
 		}
 	}
-	return validMoves[0];
+
+	const randIdx = Math.floor(Math.random() * validMoves.length - 1);
+	return [...validMoves[randIdx], validMoves];
 }
 
 export function getValidMoves(board, piece, row, col, teamOnTop) {
