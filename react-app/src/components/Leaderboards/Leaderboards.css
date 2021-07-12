@@ -1,3 +1,8 @@
+div.leaderboards {
+	background-color: grey;
+	padding-top: 1px;
+}
+
 div.toggle {
 	display: flex;
 	flex-direction: row;
@@ -6,6 +11,8 @@ div.toggle {
 	border: 1px solid black;
 	border-radius: 5px;
 	width: fit-content;
+	background-color: white;
+	box-shadow: 3px 3px 5px black;
 }
 
 div.toggle > * {
@@ -48,6 +55,8 @@ div.one-leaderboard {
 	border: 1px solid black;
 	border-radius: 5%;
 	margin: 20px 20px;
+	background-color: white;
+	box-shadow: 3px 3px 5px black;
 }
 
 div.leaderboard-icon-container {

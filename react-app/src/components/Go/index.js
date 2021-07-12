@@ -105,6 +105,7 @@ const Go = () => {
 
 	function handleClick(e) {
 		// always get the parent td element
+		console.log(e);
 		let square = e.target;
 		if (e.target.nodeName !== "TD") {
 			square = e.target.parentNode;

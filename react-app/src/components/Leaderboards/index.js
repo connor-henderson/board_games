@@ -30,7 +30,7 @@ export default function Leaderboard() {
 	}
 
 	return (
-		<>
+		<div className="leaderboards">
 			<div className="leaderboards-toggle toggle">
 				<div
 					className={showTop10s ? "--active" : ""}
@@ -77,6 +77,6 @@ export default function Leaderboard() {
 				{showGameOfLife && <OneLeaderboard name={"Game of Life"} />}
 				{showGo && <OneLeaderboard name={"Go"} />}
 			</div>
-		</>
+		</div>
 	);
 }
