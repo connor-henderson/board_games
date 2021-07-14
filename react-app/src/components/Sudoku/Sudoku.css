@@ -1,3 +1,18 @@
+div.sudoku-container {
+	background-color: grey;
+	display: flex;
+	justify-content: center;
+	padding-bottom: 30px;
+}
+
+div.game.sudoku {
+	justify-self: center;
+	padding: 0 30px;
+	background-color: white;
+	width: fit-content;
+	border-radius: 3%;
+}
+
 table {
 	display: flex;
 	justify-content: center;
@@ -122,8 +137,8 @@ div.sudoku-info {
 	justify-content: center;
 }
 
-button.reset {
-	margin-left: -20px;
+button.sudoku-reset {
+	margin-left: -30px;
 }
 
 div.win-message.sudoku {

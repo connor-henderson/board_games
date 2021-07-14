@@ -31,7 +31,6 @@ export default function Square({
 	useEffect(() => {
 		const winMessage = document.querySelector(".win-message");
 		if (gameWon) {
-			console.log("here");
 			winMessage.classList.remove("--hidden");
 			dispatch(updateUserScore(user.id, "sudoku", points));
 		} else {
@@ -74,7 +73,7 @@ export default function Square({
 		const adjacent = [...rowColSquares, ...boxSquares];
 		adjacent.forEach((square) => (square.id = "adjacent"));
 
-		// make the clicked elements color light brown
+		// make the clicked elements color dark brown
 		e.target.id = "clicked";
 	}
 

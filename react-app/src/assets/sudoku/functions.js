@@ -12,8 +12,14 @@
 
 const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
-// "*CreateSudokuSolution(board)" and helper functions from the following paper's python solution:
+// "slowCreateSudokuSolution(board)" and "fastCreateSudokuSolution(board)" and their requisite helper functions from the following paper's python solution:
 // https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-s095-programming-for-the-puzzled-january-iap-2018/puzzle-8-you-wont-want-to-play-sudoku-again/MIT6_S095IAP18_Puzzle_8.pdf
+
+export function originalCreateSudokuSolution(board) {
+	assignPossibleNums(board);
+	assignExactNum(board);
+	return board;
+}
 
 export function fastCreateSudokuSolution(board) {
 	const [i, j] = findNextEmptySquare(board);
@@ -212,130 +218,135 @@ function fillSquares(board) {
 // }
 
 // POSSIBLE NUMS
-// function assignPossibleNums(board) {
-// 	for (let i = 0; i < 9; i++) {
-// 		for (let j = 0; j < 9; j++) {
-// 			if (typeof board[i][j] !== "number") {
-// 				board[i][j] = findPossibleNums(board, i, j);
-// 			}
-// 		}
-// 	}
-// 	  return board
-// }
+function assignPossibleNums(board) {
+	for (let i = 0; i < 9; i++) {
+		for (let j = 0; j < 9; j++) {
+			if (typeof board[i][j] !== "number") {
+				board[i][j] = findPossibleNums(board, i, j);
+			}
+		}
+	}
+	return board;
+}
 
-// function findPossibleNums(board, row, col) {
-// 	let possibleNums = new Set(numbers);
-// 	possibleByRow(board, possibleNums, row);
-// 	possibleByCol(board, possibleNums, col);
-// 	possibleByBox(board, possibleNums, row - (row % 3), col - (col % 3));
+function findPossibleNums(board, row, col) {
+	let possibleNums = new Set(numbers);
+	possibleByRow(board, possibleNums, row);
+	possibleByCol(board, possibleNums, col);
+	possibleByBox(board, possibleNums, row - (row % 3), col - (col % 3));
 
-// 	return possibleNums;
-// }
+	return possibleNums;
+}
 
-// function possibleByRow(board, nums, row) {
-// 	board[row].forEach((entry) => {
-// 		if (typeof entry === "number") {
-// 			nums.delete(entry);
-// 		}
-// 		if (nums.size === 1) return nums;
-// 	});
-// 	return nums;
-// }
+function possibleByRow(board, nums, row) {
+	board[row].forEach((entry) => {
+		if (typeof entry === "number") {
+			nums.delete(entry);
+		}
+		if (nums.size === 1) return nums;
+	});
+	return nums;
+}
 
-// function possibleByCol(board, nums, col) {
-// 	for (let i = 0; i < 9; i++) {
-// 		let entry = board[i][col];
-// 		if (typeof entry === "number") {
-// 			nums.delete(entry);
-// 		}
-// 		if (nums.size === 1) return nums;
-// 	}
-// 	return nums;
-// }
+function possibleByCol(board, nums, col) {
+	for (let i = 0; i < 9; i++) {
+		let entry = board[i][col];
+		if (typeof entry === "number") {
+			nums.delete(entry);
+		}
+		if (nums.size === 1) return nums;
+	}
+	return nums;
+}
 
-// function possibleByBox(board, nums, boxStartRow, boxStartCol) {
-// 	for (let i = 0; i < 3; i++) {
-// 		for (let j = 0; j < 3; j++) {
-// 			let entry = board[boxStartRow + i][boxStartCol + j];
-// 			if (typeof entry === "number") {
-// 				nums.delete(entry);
-// 			}
-// 			if (nums.size === 1) return nums;
-// 		}
-// 	}
-// 	return nums;
-// }
+function possibleByBox(board, nums, boxStartRow, boxStartCol) {
+	for (let i = 0; i < 3; i++) {
+		for (let j = 0; j < 3; j++) {
+			let entry = board[boxStartRow + i][boxStartCol + j];
+			if (typeof entry === "number") {
+				nums.delete(entry);
+			}
+			if (nums.size === 1) return nums;
+		}
+	}
+	return nums;
+}
 
 // // EXACT NUM
-// function assignExactNum(board) {
-// 	for (let i = 0; i < 9; i++) {
-// 		for (let j = 0; j < 9; j++) {
-// 			if (typeof board[i][j] !== "number") {
-// 				let exactNum = findExactNum(board, i, j);
-// 				if (exactNum) {
-// 					board[i][j] = exactNum;
-// 				}
-// 			}
-// 		}
-// 	}
-// }
+function assignExactNum(board) {
+	let numCount = 0;
+	while (numCount < 81) {
+		numCount = 0;
+		for (let i = 0; i < 9; i++) {
+			for (let j = 0; j < 9; j++) {
+				if (typeof board[i][j] !== "number") {
+					numCount = 0;
+					let exactNum = findExactNum(board, i, j);
+					if (exactNum) {
+						board[i][j] = exactNum;
+					}
+				} else numCount++;
+			}
+		}
+	}
+}
 
-// function findExactNum(board, row, col) {
-// 	let exactNums = new Set(numbers);
+function findExactNum(board, row, col) {
+	let exactNums = new Set(numbers);
+	console.log(exactNums);
 
-// 	exactByRow(board, exactNums, row);
+	exactByRow(board, exactNums, row);
 
-// 	if (!exactNums.size) {
-// 		exactByCol(board, (exactNums = new Set(numbers)), col);
-// 	} else if (!exactNums.size) {
-// 		exactByBox(
-// 			board,
-// 			(exactNums = new Set(numbers)),
-// 			row - (row % 3),
-// 			col - (col % 3)
-// 		);
-// 	}
-// 	console.log(exactNums);
+	if (!exactNums.size) {
+		exactByCol(board, (exactNums = new Set(numbers)), col);
+	} else if (!exactNums.size) {
+		exactByBox(
+			board,
+			(exactNums = new Set(numbers)),
+			row - (row % 3),
+			col - (col % 3)
+		);
+	}
 
-// 	if (exactNums.size === 1) return [...exactNums][0];
-// 	else return false;
-// }
+	if (exactNums.size === 1) return [...exactNums][0];
+	else return false;
+}
 
-// function exactByRow(board, nums, row) {
-// 	board[row].forEach((entry) => {
-// 		deleteEntry(nums, entry);
-// 		if (nums.size === 1) return nums;
-// 	});
-// 	return nums;
-// }
+function exactByRow(board, nums, row) {
+	board[row].forEach((entry) => {
+		deleteEntry(nums, entry);
+		if (nums.size === 1) return nums;
+	});
+	return nums;
+}
 
-// function exactByCol(board, nums, col) {
-// 	for (let i = 0; i < 9; i++) {
-// 		let entry = board[i][col];
-// 		deleteEntry(nums, entry);
-// 		if (nums.size === 1) return nums;
-// 	}
-// 	return nums;
-// }
+function exactByCol(board, nums, col) {
+	for (let i = 0; i < 9; i++) {
+		let entry = board[i][col];
+		deleteEntry(nums, entry);
+		if (nums.size === 1) return nums;
+	}
+	return nums;
+}
 
-// function exactByBox(board, nums, boxStartRow, boxStartCol) {
-// 	for (let i = 0; i < 3; i++) {
-// 		for (let j = 0; j < 3; j++) {
-// 			let entry = board[boxStartRow + i][boxStartCol + j];
-// 			deleteEntry(nums, entry);
-// 			if (nums.size === 1) return nums;
-// 		}
-// 	}
-// 	return nums;
-// }
+function exactByBox(board, nums, boxStartRow, boxStartCol) {
+	for (let i = 0; i < 3; i++) {
+		for (let j = 0; j < 3; j++) {
+			let entry = board[boxStartRow + i][boxStartCol + j];
+			deleteEntry(nums, entry);
+			if (nums.size === 1) return nums;
+		}
+	}
+	return nums;
+}
 
-// function deleteEntry(nums, entry) {
-// 	if (typeof entry === "number") {
-// 		nums.delete(entry);
-// 	} else if (typeof entry === "object") {
-// 		[...entry].forEach((num) => nums.delete(num));
-// 	}
-// }
+function deleteEntry(nums, entry) {
+	if (typeof entry === "number") {
+		nums.delete(entry);
+	} else if (typeof entry === "object") {
+		[...entry].forEach((num) => nums.delete(num));
+	}
+}
 
 // function checkRows(board) {
 // 	board.every((row) => {

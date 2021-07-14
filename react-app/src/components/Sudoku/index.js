@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import Square from "./Square";
 import {
+	originalCreateSudokuSolution,
 	fastCreateSudokuSolution,
 	trimSolution,
 	createSudokuBoard,
@@ -26,6 +27,8 @@ const Sudoku = () => {
 
 	const newGame = () => {
 		let solutionBoard = createSudokuBoard();
+		// originalCreateSudokuSolution(solutionBoard);
+		// console.log(solutionBoard);
 		fastCreateSudokuSolution(solutionBoard);
 		setSolution(solutionBoard);
 
@@ -59,7 +62,7 @@ const Sudoku = () => {
 		const hintEle = document.querySelector(".hint");
 		hintEle.classList.remove("--hidden");
 		hintEle.style.left = e.clientX + "px";
-		hintEle.style.top = e.clientY + "px";
+		hintEle.style.top = e.clientY - 50 + "px";
 	};
 
 	const hideHintDesc = (e) => {
@@ -94,90 +97,104 @@ const Sudoku = () => {
 	}, [difficulty]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	return (
-		<div className="game sudoku" onClick={handleClick}>
-			<div className="win-message sudoku --hidden">You win!</div>
-			<div className="game-nav">
-				<div className="sudoku-info">
-					<div className="difficulty-toggle toggle sudoku">
-						<div
-							className={difficulty === cinch ? "--active" : ""}
-							onClick={() => setDifficulty(cinch)}
-						>
-							Cinch
-						</div>
-						<div
-							className={difficulty === easy ? "--active" : ""}
-							onClick={() => setDifficulty(easy)}
-						>
-							Easy
-						</div>
-						<div
-							className={difficulty === medium ? "--active" : ""}
-							onClick={() => setDifficulty(medium)}
-						>
-							Medium
-						</div>
-						<div
-							className={difficulty === hard ? "--active" : ""}
-							onClick={() => setDifficulty(hard)}
-						>
-							Hard
-						</div>
-						<div
-							className={
-								difficulty === evil ? "evil --active" : "evil"
-							}
-							onClick={() => setDifficulty(evil)}
-						>
-							Evil
+		<div className="sudoku-container">
+			<div className="game sudoku" onClick={handleClick}>
+				<div className="win-message sudoku --hidden">You win!</div>
+				<div className="game-nav">
+					<div className="sudoku-info">
+						<div className="difficulty-toggle toggle sudoku">
+							<div
+								className={
+									difficulty === cinch ? "--active" : ""
+								}
+								onClick={() => setDifficulty(cinch)}
+							>
+								Cinch
+							</div>
+							<div
+								className={
+									difficulty === easy ? "--active" : ""
+								}
+								onClick={() => setDifficulty(easy)}
+							>
+								Easy
+							</div>
+							<div
+								className={
+									difficulty === medium ? "--active" : ""
+								}
+								onClick={() => setDifficulty(medium)}
+							>
+								Medium
+							</div>
+							<div
+								className={
+									difficulty === hard ? "--active" : ""
+								}
+								onClick={() => setDifficulty(hard)}
+							>
+								Hard
+							</div>
+							<div
+								className={
+									difficulty === evil
+										? "evil --active"
+										: "evil"
+								}
+								onClick={() => setDifficulty(evil)}
+							>
+								Evil
+							</div>
 						</div>
 					</div>
+					<div className="scores">
+						<div className="sudoku-points">
+							Points to win: {points}
+						</div>
+						<div className="sudoku-score">Your score: {score}</div>
+					</div>
+					<div className="sudoku-buttons">
+						<button onClick={newGame} className="new-game">
+							New Game
+						</button>
+						<button onClick={reset} className="sudoku-reset">
+							Reset
+						</button>
+						<p className="hint --hidden">Hint</p>
+						<img
+							className="hint"
+							onMouseEnter={showHintDesc}
+							onMouseLeave={hideHintDesc}
+							onClick={getHint}
+							src={lightBulb}
+							alt="hint"
+						/>
+					</div>
 				</div>
-				<div className="scores">
-					<div className="sudoku-points">Points to win: {points}</div>
-					<div className="sudoku-score">Your score: {score}</div>
-				</div>
-				<div className="sudoku-buttons">
-					<button onClick={newGame} className="new-game">
-						New Game
-					</button>
-					<button onClick={reset} className="reset">
-						Reset
-					</button>
-					<p className="hint --hidden">Hint</p>
-					<img
-						className="hint"
-						onMouseEnter={showHintDesc}
-						onMouseLeave={hideHintDesc}
-						onClick={getHint}
-						src={lightBulb}
-						alt="hint"
-					/>
-				</div>
+				<table>
+					<tbody>
+						{board.map((row, i) => (
+							<tr key={i} className={i}>
+								{row.map((square, j) => {
+									return (
+										<Square
+											key={j}
+											i={i}
+											j={j}
+											num={board[i][j]}
+											solution={solution}
+											board={board}
+											clicked={clicked}
+											setClicked={setClicked}
+											points={points}
+										/>
+									);
+								})}
+							</tr>
+						))}
+					</tbody>
+				</table>
 			</div>
-			<table>
-				<tbody>
-					{board.map((row, i) => (
-						<tr key={i} className={i}>
-							{row.map((square, j) => {
-								return (
-									<Square
-										key={j}
-										i={i}
-										j={j}
-										num={board[i][j]}
-										solution={solution}
-										board={board}
-										clicked={clicked}
-										setClicked={setClicked}
-										points={points}
-									/>
-								);
-							})}
-						</tr>
-					))}
-				</tbody>
-			</table>
 		</div>
 	);
 };

@@ -1,13 +1,17 @@
 table {
 	width: auto;
 	height: auto;
-	border-collapse: collapse;
+	/* border-collapse: collapse; */
+}
+
+tbody.game-of-life {
+	background-color: black;
 }
 
 td.life {
-	border: 1px solid lightgrey;
-	width: 15px;
-	height: 15px;
+	width: 18px;
+	height: 18px;
+	border: 1px solid black;
 }
 
 button.reset {
@@ -15,7 +19,7 @@ button.reset {
 }
 
 td.alive {
-	background-color: black;
+	background-color: rgb(243, 207, 108);
 }
 
 div.game.game-of-life {
@@ -72,7 +76,9 @@ div.game-of-life.presets {
 	flex-direction: row;
 	justify-content: space-around;
 	align-items: center;
-	width: 250px;
+	width: 350px;
+	margin-top: 10px;
+	margin-bottom: -20px;
 }
 
 div.presets.score {
@@ -100,4 +106,65 @@ img#pre {
 	height: 40px;
 	width: 40px;
 	border: 1px solid black;
+}
+
+div.presets {
+	display: flex;
+	text-align: center;
+}
+
+div.info.game-of-life > img {
+	height: 150px;
+	width: auto;
+}
+
+div.about.game-of-life {
+	margin-bottom: 10px;
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+	width: 750px;
+}
+
+div.about-header {
+	border-bottom: 2px solid grey;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	font-size: 20px;
+	width: fit-content;
+}
+
+div.about-header:hover {
+	cursor: pointer;
+}
+
+div.info.game-of-life {
+	display: flex;
+	justify-content: space-between;
+	margin: 5px 5px;
+	align-items: flex-start;
+	width: 750px;
+}
+
+div.info.game-of-life > p {
+	display: inline;
+	overflow-wrap: wrap;
+	font-size: 14px;
+	flex-direction: column;
+	margin-right: 5px;
+}
+
+img.arrow {
+	height: 13px;
+	width: 13px;
+	margin-left: 10px;
+}
+
+img.arrow.show-true {
+	-webkit-transform: rotate(180deg);
+}
+
+a {
+	display: inline;
 }

@@ -1,22 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { updateUserScore } from "../../store/session";
-import fillPreset, {
-	gliderArr,
-	oscillatorArr2,
-} from "../../assets/gameOfLife/presetPositions";
-import gliderImg from "../../images/gameOfLife/glider.png";
-import oscillatorImg from "../../images/gameOfLife/oscillator2.png";
+import Presets from "./Presets";
+import Size from "./Size";
+import Speed from "./Speed";
+import About from "./About";
 import "./GameOfLife.css";
 
 const GameOfLife = () => {
-	const small = { rows: 20, columns: 30 };
-	const medium = { rows: 30, columns: 40 };
-	const large = { rows: 40, columns: 50 };
-
 	const [universe, setUniverse] = useState([[]]);
 	const [life, setLife] = useState(0);
-	const [size, setSize] = useState(medium);
+	const [size, setSize] = useState({ rows: 25, columns: 40 });
 	const [speed, setSpeed] = useState(200);
 	const [mouseDown, setMouseDown] = useState(false);
 
@@ -62,11 +56,6 @@ const GameOfLife = () => {
 		setUniverse(nextGeneration);
 	}
 
-	function changeSize(newSize) {
-		setLife(0);
-		setSize(newSize);
-	}
-
 	function checkNeighbors(row, col, alive) {
 		const startRow = row - 1;
 		const startCol = col - 1;
@@ -98,7 +87,6 @@ const GameOfLife = () => {
 
 	function handleMouseDown(e) {
 		setMouseDown(true);
-
 		if (!e.target.classList.contains("alive")) {
 			e.target.classList.add("alive");
 
@@ -110,7 +98,6 @@ const GameOfLife = () => {
 
 			const editedUniverse = JSON.parse(JSON.stringify(universe));
 			editedUniverse[rowNum][colNum] = true;
-
 			setUniverse(editedUniverse);
 		}
 	}
@@ -135,94 +122,26 @@ const GameOfLife = () => {
 
 	return (
 		<div className="game game-of-life">
+			<About />
 			<div className="game-nav">
-				<div className="size-toggle toggle">
-					<div
-						className={size.rows === small.rows ? "--active" : ""}
-						onClick={() => changeSize(small)}
-					>
-						Small
-					</div>
-					<div
-						className={size.rows === medium.rows ? "--active" : ""}
-						onClick={() => changeSize(medium)}
-					>
-						Medium
-					</div>
-					<div
-						className={size.rows === large.rows ? "--active" : ""}
-						onClick={() => changeSize(large)}
-					>
-						Large
-					</div>
-				</div>
+				<Size setSize={setSize} size={size} setLife={setLife} />
 				<div className="presets score">
-					<div className="game-of-life presets">
-						<div className="pre">Presets: </div>
-						<div
-							className="preset"
-							onClick={() =>
-								setUniverse(fillPreset(universe, gliderArr))
-							}
-						>
-							<img id="pre" src={gliderImg} alt="glider" />
-							Gliders
-						</div>
-						<div
-							className="preset"
-							onClick={() =>
-								setUniverse(
-									fillPreset(universe, oscillatorArr2)
-								)
-							}
-						>
-							<img
-								id="pre"
-								src={oscillatorImg}
-								alt="oscillator"
-							/>
-							Oscillators
-						</div>
-					</div>
+					<Presets setUniverse={setUniverse} universe={universe} />
 					<div className="game-of-life-score"># Plays: {score}</div>
 				</div>
-				<div className="start-stop speed">
-					<div>
-						<button
-							onClick={() => setLife(life ? 0 : life + 1)}
-							className="start-stop universe"
-						>
-							{!life ? "Start" : "Stop"}
-						</button>
-						<button onClick={newGame} className="reset universe">
-							Reset
-						</button>
-					</div>
-					<div>
-						<label className="speed" htmlFor="speed">
-							Slower
-						</label>
-						<input
-							type="range"
-							className="speed"
-							name="speed"
-							max="-5"
-							min="-1000"
-							value={-speed}
-							onChange={(e) => setSpeed(Math.abs(e.target.value))}
-							step="1"
-						></input>
-						<label className="speed" htmlFor="speed">
-							Faster
-						</label>
-					</div>
-				</div>
+				<Speed
+					setSpeed={setSpeed}
+					speed={speed}
+					setLife={setLife}
+					life={life}
+					newGame={newGame}
+				/>
 			</div>
 			<div className="game-of-life directions">
 				<i id="directions">Click and drag to create alive cells</i>
 			</div>
 			<table>
-				<tbody>
+				<tbody className="game-of-life">
 					{universe.map((row, i) => (
 						<tr key={i} className={i}>
 							{row.map((cell, j) => {

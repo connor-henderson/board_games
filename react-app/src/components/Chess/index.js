@@ -247,99 +247,107 @@ const Chess = () => {
 	}
 
 	return (
-		<div className="chess game">
-			<div className="win-message chess">
-				{winner && `${winner} wins!`}
-			</div>
-			<div className="game-nav chess">
-				<div className="chess-score">
-					<div className="chess-score">Your score: {score}</div>
-					<div className="chess-points">Points to win: {points}</div>
+		<div className="chess-container">
+			<div className="chess game">
+				<div className="win-message chess">
+					{winner && `${winner} wins!`}
 				</div>
-				<div className="chess-toggle">
-					<button onClick={newGame}>New Game</button>
-					<button onClick={flipBoard}>Flip</button>
-					<div className="cpu">
-						<label className="cpu" htmlFor="cpu">
-							CPU {+CPU ? CPUColor : ""}
-						</label>
-						<input
-							type="range"
-							className="cpu-slider"
-							name="cpu"
-							max="1"
-							min="0"
-							value={CPU}
-							onChange={configureCPU}
-							step="1"
-						></input>
+				<div className="game-nav chess">
+					<div className="chess-score">
+						<div className="chess-score">Your score: {score}</div>
+						<div className="chess-points">
+							Points to win: {points}
+						</div>
 					</div>
-					{CPU > 0 && (
-						<>
-							<label htmlFor="show">Show Considered Moves</label>
+					<div className="chess-toggle">
+						<button onClick={newGame}>New Game</button>
+						<button onClick={flipBoard}>Flip</button>
+						<div className="cpu">
+							<label className="cpu" htmlFor="cpu">
+								CPU {+CPU ? CPUColor : ""}
+							</label>
 							<input
-								type="checkbox"
-								name="show"
-								onChange={() => setCPUThoughts(!CPUThoughts)}
-								value={CPUThoughts}
+								type="range"
+								className="cpu-slider"
+								name="cpu"
+								max="1"
+								min="0"
+								value={CPU}
+								onChange={configureCPU}
+								step="1"
 							></input>
-						</>
-					)}
+						</div>
+						{CPU > 0 && (
+							<>
+								<label htmlFor="show">
+									Show Considered Moves
+								</label>
+								<input
+									type="checkbox"
+									name="show"
+									onChange={() =>
+										setCPUThoughts(!CPUThoughts)
+									}
+									value={CPUThoughts}
+								></input>
+							</>
+						)}
+					</div>
 				</div>
+				<div className="chess-pieces">
+					<div className="white lost-pieces">
+						{whiteLostPieces.map((piece, j) => (
+							<img
+								className="lost-piece"
+								key={j}
+								src={piece.image}
+								alt={piece.name}
+							/>
+						))}
+					</div>
+					<div className="black lost-pieces">
+						{blackLostPieces.map((piece, i) => (
+							<img
+								className="lost-piece"
+								key={i}
+								src={piece.image}
+								alt={piece.name}
+							/>
+						))}
+					</div>
+				</div>
+				<table className="chess">
+					<tbody className="chess">
+						{board.map((row, i) => (
+							<tr key={i} className={i}>
+								{row.map((square, j) => {
+									return (
+										<td
+											key={j}
+											className={
+												(i + j) % 2
+													? `row-${i} col-${j} chess dark`
+													: `row-${i} col-${j} chess light`
+											}
+											onClick={handleClick}
+											onMouseEnter={handleMouseEnter}
+											onMouseLeave={handleMouseLeave}
+										>
+											{board[i][j].image && (
+												<img
+													className="piece-image"
+													src={board[i][j].image}
+													alt={`${board[i][j].team} ${board[i][j].name}`}
+												/>
+											)}
+										</td>
+									);
+								})}
+							</tr>
+						))}
+					</tbody>
+				</table>
 			</div>
-			<div className="chess-pieces">
-				<div className="white lost-pieces">
-					{whiteLostPieces.map((piece, j) => (
-						<img
-							className="lost-piece"
-							key={j}
-							src={piece.image}
-							alt={piece.name}
-						/>
-					))}
-				</div>
-				<div className="black lost-pieces">
-					{blackLostPieces.map((piece, i) => (
-						<img
-							className="lost-piece"
-							key={i}
-							src={piece.image}
-							alt={piece.name}
-						/>
-					))}
-				</div>
-			</div>
-			<table className="chess">
-				<tbody className="chess">
-					{board.map((row, i) => (
-						<tr key={i} className={i}>
-							{row.map((square, j) => {
-								return (
-									<td
-										key={j}
-										className={
-											(i + j) % 2
-												? `row-${i} col-${j} chess dark`
-												: `row-${i} col-${j} chess light`
-										}
-										onClick={handleClick}
-										onMouseEnter={handleMouseEnter}
-										onMouseLeave={handleMouseLeave}
-									>
-										{board[i][j].image && (
-											<img
-												className="piece-image"
-												src={board[i][j].image}
-												alt={`${board[i][j].team} ${board[i][j].name}`}
-											/>
-										)}
-									</td>
-								);
-							})}
-						</tr>
-					))}
-				</tbody>
-			</table>
 		</div>
 	);
 };

@@ -1,3 +1,17 @@
+div.chess-container {
+	padding: 30px 0;
+	display: flex;
+	background-color: grey;
+	justify-content: center;
+}
+
+div.game.chess {
+	background-color: white;
+	padding: 30px 30px;
+	border-radius: 3%;
+	min-width: 400px;
+}
+
 table {
 	margin-top: 3px;
 	border-spacing: 0px;
@@ -79,11 +93,6 @@ div.chess-score {
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
-}
-
-div.game.chess {
-	margin-top: 60px;
-	min-width: 400px;
 }
 
 div.chess-toggle {
