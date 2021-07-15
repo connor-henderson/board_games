@@ -100,7 +100,7 @@ const Sudoku = () => {
 		<div className="sudoku-container">
 			<div className="game sudoku" onClick={handleClick}>
 				<div className="win-message sudoku --hidden">You win!</div>
-				<div className="game-nav">
+				<div className="game-nav chess">
 					<div className="sudoku-info">
 						<div className="difficulty-toggle toggle sudoku">
 							<div

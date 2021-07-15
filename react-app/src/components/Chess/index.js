@@ -1,23 +1,24 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { updateUserScore } from "../../store/session";
+import Cpu from "../Cpu";
 import pieces, {
 	blackTopRow,
 	blackBottomRow,
 	middleRows,
 	whiteTopRow,
 	whiteBottomRow,
-} from "../../assets/chess/piecesInfo";
-import { getValidMoves, getCPUMove } from "../../assets/chess/moveFunctions";
+} from "../../assets/chess/pieces";
+import getCPUMove from "../../assets/chess/cpu";
+import getValidMoves from "../../assets/chess/moves";
 import "./Chess.css";
 
 const Chess = () => {
-	const [CPU, setCPU] = useState(0);
+	const [CPU, setCPU] = useState("");
 	const [points, setPoints] = useState(0);
 	const user = useSelector((state) => state.session.user);
 	const score = useSelector((state) => state.session.user.chess_score);
 	const dispatch = useDispatch();
-	const [CPUColor, setCPUColor] = useState(false);
 	const [clicked, setClicked] = useState(false);
 	const [validMoves, setValidMoves] = useState(["0 0"]);
 	const [turn, setTurn] = useState("white");
@@ -47,21 +48,26 @@ const Chess = () => {
 	}, []); // eslint-disable-line react-hooks/exhaustive-deps
 
 	useEffect(() => {
-		if (!winner || !CPU || winner === CPUColor) return;
-		dispatch(updateUserScore(user.id, "chess", points));
-	}, [winner, CPU, CPUColor, dispatch, user.id, points]);
+		if (CPU) setPoints(70);
+		else setPoints(0);
+	}, [CPU]);
 
 	useEffect(() => {
-		if (!CPU || CPUColor !== turn) return;
+		if (!winner || !CPU || winner === CPU) return;
+		dispatch(updateUserScore(user.id, "chess", points));
+	}, [winner, CPU, dispatch, user.id, points]);
+
+	useEffect(() => {
+		if (!CPU || CPU !== turn) return;
 		const [prevPos, nextPos, validMoves] = getCPUMove(
 			board,
-			CPUColor,
+			CPU,
 			teamOnTop
 		);
 		if (CPUThoughts) animateCPUThoughts(prevPos, nextPos, validMoves);
 		else animateCPUMove(prevPos, nextPos, validMoves);
 		return null;
-	}, [turn, CPUColor, teamOnTop, CPU, board]); // eslint-disable-line react-hooks/exhaustive-deps
+	}, [turn, teamOnTop, CPU, board]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	function newGame() {
 		const clicked = document.querySelector(".--clicked");
@@ -119,12 +125,6 @@ const Chess = () => {
 		flippedBoard.map((row) => row.reverse());
 
 		setBoard(flippedBoard);
-	}
-
-	function configureCPU(e) {
-		setCPU(+e.target.value);
-		setPoints(+e.target.value ? 70 : 0);
-		setCPUColor(+e.target.value ? turn : "");
 	}
 
 	function animateCPUThoughts(prevPos, nextPos, validMoves) {
@@ -262,36 +262,12 @@ const Chess = () => {
 					<div className="chess-toggle">
 						<button onClick={newGame}>New Game</button>
 						<button onClick={flipBoard}>Flip</button>
-						<div className="cpu">
-							<label className="cpu" htmlFor="cpu">
-								CPU {+CPU ? CPUColor : ""}
-							</label>
-							<input
-								type="range"
-								className="cpu-slider"
-								name="cpu"
-								max="1"
-								min="0"
-								value={CPU}
-								onChange={configureCPU}
-								step="1"
-							></input>
-						</div>
-						{CPU > 0 && (
-							<>
-								<label htmlFor="show">
-									Show Considered Moves
-								</label>
-								<input
-									type="checkbox"
-									name="show"
-									onChange={() =>
-										setCPUThoughts(!CPUThoughts)
-									}
-									value={CPUThoughts}
-								></input>
-							</>
-						)}
+						<Cpu
+							CPU={CPU}
+							setCPU={setCPU}
+							CPUThoughts={CPUThoughts}
+							setCPUThoughts={setCPUThoughts}
+						/>
 					</div>
 				</div>
 				<div className="chess-pieces">

@@ -16,7 +16,7 @@ div.game.sudoku {
 table {
 	display: flex;
 	justify-content: center;
-	margin-top: 40px;
+	margin: 30px 0;
 	min-width: 400px;
 	border-collapse: collapse;
 }

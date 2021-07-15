@@ -3,7 +3,7 @@ import fillPreset, {
 	gliderArr,
 	oscillatorArr2,
 	reaction,
-} from "../../assets/gameOfLife/presetPositions";
+} from "../../assets/gameOfLife/presets";
 import gliderImg from "../../images/gameOfLife/glider.png";
 import oscillatorImg from "../../images/gameOfLife/oscillator2.png";
 import reactionImg from "../../images/gameOfLife/reaction.png";

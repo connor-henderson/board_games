@@ -12,8 +12,15 @@ div.game.chess {
 	min-width: 400px;
 }
 
+input.hide,
+label.hide {
+	color: white;
+	background-color: white;
+	border: none;
+}
+
 table {
-	margin-top: 3px;
+	margin-top: 28px;
 	border-spacing: 0px;
 }
 
@@ -69,8 +76,8 @@ div.chess-pieces {
 
 div.lost-pieces {
 	position: relative;
-	width: 40%;
-	height: auto;
+	width: 45%;
+	height: 70px;
 	display: flex;
 	flex-direction: row;
 	justify-self: space-between;
@@ -81,11 +88,16 @@ div.lost-pieces {
 div.game-nav.chess {
 	justify-content: flex-end;
 	padding-bottom: 10px;
+	margin-bottom: 5px;
+}
+
+div.chess-cpu-moves-container {
+	height: 50px;
 }
 
 img.lost-piece {
-	width: 22px;
-	height: 22px;
+	width: 24px;
+	height: 24px;
 }
 
 div.chess-score {
@@ -102,6 +114,56 @@ div.chess-toggle {
 	align-items: flex-end;
 }
 
+input[type="checkbox"] {
+	margin: 5px;
+	margin-right: 0;
+}
+
+input[type="checkbox"]:checked {
+	background: rgb(26, 185, 26);
+	content: "\2713";
+	color: black;
+	text-align: center;
+}
+
+label.chess-cpu {
+	width: fit-content;
+	height: fit-content;
+	margin-right: 5px;
+	font-weight: bold;
+}
+
+div.chess-cpu.moves {
+	font-size: 11.5pt;
+	height: fit-content;
+	display: flex;
+	justify-content: flex-end;
+	align-items: flex-end;
+}
+
+div.chess-cpu.container {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}
+
+div.chess-cpu.toggle {
+	height: fit-content;
+	width: fit-content;
+	/* padding: 5px 5px; */
+	border-radius: none;
+	margin: 0 0;
+	display: flex;
+}
+
+div.chess-cpu.toggle > div {
+	margin: 0 0;
+	height: 20px;
+	width: fit-content;
+	/* padding: 5px 5px; */
+	border-radius: none;
+}
+
 div.win-message.chess {
 	top: 200px;
 	font-size: 20px;
@@ -109,14 +171,6 @@ div.win-message.chess {
 
 label.cpu {
 	margin-right: 5px;
-}
-
-input.cpu-slider {
-	width: 30px;
-	display: flex;
-	text-align: center;
-	vertical-align: bottom;
-	margin: 0;
 }
 
 div.cpu {

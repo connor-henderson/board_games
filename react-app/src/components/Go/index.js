@@ -5,6 +5,7 @@ import {
 	updateClickedSquare,
 	fillRandomBoard,
 } from "../../assets/go/updateBoard";
+import Cpu from "../Cpu/";
 import getCPUMove from "../../assets/go/cpu";
 import "./Go.css";
 
@@ -18,8 +19,7 @@ const Go = () => {
 	const [passes, setPasses] = useState(0);
 	const [turn, setTurn] = useState("black");
 	const [winner, setWinner] = useState(false);
-	const [CPU, setCPU] = useState(0);
-	const [CPUColor, setCPUColor] = useState(false);
+	const [CPU, setCPU] = useState("");
 	const [CPUThoughts, setCPUThoughts] = useState(false);
 	const [points, setPoints] = useState(0);
 	const user = useSelector((state) => state.session.user);
@@ -40,17 +40,22 @@ const Go = () => {
 	}, []);
 
 	useEffect(() => {
+		if (CPU) setPoints(100);
+		else setPoints(0);
+	}, [CPU]);
+
+	useEffect(() => {
 		if (!winner || !CPU || winner === CPU) return;
 
 		dispatch(updateUserScore(user.id, "go", points));
 	}, [winner, CPU, user.id, points, dispatch]);
 
 	useEffect(() => {
-		if (!CPU || CPUColor !== turn) return;
-		const [nextBoard, chosenMove, validMoves] = getCPUMove(board, CPUColor);
+		if (!CPU || CPU !== turn) return;
+		const [nextBoard, chosenMove, validMoves] = getCPUMove(board, CPU);
 		if (CPUThoughts) animateCPUThoughts(nextBoard, chosenMove, validMoves);
 		else animateCPUMove(nextBoard, chosenMove);
-	}, [turn, CPUColor, CPU, board]); // eslint-disable-line react-hooks/exhaustive-deps
+	}, [turn, CPU, board]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	function checkPass() {
 		if (passes + 1 > 1) {
@@ -110,13 +115,6 @@ const Go = () => {
 		setWhiteCaptures(whiteCaptures + capturedByWhite);
 	}
 
-	function configureCPU(e) {
-		console.log(e);
-		setCPU(+e.target.value);
-		setPoints(+e.target.value ? 100 : 0);
-		setCPUColor(+e.target.value ? turn : "");
-	}
-
 	function animateCPUThoughts(nextBoard, chosenMove, validMoves) {
 		// it should always take 3 seconds to animate the CPU Moves
 		const delay = 3000 / validMoves.length;
@@ -172,111 +170,126 @@ const Go = () => {
 	}
 
 	return (
-		<div id="go">
-			<div className="win-message go">{winner && `${winner} wins!`}</div>
-			<div className="game-nav go">
-				<div className="white-black-score">
-					<div className="black-scores">
-						<div id="bscore">Black score {blackScore}</div>
-						<div>Territories: {blackTerritory}</div>
-						<div>Captures: {blackCaptures}</div>
+		<div className="go-container">
+			<div className="game go">
+				<div id="go-nav">
+					<div className="win-message go">
+						{winner && `${winner} wins!`}
 					</div>
-					<div className="white-scores">
-						<div id="wscore">White score {whiteScore}</div>
-						<div>Territories: {whiteTerritory}</div>
-						<div>Captures: {whiteCaptures}</div>
+					<div className="game-nav go">
+						<div className="white-black-score">
+							<div className="black-scores">
+								<div className="scores-background black">
+									<div id="bscore">
+										Black score {blackScore}
+									</div>
+									<div>Territories: {blackTerritory}</div>
+									<div>Captures: {blackCaptures}</div>
+								</div>
+
+								<button
+									className="pass"
+									hidden={turn === "black" ? true : false}
+									onClick={checkPass}
+								>
+									Pass
+								</button>
+							</div>
+							<div className="white-scores">
+								<button
+									className="pass"
+									hidden={turn === "white" ? true : false}
+									onClick={checkPass}
+								>
+									Pass
+								</button>
+								<div className="scores-background white">
+									<div id="wscore">
+										White score {whiteScore}
+									</div>
+									<div>Territories: {whiteTerritory}</div>
+									<div>Captures: {whiteCaptures}</div>
+								</div>
+							</div>
+						</div>
+						<div className="go-score">
+							<div className="go-score">Your score: {score}</div>
+							<div className="go-points">
+								Points to win: {points}
+							</div>
+						</div>
+						<div className="game-buttons">
+							<div className="main-buttons">
+								<button onClick={newGame}>New Game</button>
+								<button
+									onClick={() => setBoard(fillRandomBoard())}
+								>
+									Random Fill
+								</button>
+							</div>
+							<button
+								id="hideTerritory"
+								onClick={() =>
+									setHideTerritories(!hideTerritories)
+								}
+							>
+								{`${
+									hideTerritories ? "Show" : "Hide"
+								} Territories`}
+							</button>
+							<Cpu
+								CPU={CPU}
+								setCPU={setCPU}
+								CPUThoughts={CPUThoughts}
+								setCPUThoughts={setCPUThoughts}
+							/>
+						</div>
 					</div>
-				</div>
-				<div className="go-score">
-					<div className="go-score">Your score: {score}</div>
-					<button
-						id="hideTerritory"
-						onClick={() => setHideTerritories(!hideTerritories)}
-					>
-						{`${hideTerritories ? "Show" : "Hide"} Territories`}
-					</button>
-					<div className="go-points">Points to win: {points}</div>
-				</div>
-				<div className="game-buttons">
-					<div className="main-buttons">
-						<button onClick={newGame}>New Game</button>
-						<button onClick={() => setBoard(fillRandomBoard())}>
-							Fill board
-						</button>
-					</div>
-					<div className="pass">
-						<button onClick={checkPass}>
-							{`${turn === "black" ? "Black" : "White"} Pass`}
-						</button>
-					</div>
-					<div className="cpu">
-						<label className="cpu" htmlFor="cpu">
-							CPU {+CPU ? CPUColor : ""}
-						</label>
-						<input
-							type="range"
-							className="cpu-slider"
-							name="cpu"
-							max="1"
-							min="0"
-							value={CPU}
-							onChange={configureCPU}
-							step="1"
-						></input>
-					</div>
-					{CPU > 0 && (
-						<>
-							<label htmlFor="show">Show Considered Moves</label>
-							<input
-								type="checkbox"
-								name="show"
-								onChange={() => setCPUThoughts(!CPUThoughts)}
-								value={CPUThoughts}
-							></input>
-						</>
-					)}
+					<table className="go">
+						<tbody className="go">
+							{board.map((row, i) => (
+								<tr key={i} className={i}>
+									{row.map((square, j) => {
+										let squareVal = square;
+										if (
+											square.includes("x") &&
+											hideTerritories
+										) {
+											squareVal = "";
+										}
+										return (
+											<td
+												key={j}
+												className={`row-${i} col-${j} go ${squareVal}`}
+												// onMouseEnter={(e) =>
+												// 	e.target.classList.add(
+												// 		`${turn}-hover`
+												// 	)
+												// }
+												// onMouseLeave={(e) =>
+												// 	e.target.classList.remove(
+												// 		`${turn}-hover`
+												// 	)
+												// }
+												onClick={handleClick}
+											>
+												<i
+													id={`vertical-row-${i}`}
+													className="line-vertical"
+												></i>
+												<i
+													id={`horizontal-col-${j}`}
+													className="line-horizontal"
+												></i>
+											</td>
+										);
+									})}
+								</tr>
+							))}
+						</tbody>
+					</table>
 				</div>
 			</div>
-			<table className="go">
-				<tbody className="go">
-					{board.map((row, i) => (
-						<tr key={i} className={i}>
-							{row.map((square, j) => {
-								let squareVal = square;
-								if (square.includes("x") && hideTerritories) {
-									squareVal = "";
-								}
-								return (
-									<td
-										key={j}
-										className={`row-${i} col-${j} go ${squareVal}`}
-										// onMouseEnter={(e) =>
-										// 	e.target.classList.add(
-										// 		`${turn}-hover`
-										// 	)
-										// }
-										// onMouseLeave={(e) =>
-										// 	e.target.classList.remove(
-										// 		`${turn}-hover`
-										// 	)
-										// }
-										onClick={handleClick}
-									>
-										<i
-											id={`vertical-row-${i}`}
-											className="line-vertical"
-										></i>
-										<i
-											id={`horizontal-col-${j}`}
-											className="line-horizontal"
-										></i>
-									</td>
-								);
-							})}
-						</tr>
-					))}
-				</tbody>
-			</table>
 		</div>
 	);
 };

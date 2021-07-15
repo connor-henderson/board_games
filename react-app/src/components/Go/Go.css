@@ -1,5 +1,5 @@
 table {
-	margin-bottom: 60px;
+	margin: 30px 0;
 }
 
 tbody.go {
@@ -115,7 +115,7 @@ i#horizontal-col-18 {
 }
 
 div.game-nav.go {
-	width: 500px;
+	width: 550px;
 	margin-top: 30px;
 	display: flex;
 	position: relative;
@@ -129,26 +129,71 @@ div.white-black-score {
 
 div.white-scores {
 	text-align: right;
+	display: flex;
 }
 
-div.black-scores {
-	text-align: left;
+button.pass {
+	margin: 5px 10px;
+	height: 30px;
+	width: 55px;
+	align-self: center;
 }
 
-div#wscore {
-	font-weight: bold;
-	border: 1px solid black;
-	border-radius: 5%;
-	padding: 1px 2px;
+div.black-scores,
+div.white-scores {
+	display: flex;
+	width: 250px;
 }
 
-div#bscore {
-	font-weight: bold;
+div.white-scores {
+	justify-content: flex-end;
+}
+
+div.scores-background {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	width: 130px;
+	padding: 5px 5px;
+}
+
+div.go-container {
+	display: flex;
+	justify-content: center;
+	background-color: grey;
+}
+
+div.game-nav.go {
+	margin-top: 10px;
+}
+
+div.game.go {
+	background-color: white;
+	border-radius: 3%;
+	padding: 10px 20px;
+
+	margin: 40px 0;
+}
+
+div.scores-background.black {
 	border: 1px solid black;
 	border-radius: 5%;
 	padding: 1px 2px;
 	color: white;
 	background-color: black;
+}
+
+div.scores-background.white {
+	border: 1px solid black;
+	border-radius: 5%;
+	padding: 1px 2px;
+	display: flex;
+	align-items: flex-end;
+}
+
+div#bscore,
+div#wscore {
+	font-weight: bold;
 }
 
 div#go {
@@ -161,7 +206,8 @@ div#go {
 
 div.go-score {
 	display: flex;
-	margin: 10px 0;
+	margin: 5px 0;
+	margin-bottom: 0;
 	align-items: center;
 	justify-content: space-between;
 	font-weight: bold;
@@ -172,6 +218,7 @@ div.game-buttons {
 	display: flex;
 	justify-content: space-between;
 	align-items: flex-end;
+	height: 60px;
 	margin: 6px 0;
 }
 
@@ -183,13 +230,11 @@ div.main-buttons {
 div.pass {
 	display: flex;
 	margin-right: 118px;
+	width: 30px;
 	justify-self: flex-start;
 }
 
 button#hideTerritory {
-	position: absolute;
-	left: 45%;
-	top: 45%;
 }
 
 div.win-message.go {
