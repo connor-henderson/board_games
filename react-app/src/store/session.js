@@ -50,6 +50,7 @@ export const login = (email, password) => async (dispatch) => {
 	});
 	const data = await response.json();
 	if (data.errors) {
+		console.log(data);
 		return data;
 	}
 	dispatch(setUser(data));
@@ -66,13 +67,15 @@ export const logout = () => async (dispatch) => {
 };
 
 export const signUp =
-	(username, email, password, method) => async (dispatch) => {
+	(username, email, password, method, id = null) =>
+	async (dispatch) => {
 		const response = await fetch("/api/auth/signup/", {
-			method: "POST",
+			method: method,
 			headers: {
 				"Content-Type": "application/json",
 			},
 			body: JSON.stringify({
+				id,
 				username,
 				email,
 				password,
@@ -104,6 +107,11 @@ export const updateUserScore = (userId, game, points) => async (dispatch) => {
 	else if (game === "game_of_life") dispatch(setGameOfLifeScore(data));
 	else if (game === "chess") dispatch(setChessScore(data));
 	else if (game === "go") dispatch(setGoScore(data));
+};
+
+export const deleteUser = (userId) => async (dispatch) => {
+	await fetch(`/api/auth/${userId}/`, { method: "DELETE" });
+	dispatch(removeUser());
 };
 
 const initialState = { user: null };

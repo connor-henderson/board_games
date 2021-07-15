@@ -16,8 +16,10 @@ div.user-scores-container {
 	justify-content: center;
 	align-items: center;
 	flex-direction: column;
-	margin-top: 100px;
+	margin-top: 80px;
 	background-color: white;
+	min-width: 300px;
+	min-height: 120px;
 	width: fit-content;
 	height: fit-content;
 	padding: 20px 20px;
@@ -61,4 +63,24 @@ div.account-buttons {
 	display: flex;
 	justify-content: space-around;
 	width: 250px;
+}
+
+p#delete-user {
+	display: flex;
+	flex-wrap: wrap;
+	margin: 0;
+	width: 300px;
+	font-size: 12pt;
+}
+
+button#delete-user {
+	background-color: white;
+	color: red;
+	border: 1px solid red;
+	border-radius: none;
+}
+
+button#delete-user:hover {
+	background-image: linear-gradient(to bottom right, red, #eee);
+	color: white;
 }

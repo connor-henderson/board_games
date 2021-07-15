@@ -19,7 +19,7 @@ const Go = () => {
 
 	const [board, setBoard] = useState([[]]);
 	const [hideTerritories, setHideTerritories] = useState(true);
-	const [turn, setTurn] = useState("white");
+	const [turn, setTurn] = useState("black");
 	const [passes, setPasses] = useState(0);
 	const [winner, setWinner] = useState(false);
 	const [CPU, setCPU] = useState("");
@@ -61,17 +61,9 @@ const Go = () => {
 	}, [blackStones, whiteStones]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	useEffect(() => {
-		if (passes === 2) {
-			setWinner(blackScore > whiteScore ? "black" : "white");
-		}
-		console.log("here");
-		setTurn(turn === "black" ? "white" : "black");
-	}, [passes]); // eslint-disable-line react-hooks/exhaustive-deps
-
-	useEffect(() => {
 		if (!CPU || CPU !== turn) return;
 		const wouldWin = blackScore > whiteScore ? "black" : "white";
-		if (passes && CPU === wouldWin) setPasses(passes + 1);
+		if (passes && CPU === wouldWin) handlePass();
 		else {
 			const [nextBoard, chosenMove, validMoves] = getCPUMove(board, CPU);
 			if (CPUThoughts)
@@ -93,7 +85,7 @@ const Go = () => {
 		setWhiteTerritory(0);
 		setWhiteStones(180);
 
-		setTurn("white");
+		setTurn("black");
 		setPasses(0);
 		setBoard(newBoard);
 		setWinner(false);
@@ -196,6 +188,15 @@ const Go = () => {
 		return;
 	}
 
+	function handlePass() {
+		if (passes === 1) {
+			setWinner(blackScore > whiteScore ? "black" : "white");
+			console.log(blackScore > whiteScore ? "black" : "white");
+		}
+		setPasses(passes + 1);
+		setTurn(turn === "black" ? "white" : "black");
+	}
+
 	return (
 		<div className="go-container">
 			<div className="game go">
@@ -212,9 +213,9 @@ const Go = () => {
 							whiteCaptures={whiteCaptures}
 							CPU={CPU}
 							winner={winner}
-							passes={passes}
-							setPasses={setPasses}
 							turn={turn}
+							setWinner={setWinner}
+							handlePass={handlePass}
 						/>
 						<div className="account-score">
 							<div className="account-go-score">

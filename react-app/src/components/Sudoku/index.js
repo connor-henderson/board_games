@@ -2,24 +2,18 @@ import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import Square from "./Square";
 import {
-	originalCreateSudokuSolution,
 	fastCreateSudokuSolution,
 	trimSolution,
 	createSudokuBoard,
 	generateRandomIdx,
 } from "../../assets/sudoku/functions";
-import winGIF from "../../images/win.gif";
+import Difficulty from "./Difficulty";
+import Scores from "./Scores";
 import lightBulb from "../../images/sudoku/lightBulb.png";
 import "./Sudoku.css";
 
 const Sudoku = () => {
-	const cinch = 2;
-	const easy = 30;
-	const medium = 45;
-	const hard = 55;
-	const evil = 60;
-
-	const [difficulty, setDifficulty] = useState(medium);
+	const [difficulty, setDifficulty] = useState(45);
 	const [points, setPoints] = useState(difficulty);
 	const [solution, setSolution] = useState([[]]);
 	const [board, setBoard] = useState([[]]);
@@ -99,68 +93,11 @@ const Sudoku = () => {
 		<div className="sudoku-container">
 			<div className="game sudoku" onClick={handleClick}>
 				<div className="game-nav chess">
-					<div className="sudoku-info">
-						<div className="difficulty-toggle toggle sudoku">
-							<div
-								className={
-									difficulty === cinch ? "--active" : ""
-								}
-								onClick={() => setDifficulty(cinch)}
-							>
-								Cinch
-							</div>
-							<div
-								className={
-									difficulty === easy ? "--active" : ""
-								}
-								onClick={() => setDifficulty(easy)}
-							>
-								Easy
-							</div>
-							<div
-								className={
-									difficulty === medium ? "--active" : ""
-								}
-								onClick={() => setDifficulty(medium)}
-							>
-								Medium
-							</div>
-							<div
-								className={
-									difficulty === hard ? "--active" : ""
-								}
-								onClick={() => setDifficulty(hard)}
-							>
-								Hard
-							</div>
-							<div
-								className={
-									difficulty === evil
-										? "evil --active"
-										: "evil"
-								}
-								onClick={() => setDifficulty(evil)}
-							>
-								Evil
-							</div>
-						</div>
-					</div>
-					<div className="scores">
-						<div className="sudoku-points">
-							Points to win: {points}
-						</div>
-						<div className="win-message">
-							<div className="win-msg sudoku --hidden">
-								You win!
-							</div>
-							<img
-								className="win-img sudoku --hidden"
-								alt="win"
-								src={winGIF}
-							></img>
-						</div>
-						<div className="sudoku-score">Your score: {score}</div>
-					</div>
+					<Difficulty
+						difficulty={difficulty}
+						setDifficulty={setDifficulty}
+					/>
+					<Scores points={points} score={score} />
 					<div className="sudoku-buttons">
 						<button onClick={newGame} className="new-game">
 							New Game
@@ -169,14 +106,16 @@ const Sudoku = () => {
 							Reset
 						</button>
 						<p className="hint --hidden">Hint</p>
-						<img
-							className="hint"
-							onMouseEnter={showHintDesc}
-							onMouseLeave={hideHintDesc}
-							onClick={getHint}
-							src={lightBulb}
-							alt="hint"
-						/>
+						<div>
+							<img
+								className="hint"
+								onMouseEnter={showHintDesc}
+								onMouseLeave={hideHintDesc}
+								onClick={getHint}
+								src={lightBulb}
+								alt="hint"
+							/>
+						</div>
 					</div>
 				</div>
 				<table>

@@ -14,7 +14,6 @@ div.tagline-container {
 	text-decoration: solid;
 	-webkit-text-stroke: 1px rgb(199, 165, 72);
 	color: white;
-	-webkit-transform: translateZ(0) scale(1, 1);
 	background-image: url(../../images/backgrounds/chess1.jpeg);
 	padding: 0;
 	margin: 0;
@@ -26,12 +25,8 @@ div.tagline-container {
 	background-size: cover;
 	background-position: center;
 	background-repeat: no-repeat;
-	/* transition: 1s; */
 	animation: animate 30s cubic-bezier(0.8, 0.3, 0.15, 0.5) 1s infinite normal
 		both;
-	/* animation: name duration timing-function delay iteration-count direction
-		fill-mode; */
-	/* animation-timing-function: cubic-bezier(0.155, 0.03, 0.515, 0.955); */
 }
 
 div.tagline-container > h2 {

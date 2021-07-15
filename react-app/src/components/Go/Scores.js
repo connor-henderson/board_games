@@ -12,9 +12,8 @@ export default function Scores({
 	whiteCaptures,
 	CPU,
 	winner,
-	passes,
-	setPasses,
 	turn,
+	handlePass,
 }) {
 	return (
 		<div className="white-black-score">
@@ -28,7 +27,7 @@ export default function Scores({
 				<button
 					className="pass"
 					hidden={!(turn === "black" && CPU !== "black" && !winner)}
-					onClick={() => setPasses(passes + 1)}
+					onClick={handlePass}
 				>
 					Pass
 				</button>
@@ -44,7 +43,7 @@ export default function Scores({
 				<button
 					className="pass"
 					hidden={!(turn === "white" && CPU !== "white" && !winner)}
-					onClick={() => setPasses(passes + 1)}
+					onClick={handlePass}
 				>
 					Pass
 				</button>

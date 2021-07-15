@@ -18,7 +18,7 @@ const SignUpForm = () => {
 		e.preventDefault();
 		if (password === repeatPassword) {
 			const res = await dispatch(
-				signUp(username, email, password, method)
+				signUp(username, email, password, method, user?.id)
 			);
 			if (!res.errors) history.push("/");
 		} else {
