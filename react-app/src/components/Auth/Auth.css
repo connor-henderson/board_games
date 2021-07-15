@@ -50,19 +50,12 @@ button.logout:active {
 	box-shadow: none;
 }
 
-div.form-container {
-	position: relative;
-	top: 60px;
-	bottom: 60px;
-	display: flex;
-	justify-content: center;
-}
-
 form {
 	border: 2px solid black;
 	border-radius: 10%;
 	width: auto;
 	margin-bottom: 100px;
+	background-color: white;
 }
 
 form > div {
@@ -93,4 +86,47 @@ div.form-element__email {
 
 .errors {
 	color: red;
+}
+
+div.form-inner-container {
+	position: relative;
+	top: 60px;
+	bottom: 60px;
+	display: flex;
+	justify-content: center;
+}
+
+div.form-outer-container {
+	position: absolute;
+	width: 100%;
+	bottom: 0;
+	height: 100%;
+	top: 175px;
+	background-image: url(../../images/backgrounds/go2.jpg);
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
+	animation: animate 30s cubic-bezier(0.8, 0.3, 0.15, 0.5) 1s infinite normal
+		both;
+}
+
+@keyframes animate {
+	0% {
+		background-image: url(../../images/backgrounds/go2.jpg);
+	}
+	20% {
+		background-image: url(../../images/backgrounds/chess2.jpg);
+	}
+	40% {
+		background-image: url(../../images/backgrounds/sudoku1.jpg);
+	}
+	60% {
+		background-image: url(../../images/backgrounds/go1.jpg);
+	}
+	80% {
+		background-image: url(../../images/backgrounds/chess1.jpeg);
+	}
+	100% {
+		background-image: url(../../images/backgrounds/sudoku2.jpg);
+	}
 }

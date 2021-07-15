@@ -9,6 +9,7 @@ import pieces, {
 	whiteTopRow,
 	whiteBottomRow,
 } from "../../assets/chess/pieces";
+import winGIF from "../../images/win.gif";
 import getCPUMove from "../../assets/chess/cpu";
 import getValidMoves from "../../assets/chess/moves";
 import "./Chess.css";
@@ -249,19 +250,30 @@ const Chess = () => {
 	return (
 		<div className="chess-container">
 			<div className="chess game">
-				<div className="win-message chess">
-					{winner && `${winner} wins!`}
-				</div>
 				<div className="game-nav chess">
 					<div className="chess-score">
 						<div className="chess-score">Your score: {score}</div>
+						<div className="win-message go">
+							{winner &&
+								`${
+									winner[0].toUpperCase() +
+									winner.slice(1, winner.length)
+								} wins!`}
+							{winner && (
+								<img
+									className="win"
+									alt="win"
+									src={winGIF}
+								></img>
+							)}
+						</div>
 						<div className="chess-points">
 							Points to win: {points}
 						</div>
 					</div>
 					<div className="chess-toggle">
 						<button onClick={newGame}>New Game</button>
-						<button onClick={flipBoard}>Flip</button>
+						<button onClick={flipBoard}>Flip Board</button>
 						<Cpu
 							CPU={CPU}
 							setCPU={setCPU}

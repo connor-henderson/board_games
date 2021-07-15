@@ -204,9 +204,9 @@ div#go {
 	align-items: center;
 }
 
-div.go-score {
+div.account-score {
 	display: flex;
-	margin: 5px 0;
+	margin: 8px 0;
 	margin-bottom: 0;
 	align-items: center;
 	justify-content: space-between;
@@ -232,11 +232,4 @@ div.pass {
 	margin-right: 118px;
 	width: 30px;
 	justify-self: flex-start;
-}
-
-button#hideTerritory {
-}
-
-div.win-message.go {
-	font-size: 20px;
 }

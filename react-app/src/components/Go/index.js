@@ -5,19 +5,22 @@ import {
 	updateClickedSquare,
 	fillRandomBoard,
 } from "../../assets/go/updateBoard";
-import Cpu from "../Cpu/";
+
+import Scores from "./Scores";
+import Buttons from "./Buttons";
+import Board from "./Board";
 import getCPUMove from "../../assets/go/cpu";
 import "./Go.css";
 
 const Go = () => {
-	// In reference to the board's values:
+	// In reference to the board's (2D array) values:
 	// w = white, b = black, wc = stone captured by white, bc = stone captured by white, x = non-playable,
 	// "" = playable, "ko-" = ko, "bp"/"wp" = priority, keep on board
 
 	const [board, setBoard] = useState([[]]);
 	const [hideTerritories, setHideTerritories] = useState(true);
+	const [turn, setTurn] = useState("white");
 	const [passes, setPasses] = useState(0);
-	const [turn, setTurn] = useState("black");
 	const [winner, setWinner] = useState(false);
 	const [CPU, setCPU] = useState("");
 	const [CPUThoughts, setCPUThoughts] = useState(false);
@@ -29,11 +32,12 @@ const Go = () => {
 	const [blackCaptures, setBlackCaptures] = useState(0);
 	const [blackTerritory, setBlackTerritory] = useState(0);
 	const [blackScore, setBlackScore] = useState(0);
+	const [blackStones, setBlackStones] = useState(181);
+
 	const [whiteCaptures, setWhiteCaptures] = useState(0);
 	const [whiteTerritory, setWhiteTerritory] = useState(0);
 	const [whiteScore, setWhiteScore] = useState(6.5);
-
-	// end game options
+	const [whiteStones, setWhiteStones] = useState(180);
 
 	useEffect(() => {
 		newGame();
@@ -51,54 +55,51 @@ const Go = () => {
 	}, [winner, CPU, user.id, points, dispatch]);
 
 	useEffect(() => {
-		if (!CPU || CPU !== turn) return;
-		const [nextBoard, chosenMove, validMoves] = getCPUMove(board, CPU);
-		if (CPUThoughts) animateCPUThoughts(nextBoard, chosenMove, validMoves);
-		else animateCPUMove(nextBoard, chosenMove);
-	}, [turn, CPU, board]); // eslint-disable-line react-hooks/exhaustive-deps
-
-	function checkPass() {
-		if (passes + 1 > 1) {
+		if (!blackStones && !whiteStones) {
 			setWinner(blackScore > whiteScore ? "black" : "white");
 		}
+	}, [blackStones, whiteStones]); // eslint-disable-line react-hooks/exhaustive-deps
+
+	useEffect(() => {
+		if (passes === 2) {
+			setWinner(blackScore > whiteScore ? "black" : "white");
+		}
+		console.log("here");
 		setTurn(turn === "black" ? "white" : "black");
-		setPasses(passes + 1);
-	}
+	}, [passes]); // eslint-disable-line react-hooks/exhaustive-deps
+
+	useEffect(() => {
+		if (!CPU || CPU !== turn) return;
+		const wouldWin = blackScore > whiteScore ? "black" : "white";
+		if (passes && CPU === wouldWin) setPasses(passes + 1);
+		else {
+			const [nextBoard, chosenMove, validMoves] = getCPUMove(board, CPU);
+			if (CPUThoughts)
+				animateCPUThoughts(nextBoard, chosenMove, validMoves);
+			else animateCPUMove(nextBoard, chosenMove);
+		}
+	}, [turn, CPU, board]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	function newGame() {
 		const newBoard = new Array(19)
 			.fill([])
 			.map((row) => new Array(19).fill(""));
-		setTurn("black");
+		setBlackScore(0);
+		setBlackCaptures(0);
+		setBlackTerritory(0);
+		setBlackStones(181);
+		setWhiteScore(6.5);
+		setWhiteCaptures(0);
+		setWhiteTerritory(0);
+		setWhiteStones(180);
+
+		setTurn("white");
+		setPasses(0);
 		setBoard(newBoard);
 		setWinner(false);
-		setBlackScore(0);
-		setWhiteScore(6.5);
-		setBlackCaptures(0);
-		setWhiteCaptures(0);
-		setBlackTerritory(0);
-		setWhiteTerritory(0);
-		setPasses(0);
 	}
 
-	function countTerritories(nextBoard) {
-		let newBlackTerritory = 0;
-		let newWhiteTerritory = 0;
-		nextBoard.forEach((row) => {
-			row.forEach((square) => {
-				if (square === "bx" || square === "bc") newBlackTerritory += 1;
-				else if (square === "wx" || square === "wc")
-					newWhiteTerritory += 1;
-			});
-		});
-		// edit, state will not update until after function runs
-		setBlackTerritory(blackTerritory + newBlackTerritory);
-		setWhiteTerritory(whiteTerritory + newWhiteTerritory);
-		setBlackScore(blackTerritory - whiteCaptures);
-		setWhiteScore(whiteScore + whiteTerritory - blackCaptures);
-	}
-
-	function countCaptures(nextBoard) {
+	function updateScores(nextBoard) {
 		let capturedByBlack = 0;
 		let capturedByWhite = 0;
 
@@ -111,8 +112,27 @@ const Go = () => {
 			});
 		});
 
+		let currentBlackTerritory = 0;
+		let currentWhiteTerritory = 0;
+		nextBoard.forEach((row) => {
+			row.forEach((square) => {
+				if (square === "bx" || square === "bc")
+					currentBlackTerritory += 1;
+				else if (square === "wx" || square === "wc")
+					currentWhiteTerritory += 1;
+			});
+		});
+
 		setBlackCaptures(blackCaptures + capturedByBlack);
 		setWhiteCaptures(whiteCaptures + capturedByWhite);
+
+		setBlackTerritory(currentBlackTerritory);
+		setWhiteTerritory(currentWhiteTerritory);
+
+		setBlackScore(currentBlackTerritory - whiteCaptures - capturedByWhite);
+		setWhiteScore(
+			currentWhiteTerritory - blackCaptures - capturedByBlack + 6.5
+		);
 	}
 
 	function animateCPUThoughts(nextBoard, chosenMove, validMoves) {
@@ -141,6 +161,21 @@ const Go = () => {
 		}, 500);
 	}
 
+	function turnUpdates(nextBoard) {
+		if (turn === "black") setBlackStones(blackStones - 1);
+		else setWhiteStones(whiteStones - 1);
+		updateScores(nextBoard);
+		setTurn(turn === "black" ? "white" : "black");
+		setBoard(nextBoard);
+		setPasses(0);
+	}
+
+	function randomFill() {
+		setBoard(fillRandomBoard());
+		setBlackStones(100);
+		setWhiteStones(99);
+	}
+
 	function handleClick(e) {
 		// always get the parent td element
 		let square = e.target;
@@ -161,133 +196,50 @@ const Go = () => {
 		return;
 	}
 
-	function turnUpdates(nextBoard) {
-		countCaptures(nextBoard);
-		countTerritories(nextBoard);
-		setTurn(turn === "black" ? "white" : "black");
-		setBoard(nextBoard);
-		setPasses(0);
-	}
-
 	return (
 		<div className="go-container">
 			<div className="game go">
 				<div id="go-nav">
-					<div className="win-message go">
-						{winner && `${winner} wins!`}
-					</div>
 					<div className="game-nav go">
-						<div className="white-black-score">
-							<div className="black-scores">
-								<div className="scores-background black">
-									<div id="bscore">
-										Black score {blackScore}
-									</div>
-									<div>Territories: {blackTerritory}</div>
-									<div>Captures: {blackCaptures}</div>
-								</div>
-
-								<button
-									className="pass"
-									hidden={turn === "black" ? true : false}
-									onClick={checkPass}
-								>
-									Pass
-								</button>
+						<Scores
+							blackScore={blackScore}
+							blackTerritory={blackTerritory}
+							blackStones={blackStones}
+							blackCaptures={blackCaptures}
+							whiteScore={whiteScore}
+							whiteTerritory={whiteTerritory}
+							whiteStones={whiteStones}
+							whiteCaptures={whiteCaptures}
+							CPU={CPU}
+							winner={winner}
+							passes={passes}
+							setPasses={setPasses}
+							turn={turn}
+						/>
+						<div className="account-score">
+							<div className="account-go-score">
+								Your score: {score}
 							</div>
-							<div className="white-scores">
-								<button
-									className="pass"
-									hidden={turn === "white" ? true : false}
-									onClick={checkPass}
-								>
-									Pass
-								</button>
-								<div className="scores-background white">
-									<div id="wscore">
-										White score {whiteScore}
-									</div>
-									<div>Territories: {whiteTerritory}</div>
-									<div>Captures: {whiteCaptures}</div>
-								</div>
-							</div>
-						</div>
-						<div className="go-score">
-							<div className="go-score">Your score: {score}</div>
 							<div className="go-points">
 								Points to win: {points}
 							</div>
 						</div>
-						<div className="game-buttons">
-							<div className="main-buttons">
-								<button onClick={newGame}>New Game</button>
-								<button
-									onClick={() => setBoard(fillRandomBoard())}
-								>
-									Random Fill
-								</button>
-							</div>
-							<button
-								id="hideTerritory"
-								onClick={() =>
-									setHideTerritories(!hideTerritories)
-								}
-							>
-								{`${
-									hideTerritories ? "Show" : "Hide"
-								} Territories`}
-							</button>
-							<Cpu
-								CPU={CPU}
-								setCPU={setCPU}
-								CPUThoughts={CPUThoughts}
-								setCPUThoughts={setCPUThoughts}
-							/>
-						</div>
+						<Buttons
+							newGame={newGame}
+							randomFill={randomFill}
+							CPU={CPU}
+							setCPU={setCPU}
+							CPUThoughts={CPUThoughts}
+							setCPUThoughts={setCPUThoughts}
+							hideTerritories={hideTerritories}
+							setHideTerritories={setHideTerritories}
+						/>
 					</div>
-					<table className="go">
-						<tbody className="go">
-							{board.map((row, i) => (
-								<tr key={i} className={i}>
-									{row.map((square, j) => {
-										let squareVal = square;
-										if (
-											square.includes("x") &&
-											hideTerritories
-										) {
-											squareVal = "";
-										}
-										return (
-											<td
-												key={j}
-												className={`row-${i} col-${j} go ${squareVal}`}
-												// onMouseEnter={(e) =>
-												// 	e.target.classList.add(
-												// 		`${turn}-hover`
-												// 	)
-												// }
-												// onMouseLeave={(e) =>
-												// 	e.target.classList.remove(
-												// 		`${turn}-hover`
-												// 	)
-												// }
-												onClick={handleClick}
-											>
-												<i
-													id={`vertical-row-${i}`}
-													className="line-vertical"
-												></i>
-												<i
-													id={`horizontal-col-${j}`}
-													className="line-horizontal"
-												></i>
-											</td>
-										);
-									})}
-								</tr>
-							))}
-						</tbody>
-					</table>
+					<Board
+						board={board}
+						hideTerritories={hideTerritories}
+						handleClick={handleClick}
+					/>
 				</div>
 			</div>
 		</div>

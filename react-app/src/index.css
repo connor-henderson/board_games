@@ -38,9 +38,23 @@ div.about-links {
 }
 
 div.win-message {
-	color: rgb(8, 109, 8);
+	color: rgb(228, 181, 53);
+	-webkit-text-stroke: 1px grey;
+	font-size: 18pt;
+	text-align: center;
 	font-weight: bold;
-	position: absolute;
-	left: 45%;
-	top: 20px;
+	width: 220px;
+	height: 30px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 10px 10px;
+	align-self: center;
+	margin-left: -10px;
+}
+
+img.win,
+img.win-img {
+	height: 45px;
+	width: 45px;
 }

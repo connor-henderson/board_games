@@ -8,7 +8,6 @@ export default function Square({
 	num,
 	solution,
 	board,
-	clicked,
 	setClicked,
 	points,
 }) {
@@ -19,24 +18,23 @@ export default function Square({
 
 	useEffect(() => {
 		setGuess(num);
-		setGameWon(false);
 	}, [num]);
 
 	useEffect(() => {
+		const winMessage = document.querySelector(".win-msg.sudoku");
+		const winImg = document.querySelector(".win-img.sudoku");
 		board[i][j] = guess;
-		if (JSON.stringify(board) === JSON.stringify(solution))
-			setGameWon(true);
-	}, [guess, board, i, j, solution]);
-
-	useEffect(() => {
-		const winMessage = document.querySelector(".win-message");
-		if (gameWon) {
+		if (JSON.stringify(board) === JSON.stringify(solution)) {
 			winMessage.classList.remove("--hidden");
+			winImg.classList.remove("--hidden");
 			dispatch(updateUserScore(user.id, "sudoku", points));
+			setGameWon(true);
 		} else {
+			setGameWon(false);
 			winMessage.classList.add("--hidden");
+			winImg.classList.add("--hidden");
 		}
-	}, [gameWon, dispatch, points, user.id]);
+	}, [guess, board, i, j, solution, dispatch, points, user.id]);
 
 	const getBoxSquares = (rowStart, colStart) => {
 		let boxSquares = [];

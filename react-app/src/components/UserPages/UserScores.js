@@ -13,24 +13,26 @@ export default function UserScores() {
 	});
 
 	return (
-		<div className="user-scores-container">
-			{gamesInfo.map((game, i) => (
-				<div key={i} className="user-scores__game">
-					<img
-						className="user-scores__game-icon"
-						src={game.icon}
-						alt={`${game.name} icon`}
-						style={{ height: "80px", width: "80px" }}
-					/>
-					<p className="game-name">{game.name}</p>
-					<p>
-						{game.name === "John Conway's Game of Life"
-							? "# Plays: "
-							: "Score: "}
-						{game.score}
-					</p>
-				</div>
-			))}
+		<div className="user-scores-background">
+			<div className="user-scores-container">
+				{gamesInfo.map((game, i) => (
+					<div key={i} className="user-scores__game">
+						<img
+							className="user-scores__game-icon"
+							src={game.icon}
+							alt={`${game.name} icon`}
+							style={{ height: "80px", width: "80px" }}
+						/>
+						<p className="game-name">{game.name}</p>
+						<p>
+							{game.name === "John Conway's Game of Life"
+								? "# Plays: "
+								: "Score: "}
+							{game.score}
+						</p>
+					</div>
+				))}
+			</div>
 		</div>
 	);
 }

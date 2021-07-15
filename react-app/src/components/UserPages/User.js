@@ -7,22 +7,24 @@ function User() {
 	const history = useHistory();
 
 	return (
-		<div className="account-container">
-			<div className="account-info">
-				<ul className="account">
-					<li className="account">
-						<strong>Username</strong> {user.username}
-					</li>
-					<li className="account">
-						<strong>Email</strong> {user.email}
-					</li>
-				</ul>
-			</div>
-			<div className="account-buttons">
-				<button onClick={() => history.push("/sign-up")}>
-					Edit Account
-				</button>
-				<button>Delete Account</button>
+		<div className="account-background">
+			<div className="account-container">
+				<div className="account-info">
+					<ul className="account">
+						<li className="account">
+							<strong>Username</strong> {user.username}
+						</li>
+						<li className="account">
+							<strong>Email</strong> {user.email}
+						</li>
+					</ul>
+				</div>
+				<div className="account-buttons">
+					<button onClick={() => history.push("/sign-up")}>
+						Edit Account
+					</button>
+					<button>Delete Account</button>
+				</div>
 			</div>
 		</div>
 	);

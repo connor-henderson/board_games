@@ -40,49 +40,51 @@ const LoginForm = () => {
 	}
 
 	return (
-		<div className="form-container">
-			<form onSubmit={onLogin}>
-				<div className="errors">
-					{errors.map((error) => (
-						<div>{error}</div>
-					))}
-				</div>
-				<div>
-					<label htmlFor="email"></label>
-					<input
-						name="email"
-						type="text"
-						placeholder="Email"
-						value={email}
-						onChange={updateEmail}
-					/>
-				</div>
-				<div>
-					<label htmlFor="password"></label>
-					<input
-						name="password"
-						type="password"
-						placeholder="Password"
-						value={password}
-						onChange={updatePassword}
-					/>
-				</div>
-				<div className="login button-container">
-					<button className="login-button" type="submit">
-						Login
-					</button>
-				</div>
-				<div className="demo-login button-container">
-					<button type="submit" onClick={demoLogin}>
-						Demo
-					</button>
-				</div>
-				<div className="navlink-container">
-					<NavLink className="sign-up__navlink" to="sign-up">
-						Don't have an account yet?
-					</NavLink>
-				</div>
-			</form>
+		<div className="form-outer-container">
+			<div className="form-inner-container">
+				<form onSubmit={onLogin}>
+					<div className="errors">
+						{errors.map((error) => (
+							<div>{error}</div>
+						))}
+					</div>
+					<div>
+						<label htmlFor="email"></label>
+						<input
+							name="email"
+							type="text"
+							placeholder="Email"
+							value={email}
+							onChange={updateEmail}
+						/>
+					</div>
+					<div>
+						<label htmlFor="password"></label>
+						<input
+							name="password"
+							type="password"
+							placeholder="Password"
+							value={password}
+							onChange={updatePassword}
+						/>
+					</div>
+					<div className="login button-container">
+						<button className="login-button" type="submit">
+							Login
+						</button>
+					</div>
+					<div className="demo-login button-container">
+						<button type="submit" onClick={demoLogin}>
+							Demo
+						</button>
+					</div>
+					<div className="navlink-container">
+						<NavLink className="sign-up__navlink" to="sign-up">
+							Don't have an account yet?
+						</NavLink>
+					</div>
+				</form>
+			</div>
 		</div>
 	);
 };

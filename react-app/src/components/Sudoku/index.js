@@ -8,6 +8,7 @@ import {
 	createSudokuBoard,
 	generateRandomIdx,
 } from "../../assets/sudoku/functions";
+import winGIF from "../../images/win.gif";
 import lightBulb from "../../images/sudoku/lightBulb.png";
 import "./Sudoku.css";
 
@@ -27,8 +28,6 @@ const Sudoku = () => {
 
 	const newGame = () => {
 		let solutionBoard = createSudokuBoard();
-		// originalCreateSudokuSolution(solutionBoard);
-		// console.log(solutionBoard);
 		fastCreateSudokuSolution(solutionBoard);
 		setSolution(solutionBoard);
 
@@ -62,7 +61,7 @@ const Sudoku = () => {
 		const hintEle = document.querySelector(".hint");
 		hintEle.classList.remove("--hidden");
 		hintEle.style.left = e.clientX + "px";
-		hintEle.style.top = e.clientY - 50 + "px";
+		hintEle.style.top = e.clientY + "px";
 	};
 
 	const hideHintDesc = (e) => {
@@ -99,7 +98,6 @@ const Sudoku = () => {
 	return (
 		<div className="sudoku-container">
 			<div className="game sudoku" onClick={handleClick}>
-				<div className="win-message sudoku --hidden">You win!</div>
 				<div className="game-nav chess">
 					<div className="sudoku-info">
 						<div className="difficulty-toggle toggle sudoku">
@@ -150,6 +148,16 @@ const Sudoku = () => {
 					<div className="scores">
 						<div className="sudoku-points">
 							Points to win: {points}
+						</div>
+						<div className="win-message">
+							<div className="win-msg sudoku --hidden">
+								You win!
+							</div>
+							<img
+								className="win-img sudoku --hidden"
+								alt="win"
+								src={winGIF}
+							></img>
 						</div>
 						<div className="sudoku-score">Your score: {score}</div>
 					</div>
