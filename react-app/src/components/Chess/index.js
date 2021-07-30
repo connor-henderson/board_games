@@ -51,7 +51,10 @@ const Chess = () => {
 
 	useEffect(() => {
 		if (CPU) setPoints(70);
-		else setPoints(0);
+		else {
+			setPoints(0);
+			setCPUThoughts(false);
+		}
 	}, [CPU]);
 
 	useEffect(() => {

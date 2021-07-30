@@ -45,7 +45,10 @@ const Go = () => {
 
 	useEffect(() => {
 		if (CPU) setPoints(100);
-		else setPoints(0);
+		else {
+			setPoints(0);
+			setCPUThoughts(false);
+		}
 	}, [CPU]);
 
 	useEffect(() => {
