@@ -2,7 +2,8 @@ div.sudoku-container {
 	background-color: grey;
 	display: flex;
 	justify-content: center;
-	padding-bottom: 30px;
+	padding-top: 50px;
+	padding-bottom: 200px;
 }
 
 div.game.sudoku {

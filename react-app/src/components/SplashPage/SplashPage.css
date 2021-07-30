@@ -1,19 +1,12 @@
 div.background {
 	position: absolute;
+	display: flex;
+	justify-content: center;
+	align-items: flex-start;
 	width: 100%;
 	bottom: 0;
 	height: 100%;
-	top: 175px;
-}
-div.tagline-container {
-	position: relative;
-	display: flex;
-	align-items: center;
-	z-index: 0;
-	flex-direction: column;
-	text-decoration: solid;
-	-webkit-text-stroke: 1px rgb(199, 165, 72);
-	color: white;
+	top: 173px;
 	background-image: url(../../images/backgrounds/chess1.jpeg);
 	padding: 0;
 	margin: 0;
@@ -28,18 +21,36 @@ div.tagline-container {
 	animation: animate 30s cubic-bezier(0.8, 0.3, 0.15, 0.5) 1s infinite normal
 		both;
 }
+div.tagline-container {
+	position: relative;
+	display: flex;
+	align-items: center;
+	z-index: 0;
+	flex-direction: column;
+	text-decoration: solid;
+	-webkit-text-stroke: 0.5px black;
+	color: rgb(199, 165, 72);
+	border: 4px double rgb(199, 165, 72);
+	background-color: white;
+	height: fit-content;
+	width: fit-content;
+	padding: 20px 20px;
+	border-radius: 5%;
+	margin-top: 150px;
+}
 
 div.tagline-container > h2 {
-	margin-top: 10%;
+	margin-top: 10px;
 	margin-bottom: 0;
-	font-size: 28pt;
+	font-size: 24pt;
 }
 div.tagline-container > h4 {
-	margin-bottom: 10%;
-	font-size: 18pt;
+	/* margin-bottom: 10%; */
+	font-size: 16pt;
 	width: 500px;
 	text-align: center;
 	overflow: wrap;
+	margin: 10px 0;
 }
 
 @keyframes animate {

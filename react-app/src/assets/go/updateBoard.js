@@ -226,7 +226,7 @@ export function fillRandomBoard() {
 		.map((row) => new Array(19).fill(""));
 
 	// fill white stones
-	for (let i = 0; i < 80; i++) {
+	for (let i = 0; i < 81; i++) {
 		const randomRow = Math.floor(Math.random() * 18);
 		const randomCol = Math.floor(Math.random() * 18);
 		if (newBoard[randomRow][randomCol]) i--;
@@ -234,7 +234,7 @@ export function fillRandomBoard() {
 	}
 
 	// fill black stones
-	for (let i = 0; i < 80; i++) {
+	for (let i = 0; i < 81; i++) {
 		const randomRow = Math.floor(Math.random() * 18);
 		const randomCol = Math.floor(Math.random() * 18);
 		if (newBoard[randomRow][randomCol]) i--;

@@ -15,7 +15,7 @@ export default function Buttons({
 		<div className="game-buttons">
 			<div className="main-buttons">
 				<button onClick={newGame}>New Game</button>
-				<button onClick={randomFill}>Random Fill</button>
+				{/* <button onClick={randomFill}>Random Fill</button> */}
 			</div>
 			<button
 				id="hideTerritory"

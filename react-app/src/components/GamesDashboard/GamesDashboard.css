@@ -3,13 +3,19 @@ div.game-picture > * {
 	top: 0;
 }
 
-div.all-games-container {
+div.games-dashboard-background {
+	display: flex;
 	background-color: grey;
+	justify-content: center;
+}
+
+div.all-games-container {
 	padding: 0;
 	display: flex;
 	flex-flow: row wrap;
 	justify-content: center;
 	padding: 30px 0;
+	width: 1200px;
 }
 
 div.one-game-container {

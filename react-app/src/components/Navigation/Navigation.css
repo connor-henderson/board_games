@@ -28,15 +28,15 @@ li {
 }
 
 .navbar-top__logo {
-	position: relative;
-	left: 12%;
+	padding: 7px 0;
+	padding-left: 8em;
 }
 
 .navbar-top__buttons {
 	display: flex;
 	flex-direction: row;
 	position: relative;
-	right: 12%;
+	padding-right: 5em;
 	align-items: center;
 }
 
@@ -47,7 +47,7 @@ li {
 
 .navbar-top__auth-login {
 	color: rgb(172, 143, 64);
-	font-size: 14px;
+	font-size: 12pt;
 }
 
 .navbar-top__auth-sign-up {
@@ -55,7 +55,7 @@ li {
 	padding: 3px 5px;
 	border-radius: 12px;
 	color: rgb(172, 143, 64);
-	font-size: 12px;
+	font-size: 12pt;
 }
 
 .navbar-bottom {

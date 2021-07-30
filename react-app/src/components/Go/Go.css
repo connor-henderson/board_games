@@ -161,6 +161,7 @@ div.go-container {
 	display: flex;
 	justify-content: center;
 	background-color: grey;
+	padding-bottom: 180px;
 }
 
 div.game-nav.go {

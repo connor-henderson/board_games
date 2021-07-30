@@ -12,31 +12,6 @@ body {
 	width: 200px;
 }
 
-div.about-container {
-	display: flex;
-	justify-content: center;
-	margin: 40px 0;
-	align-items: flex-end;
-}
-
-div.picture-container {
-	margin: 20px 20px;
-}
-
-div.about-info {
-	width: 300px;
-	height: 200px;
-	margin-left: 20px;
-	display: flex;
-	justify-content: space-around;
-	flex-direction: column;
-}
-
-div.about-links {
-	display: flex;
-	justify-content: center;
-}
-
 div.win-message {
 	color: rgb(228, 181, 53);
 	-webkit-text-stroke: 1px grey;
@@ -57,4 +32,58 @@ img.win,
 img.win-img {
 	height: 45px;
 	width: 45px;
+}
+
+/* ABOUT PAGE */
+div.about-background {
+	position: absolute;
+	display: flex;
+	justify-content: center;
+	align-items: flex-start;
+	width: 100%;
+	bottom: 0;
+	height: 100%;
+	top: 173px;
+	padding: 0;
+	margin: 0;
+	margin-bottom: 0;
+	height: 100%;
+	width: 100%;
+	bottom: 0;
+	left: 0;
+	background-color: lightgrey;
+}
+div.about-container {
+	position: relative;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	z-index: 0;
+	text-decoration: solid;
+	color: black;
+	border: 4px double rgb(199, 165, 72);
+	background-color: white;
+	height: fit-content;
+	width: fit-content;
+	padding: 15px 15px;
+	border-radius: 5%;
+	margin-top: 150px;
+}
+
+div.picture-container {
+	/* margin: 5px 5px; */
+}
+
+div.about-info {
+	width: 300px;
+	height: 200px;
+	margin-left: 20px;
+	display: flex;
+	justify-content: space-around;
+	flex-direction: column;
+}
+
+div.about-links {
+	display: flex;
+	justify-content: space-around;
 }

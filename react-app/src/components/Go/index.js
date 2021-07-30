@@ -14,7 +14,7 @@ import "./Go.css";
 
 const Go = () => {
 	// In reference to the board's (2D array) values:
-	// w = white, b = black, wc = stone captured by white, bc = stone captured by white, x = non-playable,
+	// w = white, b = black, wc = stone captured by white, bc = stone captured by black, x = non-playable,
 	// "" = playable, "ko-" = ko, "bp"/"wp" = priority, keep on board
 
 	const [board, setBoard] = useState([[]]);
