@@ -10,7 +10,7 @@ _By Connor Henderson_ - [visit Board Games](https://board-games1.herokuapp.com/g
 
 ## Overview
 
-Board Games is a full-stack application that allows users to play Chess, Go, Sudoku, and a [Game of Life](http://rappamappa.herokuapp.com/) visualizer. Players earn points and compete for higher positions on the leaderboards by beating my CPU in Chess or Go, successfully completing a Sudoku board, or running Game of Life simulations.
+Board Games is a full-stack application that allows users to play Chess, Go, Sudoku, and a [Game of Life](https://en.wikipedia.org/wiki/The_Game_of_Life) visualizer. Players earn points and compete for higher positions on the leaderboards by beating my CPU in Chess or Go, successfully completing a Sudoku board, or running Game of Life simulations.
 
 #### Technologies
 
@@ -23,7 +23,7 @@ Board Games is a full-stack application that allows users to play Chess, Go, Sud
 
 Each game is represented as a 2D array stored as a state variable ("board") in React and continually updated. The displayed boards are produced by mapping over this variable to produce a table with the corresponding values / images / styling depending on the game.
 
-While the modularity of a board games website lends itself well to the component structure of React, several unique considerations and implementations were required for the functionality of each game.
+While the modularity of a board games website lends itself well to the component structure of React, several unique considerations and implementations were required for the functionality of each game:
 
 - In Chess and Go, a variety of helper functions are employed from the "assets" folder to validate and perform both user and CPU.
 - Game of Life is unique among the games featured in that it is the only "zero-player" game; no input is required once the initial state has been determined and set in motion. However, a number of helper functions were still required to determine the status of each cell in each successive generation.
