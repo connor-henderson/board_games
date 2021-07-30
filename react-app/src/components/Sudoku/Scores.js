@@ -6,7 +6,7 @@ export default function Scores({ points, score }) {
 	return (
 		<div className="scores">
 			<div className="sudoku-score">Your score: {score}</div>
-			<div className="win-message">
+			<div id="sudoku-win" className="win-message">
 				<div className="win-msg sudoku --hidden">You win!</div>
 				<img
 					className="win-img sudoku --hidden"

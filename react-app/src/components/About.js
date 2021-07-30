@@ -18,11 +18,15 @@ export default function About() {
 				</div>
 				<div className="about-info">
 					<p className="about-desc">
-						This website is for enjoying the logic of computers,
-						board games, and writing board games on computers.{" "}
+						Hi, I'm Connor Henderson, a Software Engineer in New
+						York City.
 						<br></br>
-						<br></br>Feel free to connect with me via the below
-						links.
+						<br></br>I wrote this website for the enjoyment of the
+						logic of computers, board games, and writing board games
+						on computers.
+						<br></br>
+						<br></br>
+						Feel free to connect via the below links:
 					</p>
 					<div className="about-links">
 						<a

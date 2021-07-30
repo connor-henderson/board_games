@@ -104,6 +104,11 @@ div.game-nav {
 	margin-bottom: 20px;
 }
 
+div#sudoku-win {
+	width: 150px;
+	justify-self: center;
+}
+
 div.game-info {
 	display: flex;
 	justify-content: space-between;
@@ -126,6 +131,11 @@ div.scores {
 	align-items: center;
 }
 
+div.sudoku-score {
+	width: 150px;
+	display: flex;
+}
+
 div.game {
 	display: flex;
 	margin-top: 30px;
@@ -136,15 +146,12 @@ div.game {
 div.sudoku-info {
 	display: flex;
 	justify-content: center;
+	margin-left: -10px;
 }
 
 button.sudoku-reset {
 	margin-left: -30px;
-}
-
-div.win-message.sudoku {
-	top: 190px;
-	font-size: 20px;
+	justify-self: center;
 }
 
 div.difficulty-toggle.sudoku {
